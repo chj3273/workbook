@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
@@ -11,10 +11,6 @@
             background-color: #f7f8f9;
             color: #222;
             font-size: 16px; line-height: 1.5;
-        }
-        h1 { 
-            font-size: 1.8rem; text-align: center; 
-            margin-bottom: 25px; color: #222; font-weight: 700;
         }
         
         .card { 
@@ -35,18 +31,12 @@
         .card-content { padding: 20px; display: flex; flex-direction: column; gap: 10px; }
         .card-content.collapsed { display: none; }
 
-
-
-
         textarea {
             width: 100%; height: 120px; padding: 15px; border: 1px solid #dcdcdc;
             font-size: 1rem; resize: none; background-color: #fff;
             border-radius: 8px; color: #222;
         }
         textarea:focus { outline: none; border-color: #888; }
-
-
-
 
         button { 
             width: 100%; height: 55px; 
@@ -71,9 +61,6 @@
         .set-item:last-child { border-bottom: none; }
         .set-item label { flex: 1; font-size: 1.05rem; margin-left: 10px; cursor: pointer; color: #333; }
 
-
-
-
         .flashcard-box {
             position: relative; border: 1px solid #dcdcdc; padding: 30px 20px;
             text-align: center; margin: 20px 0; background-color: #fff; cursor: pointer;
@@ -88,9 +75,6 @@
             color: #666; font-size: 0.9rem; font-weight: 600;
         }
 
-
-
-
         .flash-text-main { font-size: 2.5rem; font-weight: 700; color: #222; margin-bottom: 15px; word-break: keep-all; line-height: 1.2; }
         .flash-text-sub { font-size: 1.4rem; color: #555; margin-top: 10px; font-weight: 600; word-break: keep-all; }
         
@@ -103,9 +87,6 @@
         
         .highlight-word { font-weight: 700; text-decoration: underline; color: #111; }
         .flash-guide { font-size: 0.95rem; color: #888; margin-top: 25px; }
-
-
-
 
         .audio-btn-wrapper { text-align: center; margin-bottom: 10px; }
         .audio-btn {
@@ -123,9 +104,6 @@
         }
         .star-toggle-btn.active { background: #222; color: #fff; border-color: #222; }
 
-
-
-
         .mc-option {
             background: #fff; border: 1px solid #d0d0d0; padding: 0 15px; margin-bottom: 10px;
             font-size: 1.05rem; font-weight: 500; cursor: pointer; text-align: left; color: #222; 
@@ -135,18 +113,12 @@
         .mc-option.selected-correct { border: 2px solid #222; font-weight: 700; }
         .mc-option.selected-wrong { background-color: #f2f2f2; color: #888; text-decoration: line-through; border-color: #ddd; }
 
-
-
-
         .spelling-input {
             width: 100%; height: 55px; padding: 0 15px; font-size: 1.3rem; text-align: center; font-weight: 600;
             border: 1px solid #aaa; margin-bottom: 15px; background: #fff; color: #222;
             border-radius: 8px;
         }
         .spelling-hint-char { font-weight: 700; text-decoration: underline; color: #222; }
-
-
-
 
         ul { padding-left: 0; list-style: none; margin: 0; }
         #manage-list li, #set-detail-list li, .word-list-item { 
@@ -172,14 +144,6 @@
 </head>
 <body>
 
-
-
-
-    <h1>영단어장</h1>
-
-
-
-
     <div class="card" id="flashcard-menu-section">
         <div class="card-header" onclick="toggleSection(this)">
             <h2>학습 모드</h2>
@@ -194,9 +158,6 @@
         </div>
     </div>
 
-
-
-
     <div class="card" id="test-menu-section">
         <div class="card-header" onclick="toggleSection(this)">
             <h2>테스트 및 복습</h2>
@@ -209,9 +170,6 @@
         </div>
     </div>
 
-
-
-
     <div class="card" id="view-menu-section">
         <div class="card-header" onclick="toggleSection(this)">
             <h2>단어 한눈에 보기</h2>
@@ -222,9 +180,6 @@
             <button onclick="openSetSelection('view-list')">단어 목록 열람하기</button>
         </div>
     </div>
-
-
-
 
     <div class="card" id="input-section">
         <div class="card-header collapsed" onclick="toggleSection(this)" style="border-bottom: none;">
@@ -248,9 +203,6 @@
         </div>
     </div>
 
-
-
-
     <div class="card hidden" id="manage-section">
         <div class="card-content">
             <h2 style="margin:0 0 15px 0; font-size:1.1rem; color:#222;">목록 편집</h2>
@@ -259,9 +211,6 @@
         </div>
     </div>
 
-
-
-
     <div class="card hidden" id="set-detail-section">
         <div class="card-content">
             <h2 id="detail-set-title" style="margin:0 0 15px 0; font-size:1.1rem; color:#222;">상세 편집</h2>
@@ -269,9 +218,6 @@
             <button class="margin-top-15" onclick="closeSetDetail()">뒤로 가기</button>
         </div>
     </div>
-
-
-
 
     <div class="card hidden" id="selection-section">
         <div class="card-content">
@@ -286,9 +232,6 @@
         </div>
     </div>
 
-
-
-
     <div class="card hidden" id="word-list-section">
         <div class="card-content">
             <h2 style="margin:0 0 15px 0; font-size:1.1rem; color:#222;">단어 목록</h2>
@@ -296,9 +239,6 @@
             <button onclick="location.reload()">메인으로 돌아가기</button>
         </div>
     </div>
-
-
-
 
     <div class="card hidden" id="flashcard-section">
         <div class="card-content">
@@ -315,17 +255,11 @@
                     <div id="flash-back" class="flash-text-sub hidden">Meaning</div>
                 </div>
 
-
-
-
                 <div id="flash-content-ex-group" class="hidden" style="width:100%;">
                     <div class="audio-btn-wrapper"><button class="audio-btn" onclick="playAudioText('ex-en', 'en', event)">예문 듣기</button></div>
                     <div id="flash-ex-en" class="flash-example" style="border-bottom:none;">Example</div>
                     <div id="flash-ex-ko" class="flash-example flash-ex-ko hidden">Translation</div>
                 </div>
-
-
-
 
                 <div id="flash-guide" class="flash-guide">화면을 터치하세요</div>
             </div>
@@ -339,9 +273,6 @@
         </div>
     </div>
 
-
-
-
     <div class="card hidden" id="test-section">
         <div class="card-content">
             <div style="text-align:center;"><span id="test-type-badge" class="badge">테스트</span></div>
@@ -351,9 +282,6 @@
                 <div id="question-display" style="width:100%; margin-bottom:20px;"></div>
             </div>
 
-
-
-
             <div id="test-input-container"></div>
             <div id="result-message" class="result-msg hidden"></div>
             
@@ -361,9 +289,6 @@
             <button class="margin-top-15" onclick="location.reload()">종료하기</button>
         </div>
     </div>
-
-
-
 
 <script>
     let wordSets = []; 
@@ -378,13 +303,7 @@
     let editingSetId = null; 
     let synth = window.speechSynthesis;
 
-
-
-
     window.onload = function() { loadData(); };
-
-
-
 
     function toggleSection(headerElement) {
         const content = headerElement.nextElementSibling;
@@ -399,9 +318,6 @@
             headerElement.style.borderBottom = 'none';
         }
     }
-
-
-
 
     function loadData() {
         const savedSets = localStorage.getItem('hjWordSets_v3');
@@ -420,9 +336,6 @@
         updateSetCount();
     }
 
-
-
-
     function saveData() {
         localStorage.setItem('hjWordSets_v3', JSON.stringify(wordSets));
         localStorage.setItem('hjWrongAnswers_v3', JSON.stringify(wrongAnswers));
@@ -431,22 +344,13 @@
     
     function updateSetCount() { document.getElementById('set-count').innerText = wordSets.length; }
 
-
-
-
     function addWordSetsAuto() {
         const rawText = document.getElementById('bulk-input').value.trim();
         if (!rawText) { alert("데이터를 입력해주세요."); return; }
 
-
-
-
         const lines = rawText.split('\n');
         const tempMap = {}; 
         let successCount = 0;
-
-
-
 
         lines.forEach(line => {
             const parts = line.split('/');
@@ -457,9 +361,6 @@
                 const mean = parts[3].trim();
                 const ex = parts[4] ? parts[4].trim() : "";
                 const exTrans = parts[5] ? parts[5].trim() : "";
-
-
-
 
                 if (dayTitle && word) {
                     if (!tempMap[dayTitle]) tempMap[dayTitle] = [];
@@ -472,16 +373,10 @@
             }
         });
 
-
-
-
         if (successCount === 0) {
             alert("입력 형식이 맞지 않습니다.\n형식: Day/순번/단어/뜻/예문/해석");
             return;
         }
-
-
-
 
         for (const [day, newWords] of Object.entries(tempMap)) {
             const existingIndex = wordSets.findIndex(s => s.title === day);
@@ -493,17 +388,11 @@
         }
         wordSets.sort((a, b) => a.title.localeCompare(b.title, undefined, { numeric: true, sensitivity: 'base' }));
 
-
-
-
         saveData();
         alert(`${successCount}개의 단어가 등록되었습니다.`);
         document.getElementById('bulk-input').value = '';
         if(!document.getElementById('manage-section').classList.contains('hidden')) renderManageList();
     }
-
-
-
 
     function toggleManageList() {
         const section = document.getElementById('manage-section');
@@ -513,9 +402,6 @@
             section.scrollIntoView({ behavior: 'smooth' });
         } else { section.classList.add('hidden'); }
     }
-
-
-
 
     function renderManageList() {
         const ul = document.getElementById('manage-list');
@@ -530,23 +416,14 @@
             infoDiv.innerHTML = `<strong style="color:#222;">${set.title}</strong> <span style="font-size:0.9em; color:#888;">(${set.words.length} 단어)</span>`;
             infoDiv.onclick = function() { openSetDetail(set.id); };
 
-
-
-
             const delBtn = document.createElement('button');
             delBtn.className = 'item-action-btn';
             delBtn.innerText = '삭제';
             delBtn.onclick = function(e) { e.stopPropagation(); deleteSet(set.id); };
 
-
-
-
             li.appendChild(infoDiv); li.appendChild(delBtn); ul.appendChild(li);
         });
     }
-
-
-
 
     function deleteSet(id) {
         const set = wordSets.find(s => s.id === id);
@@ -558,9 +435,6 @@
         alert("삭제 완료.");
     }
 
-
-
-
     function openSetDetail(id) {
         editingSetId = id;
         const set = wordSets.find(s => s.id === id);
@@ -571,16 +445,10 @@
         renderSetDetailList(set);
     }
 
-
-
-
     function renderSetDetailList(set) {
         const ul = document.getElementById('set-detail-list');
         ul.innerHTML = '';
         if(set.words.length === 0) { ul.innerHTML = '<li style="color:#888; border:none; justify-content:center;">단어가 없습니다.</li>'; return; }
-
-
-
 
         set.words.forEach((item, index) => {
             const li = document.createElement('li');
@@ -598,9 +466,6 @@
         });
     }
 
-
-
-
     function editWordInSet(index) {
         const set = wordSets.find(s => s.id === editingSetId);
         if(!set) return;
@@ -609,9 +474,6 @@
         
         const oldStr = `${item.day}/${item.seq}/${item.word}/${item.mean}/${item.ex}/${item.exTrans}`;
         const newStr = prompt("데이터 수정 (Day/순번/단어/뜻/예문/해석)", oldStr);
-
-
-
 
         if (newStr && newStr !== oldStr) {
             const parts = newStr.split('/');
@@ -623,9 +485,6 @@
                 item.mean = parts[3].trim();
                 if(parts[4]) item.ex = parts[4].trim();
                 if(parts[5]) item.exTrans = parts[5].trim();
-
-
-
 
                 if (newDay !== oldDay) {
                     set.words.splice(index, 1);
@@ -648,9 +507,6 @@
         }
     }
 
-
-
-
     function deleteWordInSet(wordIndex) {
         const set = wordSets.find(s => s.id === editingSetId);
         if(!set) return;
@@ -661,18 +517,12 @@
         }
     }
 
-
-
-
     function closeSetDetail() {
         editingSetId = null;
         document.getElementById('set-detail-section').classList.add('hidden');
         document.getElementById('manage-section').classList.remove('hidden');
         renderManageList(); 
     }
-
-
-
 
     function clearAllData() {
         const check = prompt("모든 데이터를 초기화합니다. 계속하려면 '초기화'를 입력하세요.");
@@ -685,13 +535,7 @@
         }
     }
 
-
-
-
     let pendingAction = '';
-
-
-
 
     function openSetSelection(action) {
         if (wordSets.length === 0) { alert("등록된 단어장이 없습니다."); return; }
@@ -708,20 +552,11 @@
         
         let hasVisibleSet = false;
 
-
-
-
         wordSets.forEach(set => {
             const starredCount = set.words.filter(w => w.isStarred).length;
             const totalCount = set.words.length;
 
-
-
-
             if (action === 'flash-star' && starredCount === 0) return;
-
-
-
 
             hasVisibleSet = true;
             const div = document.createElement('div');
@@ -734,36 +569,21 @@
                 labelHtml = `${set.title} (${totalCount} 단어)`;
             }
 
-
-
-
             div.innerHTML = `<input type="checkbox" id="set-${set.id}" value="${set.id}"><label for="set-${set.id}">${labelHtml}</label>`;
             container.appendChild(div);
         });
-
-
-
 
         if (!hasVisibleSet && action === 'flash-star') {
             container.innerHTML = '<div style="padding:15px; text-align:center; color:#888;">즐겨찾기 등록된 단어가 없습니다.</div>';
         }
 
-
-
-
         hideAllSections();
         document.getElementById('selection-section').classList.remove('hidden');
     }
 
-
-
-
     function selectAllSets(isSelected) {
         document.querySelectorAll('#set-selection-container input[type="checkbox"]').forEach(c => c.checked = isSelected);
     }
-
-
-
 
     function closeSelection() {
         document.getElementById('selection-section').classList.add('hidden');
@@ -772,9 +592,6 @@
         document.getElementById('view-menu-section').classList.remove('hidden');
         document.getElementById('input-section').classList.remove('hidden');
     }
-
-
-
 
     function confirmSelection() {
         const checkboxes = document.querySelectorAll('#set-selection-container input[type="checkbox"]:checked');
@@ -785,9 +602,6 @@
             const set = wordSets.find(s => s.id == chk.value);
             if (set) combinedWords = combinedWords.concat(set.words);
         });
-
-
-
 
         if (combinedWords.length === 0) { alert("선택된 단어장에 단어가 없습니다."); return; }
         
@@ -805,9 +619,6 @@
         else if (pendingAction === 'view-list') showWordList(combinedWords);
     }
 
-
-
-
     function hideAllSections() {
         const ids = ['flashcard-menu-section', 'test-menu-section', 'view-menu-section', 'input-section', 'manage-section', 'set-detail-section', 'selection-section', 'flashcard-section', 'test-section', 'word-list-section'];
         ids.forEach(id => {
@@ -816,17 +627,11 @@
         });
     }
 
-
-
-
     function showWordList(list) {
         hideAllSections();
         const container = document.getElementById('word-list-section');
         const listDiv = document.getElementById('word-list-container');
         listDiv.innerHTML = '';
-
-
-
 
         list.forEach(item => {
             const div = document.createElement('div');
@@ -841,14 +646,8 @@
             listDiv.appendChild(div);
         });
 
-
-
-
         container.classList.remove('hidden');
     }
-
-
-
 
     function startFlashcard(list, mode) {
         flashMode = mode;
@@ -870,17 +669,11 @@
             else document.getElementById('flash-mode-badge').innerText = "상세 예문 (순서)";
         }
 
-
-
-
         currentIndex = 0;
         hideAllSections();
         document.getElementById('flashcard-section').classList.remove('hidden');
         loadFlashcard();
     }
-
-
-
 
     function loadFlashcard() {
         flashStep = 0; 
@@ -891,9 +684,6 @@
         const dayTxt = data.day ? data.day : "";
         const seqTxt = data.seq ? `No.${data.seq}` : "";
         metaDiv.innerHTML = `${dayTxt} ${seqTxt}`;
-
-
-
 
         updateStarBtnUI(data.isStarred);
         document.getElementById('flash-content-word-group').classList.remove('hidden');
@@ -908,9 +698,6 @@
         document.getElementById('flash-ex-ko').innerHTML = formatKoreanExample(data.exTrans || "해석 없음", data.mean);
         document.getElementById('flash-ex-ko').classList.add('hidden');
 
-
-
-
         document.getElementById('flash-guide').innerText = "화면을 터치하여 뜻 확인";
         document.getElementById('flash-guide').classList.remove('hidden');
         document.getElementById('flash-action-btn').classList.add('hidden');
@@ -918,14 +705,8 @@
         document.getElementById('flashcard-section').setAttribute('data-word', data.word);
         document.getElementById('flashcard-section').setAttribute('data-ex', data.ex || '');
 
-
-
-
         speak(data.word, 'en', 1.0);
     }
-
-
-
 
     function playAudioText(type, lang, event) {
         event.stopPropagation();
@@ -933,9 +714,6 @@
         const text = type === 'front' ? section.getAttribute('data-word') : section.getAttribute('data-ex');
         if(text) speak(text, lang, 1.0);
     }
-
-
-
 
     function prevFlashcard() {
         if (currentIndex > 0) {
@@ -946,14 +724,8 @@
         }
     }
 
-
-
-
     function handleFlashClick() {
         const data = currentTestList[currentIndex];
-
-
-
 
         if (flashMode.includes('speed')) {
             if (flashStep === 0) {
@@ -987,9 +759,6 @@
         }
     }
 
-
-
-
     function handleNextButton() {
         const data = currentTestList[currentIndex];
         if (flashMode.includes('speed')) {
@@ -1010,9 +779,6 @@
         }
     }
 
-
-
-
     function nextFlashcard() {
         currentIndex++;
         if (currentIndex < currentTestList.length) {
@@ -1022,9 +788,6 @@
             closeSelection();
         }
     }
-
-
-
 
     function formatExample(sentence, word) {
         if (!sentence) return "예문이 없습니다.";
@@ -1036,9 +799,6 @@
         const regex = new RegExp(pattern, 'gi');
         return sentence.replace(regex, '<span class="highlight-word">$&</span>');
     }
-
-
-
 
     function formatKoreanExample(sentence, meanStr) {
         let formatted = sentence;
@@ -1059,9 +819,6 @@
         return formatted.replace(regex, '<span class="highlight-word">$&</span>');
     }
 
-
-
-
     function startTest(list, mode) {
         currentTestMode = mode;
         hideAllSections();
@@ -1076,9 +833,6 @@
         loadQuestion();
     }
 
-
-
-
     function loadQuestion() {
         const data = currentTestList[currentIndex];
         const inputContainer = document.getElementById('test-input-container');
@@ -1086,9 +840,6 @@
         document.getElementById('result-message').className = "result-msg hidden";
         document.getElementById('next-btn').classList.add('hidden');
         document.getElementById('question-title').innerText = `문제 ${currentIndex + 1} / ${currentTestList.length}`;
-
-
-
 
         let displayHtml = "";
         
@@ -1119,9 +870,6 @@
             
             speak("단어를 완성하세요", 'ko');
 
-
-
-
             inputContainer.innerHTML = `
                 <input type="text" id="spelling-input" class="spelling-input" placeholder="정답 입력" autocomplete="off" autocapitalize="off" spellcheck="false">
                 <button onclick="checkAnswer(null, null, null)">정답 확인</button>
@@ -1130,9 +878,6 @@
                 if (event.key === "Enter") checkAnswer(null, null, null);
             });
             setTimeout(() => document.getElementById('spelling-input').focus(), 100);
-
-
-
 
         } else {
             if (data.ex) {
@@ -1151,18 +896,12 @@
             
             speak(data.ex || data.word, 'en', 1.0);
 
-
-
-
             const allWords = getAllWordsFlat();
             let distractors = allWords.filter(w => w.word !== data.word).sort(() => Math.random() - 0.5).slice(0, 3);
             while(distractors.length < 3) { distractors.push({mean: "오답 (저장된 단어 부족)"}); }
             
             let options = [...distractors, data];
             options.sort(() => Math.random() - 0.5);
-
-
-
 
             options.forEach(opt => {
                 const btn = document.createElement('button');
@@ -1175,16 +914,10 @@
         document.getElementById('question-display').innerHTML = displayHtml;
     }
 
-
-
-
     function checkAnswer(btn, isCorrectChoice, data) {
         const currentData = currentTestList[currentIndex];
         const msgDiv = document.getElementById('result-message');
         let isCorrect = false;
-
-
-
 
         if (currentTestMode === 'spelling') {
             const inputVal = document.getElementById('spelling-input').value.trim().toLowerCase();
@@ -1196,13 +929,7 @@
             btns.forEach(b => b.onclick = null);
         }
 
-
-
-
         msgDiv.classList.remove('hidden');
-
-
-
 
         if (isCorrect) {
             if(btn) btn.classList.add('selected-correct');
@@ -1222,9 +949,6 @@
         document.getElementById('next-btn').classList.remove('hidden');
     }
 
-
-
-
     function addToWrong(data) {
         if (!wrongAnswers.some(w => w.word === data.word)) {
             wrongAnswers.push(data);
@@ -1232,26 +956,17 @@
         }
     }
 
-
-
-
     function nextQuestion() {
         currentIndex++;
         if (currentIndex < currentTestList.length) loadQuestion();
         else { alert("테스트가 끝났습니다."); closeSelection(); }
     }
 
-
-
-
     function getAllWordsFlat() {
         let all = [];
         wordSets.forEach(s => all = all.concat(s.words));
         return all;
     }
-
-
-
 
     function toggleStar(event) {
         event.stopPropagation();
@@ -1269,17 +984,11 @@
         if(found) { updateStarBtnUI(data.isStarred); saveData(); }
     }
 
-
-
-
     function updateStarBtnUI(isStarred) {
         const btn = document.getElementById('star-btn');
         if (isStarred) { btn.innerText = "★ 즐겨찾기 해제"; btn.classList.add('active'); }
         else { btn.innerText = "☆ 즐겨찾기 등록"; btn.classList.remove('active'); }
     }
-
-
-
 
     function speak(text, lang, speed = 1.0) {
         if (!synth) return;
