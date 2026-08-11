@@ -6,21 +6,34 @@
     <title>영단어장</title>
     <style>
         * { box-sizing: border-box; font-family: "Apple SD Gothic Neo", "Pretendard", "Malgun Gothic", sans-serif; }
+        
+        html, body {
+            height: 100%;
+        }
+
         body { 
-            margin: 0; padding: 12px 12px 8px 12px; /* 하단 여백 축소 */
+            margin: 0 auto; 
+            padding: 16px 12px calc(16px + env(safe-area-inset-bottom, 0px)) 12px; 
             background-color: #f7f8f9;
             color: #222;
-            font-size: 16px; line-height: 1.5;
+            font-size: 16px; 
+            line-height: 1.5;
+            max-width: 600px; /* 모든 폼팩터(태블릿/PC 포함)에서 너무 퍼지지 않고 깔끔하게 보이도록 제한 */
+            min-height: 100dvh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
         }
         
         .card { 
             background: #fff; padding: 0; 
-            border: 1px solid #dcdcdc; margin-bottom: 10px; /* 카드 간격 약간 축소 */
+            border: 1px solid #dcdcdc; margin-bottom: 12px; 
             border-radius: 12px;
             overflow: hidden; 
+            flex-shrink: 0;
         }
         .card-header {
-            padding: 14px 18px; background-color: #fff; color: #222;
+            padding: 16px 18px; background-color: #fff; color: #222;
             border-bottom: 1px solid #eee;
             cursor: pointer; display: flex; justify-content: space-between; align-items: center;
             user-select: none; 
@@ -28,18 +41,18 @@
         .card-header h2 { margin: 0; font-size: 1.15rem; font-weight: 600; }
         .card-header .toggle-icon { font-size: 0.9rem; color: #888; transition: transform 0.2s; }
         
-        .card-content { padding: 16px 18px 12px 18px; display: flex; flex-direction: column; gap: 10px; } /* 내부 하단 여백 축소 */
+        .card-content { padding: 18px; display: flex; flex-direction: column; gap: 10px; }
         .card-content.collapsed { display: none; }
 
         textarea {
-            width: 100%; height: 100px; padding: 10px; border: 1px solid #dcdcdc;
+            width: 100%; height: 110px; padding: 12px; border: 1px solid #dcdcdc;
             font-size: 1rem; resize: none; background-color: #fff;
             border-radius: 8px; color: #222;
         }
         textarea:focus { outline: none; border-color: #888; }
 
         button { 
-            width: 100%; height: 46px; /* 버튼 높이 미세 조정 */
+            width: 100%; height: 50px; 
             background-color: #fff; color: #222; 
             border: 1px solid #d0d0d0; font-size: 1.05rem; font-weight: 600;
             cursor: pointer; touch-action: manipulation;
@@ -50,93 +63,93 @@
         button:active { background-color: #f0f0f0; border-color: #999; }
         
         .hidden { display: none !important; }
-        .margin-top-15 { margin-top: 10px; }
+        .margin-top-15 { margin-top: 12px; }
         
-        .result-msg { text-align: center; margin-top: 10px; font-size: 1.1rem; padding: 10px; border: 1px solid #ccc; font-weight: 600; border-radius: 8px; }
+        .result-msg { text-align: center; margin-top: 15px; font-size: 1.1rem; padding: 12px; border: 1px solid #ccc; font-weight: 600; border-radius: 8px; }
         .correct { background-color: #fff; color: #222; border-color: #888; }
         .wrong { background-color: #f2f2f2; color: #444; }
         
-        .set-selection-list { text-align: left; max-height: 38vh; overflow-y: auto; border: 1px solid #eee; padding: 5px 10px; border-radius: 8px; background: #fff; }
-        .set-item { display: flex; align-items: center; padding: 8px 5px; border-bottom: 1px solid #f5f5f5; }
+        .set-selection-list { text-align: left; max-height: 40vh; overflow-y: auto; border: 1px solid #eee; padding: 5px 10px; border-radius: 8px; background: #fff; }
+        .set-item { display: flex; align-items: center; padding: 10px 5px; border-bottom: 1px solid #f5f5f5; }
         .set-item:last-child { border-bottom: none; }
         .set-item label { flex: 1; font-size: 1.05rem; margin-left: 10px; cursor: pointer; color: #333; }
 
         .flashcard-box {
-            position: relative; border: 1px solid #dcdcdc; padding: 20px 15px;
-            text-align: center; margin: 10px 0; background-color: #fff; cursor: pointer;
-            height: 40vh; min-height: 260px; max-height: 340px;
+            position: relative; border: 1px solid #dcdcdc; padding: 25px 15px;
+            text-align: center; margin: 15px 0; background-color: #fff; cursor: pointer;
+            height: 42vh; min-height: 280px; max-height: 360px;
             border-radius: 12px; 
             display: flex; flex-direction: column;
             justify-content: center; align-items: center;
         }
         
         .flash-meta {
-            position: absolute; top: 10px; left: 15px; text-align: left;
+            position: absolute; top: 12px; left: 15px; text-align: left;
             color: #666; font-size: 0.9rem; font-weight: 600;
         }
 
-        .flash-text-main { font-size: 2.2rem; font-weight: 700; color: #222; margin-bottom: 8px; word-break: keep-all; line-height: 1.2; }
-        .flash-text-sub { font-size: 1.3rem; color: #555; margin-top: 6px; font-weight: 600; word-break: keep-all; }
+        .flash-text-main { font-size: 2.2rem; font-weight: 700; color: #222; margin-bottom: 10px; word-break: keep-all; line-height: 1.2; }
+        .flash-text-sub { font-size: 1.3rem; color: #555; margin-top: 8px; font-weight: 600; word-break: keep-all; }
         
         .flash-example { 
-            font-size: 1.05rem; color: #333; margin-top: 10px; 
-            padding: 10px; border: 1px solid #eee; width: 100%; word-break: keep-all; 
+            font-size: 1.05rem; color: #333; margin-top: 12px; 
+            padding: 12px; border: 1px solid #eee; width: 100%; word-break: keep-all; 
             border-radius: 8px; background: #fff;
         }
         .flash-ex-ko { background: #f5f5f7; border-color: #e5e5e5; }
         
         .highlight-word { font-weight: 700; text-decoration: underline; color: #111; }
-        .flash-guide { font-size: 0.9rem; color: #888; margin-top: 15px; }
+        .flash-guide { font-size: 0.9rem; color: #888; margin-top: 20px; }
 
-        .audio-btn-wrapper { text-align: center; margin-bottom: 6px; }
+        .audio-btn-wrapper { text-align: center; margin-bottom: 8px; }
         .audio-btn {
             background: #fff; color: #444; border: 1px solid #ccc; cursor: pointer; 
-            font-size: 0.8rem; height: auto; padding: 4px 10px; font-weight: 600; 
+            font-size: 0.8rem; height: auto; padding: 5px 12px; font-weight: 600; 
             border-radius: 20px; display: inline-flex; width: auto;
         }
         .audio-btn:active { background: #eee; }
         
         .star-toggle-btn {
-            position: absolute; top: 10px; right: 15px; font-size: 0.85rem;
+            position: absolute; top: 12px; right: 15px; font-size: 0.85rem;
             background: #fff; border: 1px solid #ccc; cursor: pointer; color: #888;
-            height: auto; padding: 4px 10px; width: auto; z-index: 10; margin-top: 0; font-weight: 600;
+            height: auto; padding: 5px 10px; width: auto; z-index: 10; margin-top: 0; font-weight: 600;
             border-radius: 20px;
         }
         .star-toggle-btn.active { background: #222; color: #fff; border-color: #222; }
 
         .mc-option {
-            background: #fff; border: 1px solid #d0d0d0; padding: 0 15px; margin-bottom: 6px;
+            background: #fff; border: 1px solid #d0d0d0; padding: 0 15px; margin-bottom: 8px;
             font-size: 1.05rem; font-weight: 500; cursor: pointer; text-align: left; color: #222; 
-            width: 100%; border-radius: 8px; height: 46px; 
+            width: 100%; border-radius: 8px; height: 50px; 
             display: flex; align-items: center; justify-content: flex-start;
         }
         .mc-option.selected-correct { border: 2px solid #222; font-weight: 700; }
         .mc-option.selected-wrong { background-color: #f2f2f2; color: #888; text-decoration: line-through; border-color: #ddd; }
 
         .spelling-input {
-            width: 100%; height: 46px; padding: 0 15px; font-size: 1.3rem; text-align: center; font-weight: 600;
-            border: 1px solid #aaa; margin-bottom: 10px; background: #fff; color: #222;
+            width: 100%; height: 50px; padding: 0 15px; font-size: 1.3rem; text-align: center; font-weight: 600;
+            border: 1px solid #aaa; margin-bottom: 12px; background: #fff; color: #222;
             border-radius: 8px;
         }
         .spelling-hint-char { font-weight: 700; text-decoration: underline; color: #222; }
 
         ul { padding-left: 0; list-style: none; margin: 0; }
         #manage-list li, #set-detail-list li, .word-list-item { 
-            border-bottom: 1px solid #eee; padding: 10px 0; display: flex; 
+            border-bottom: 1px solid #eee; padding: 12px 0; display: flex; 
             justify-content: space-between; align-items: center; background: #fff;
         }
         .word-list-item { flex-direction: column; align-items: flex-start; }
         
         .item-action-btn {
             background-color: #fff; color: #444; border: 1px solid #ccc; padding: 0 10px;
-            height: 30px; font-size: 0.85rem; font-weight: 600; margin-left: 5px; width: auto; 
+            height: 32px; font-size: 0.85rem; font-weight: 600; margin-left: 5px; width: auto; 
             border-radius: 6px;
         }
         
-        .scroll-list { max-height: 45vh; overflow-y: auto; padding-right: 5px; }
-        #word-list-container { max-height: 60vh; }
+        .scroll-list { max-height: 50vh; overflow-y: auto; padding-right: 5px; }
+        #word-list-container { max-height: 65vh; }
         
-        .badge { display: inline-block; padding: 4px 10px; background: #fff; border: 1px solid #222; color: #222; font-weight: 600; font-size: 0.85rem; margin-bottom: 8px; border-radius: 20px; }
+        .badge { display: inline-block; padding: 5px 10px; background: #fff; border: 1px solid #222; color: #222; font-weight: 600; font-size: 0.85rem; margin-bottom: 10px; border-radius: 20px; }
         
         .flex-row { display: flex; gap: 8px; width: 100%; }
         .flex-row button { flex: 1; }
@@ -176,7 +189,7 @@
             <span class="toggle-icon">▲</span>
         </div>
         <div class="card-content">
-            <div style="font-size: 0.95rem; color: #666; margin-bottom: 2px;">등록된 단어를 리스트 형태로 바로 확인합니다.</div>
+            <div style="font-size: 0.95rem; color: #666; margin-bottom: 5px;">등록된 단어를 리스트 형태로 바로 확인합니다.</div>
             <button onclick="openSetSelection('view-list')">단어 목록 열람하기</button>
         </div>
     </div>
@@ -187,14 +200,14 @@
             <span class="toggle-icon">▼</span>
         </div>
         <div class="card-content collapsed">
-            <div style="font-size: 0.9rem; color: #555; margin-bottom: 4px;">
+            <div style="font-size: 0.9rem; color: #555; margin-bottom: 5px;">
                 형식: Day/순번/단어/뜻/예문/해석<br>
                 예시: Day 01/1/apple/사과/I ate an apple./나는 사과를 먹었다.
             </div>
             <textarea id="bulk-input" placeholder="여기에 데이터를 붙여넣으세요..."></textarea>
             <button onclick="addWordSetsAuto()">단어 등록하기</button>
             
-            <div style="margin-top:8px; text-align: right; color: #555; font-size: 0.95rem;">저장된 단어장: <strong id="set-count">0</strong>개</div>
+            <div style="margin-top:12px; text-align: right; color: #555; font-size: 0.95rem;">저장된 단어장: <strong id="set-count">0</strong>개</div>
             <button onclick="toggleManageList()">단어장 목록 편집 / 삭제</button>
             <button onclick="backupData()">데이터 백업 (파일 저장)</button>
             <button onclick="triggerRestore()">데이터 복구 (파일 불러오기)</button>
@@ -205,7 +218,7 @@
 
     <div class="card hidden" id="manage-section">
         <div class="card-content">
-            <h2 style="margin:0 0 10px 0; font-size:1.1rem; color:#222;">목록 편집</h2>
+            <h2 style="margin:0 0 12px 0; font-size:1.1rem; color:#222;">목록 편집</h2>
             <div class="scroll-list"><ul id="manage-list"></ul></div>
             <button class="margin-top-15" onclick="toggleManageList()">닫기</button>
         </div>
@@ -213,7 +226,7 @@
 
     <div class="card hidden" id="set-detail-section">
         <div class="card-content">
-            <h2 id="detail-set-title" style="margin:0 0 10px 0; font-size:1.1rem; color:#222;">상세 편집</h2>
+            <h2 id="detail-set-title" style="margin:0 0 12px 0; font-size:1.1rem; color:#222;">상세 편집</h2>
             <div class="scroll-list"><ul id="set-detail-list"></ul></div>
             <button class="margin-top-15" onclick="closeSetDetail()">뒤로 가기</button>
         </div>
@@ -221,8 +234,8 @@
 
     <div class="card hidden" id="selection-section">
         <div class="card-content">
-            <h2 style="margin:0 0 10px 0; font-size:1.1rem; color:#222;">학습할 단어장 선택</h2>
-            <div class="flex-row" style="margin-bottom: 10px;">
+            <h2 style="margin:0 0 12px 0; font-size:1.1rem; color:#222;">학습할 단어장 선택</h2>
+            <div class="flex-row" style="margin-bottom: 12px;">
                 <button onclick="selectAllSets(true)">전체 선택</button>
                 <button onclick="selectAllSets(false)">선택 해제</button>
             </div>
@@ -234,8 +247,8 @@
 
     <div class="card hidden" id="word-list-section">
         <div class="card-content">
-            <h2 style="margin:0 0 10px 0; font-size:1.1rem; color:#222;">단어 목록</h2>
-            <div class="scroll-list" id="word-list-container" style="border: 1px solid #eee; border-radius: 8px; padding: 10px; margin-bottom: 10px;"></div>
+            <h2 style="margin:0 0 12px 0; font-size:1.1rem; color:#222;">단어 목록</h2>
+            <div class="scroll-list" id="word-list-container" style="border: 1px solid #eee; border-radius: 8px; padding: 10px; margin-bottom: 12px;"></div>
             <button onclick="location.reload()">메인으로 돌아가기</button>
         </div>
     </div>
@@ -278,8 +291,8 @@
             <div style="text-align:center;"><span id="test-type-badge" class="badge">테스트</span></div>
             <div id="question-title" style="text-align:center; font-size: 1rem; color: #555;">문제</div>
             
-            <div style="text-align: center; margin: 8px 0;">
-                <div id="question-display" style="width:100%; margin-bottom:10px;"></div>
+            <div style="text-align: center; margin: 12px 0;">
+                <div id="question-display" style="width:100%; margin-bottom:12px;"></div>
             </div>
 
             <div id="test-input-container"></div>
@@ -637,11 +650,11 @@
             const div = document.createElement('div');
             div.className = 'word-list-item';
             div.innerHTML = `
-                <div style="width:100%; display:flex; justify-content:space-between; margin-bottom:4px;">
+                <div style="width:100%; display:flex; justify-content:space-between; margin-bottom:5px;">
                     <div style="font-size:1.1rem; font-weight:700; color:#222;">${item.word}</div>
                     <div style="font-size:0.95rem; color:#666;">${item.mean}</div>
                 </div>
-                ${item.ex ? `<div style="width:100%; font-size:0.9rem; background:#f9f9f9; padding:6px 10px; margin-top:4px; border-radius:6px; color:#555;">${item.ex}<br><span style="color:#888;">${item.exTrans || ''}</span></div>` : ''}
+                ${item.ex ? `<div style="width:100%; font-size:0.9rem; background:#f9f9f9; padding:8px 10px; margin-top:5px; border-radius:6px; color:#555;">${item.ex}<br><span style="color:#888;">${item.exTrans || ''}</span></div>` : ''}
             `;
             listDiv.appendChild(div);
         });
@@ -888,7 +901,7 @@
                     </div>`;
             } else {
                 displayHtml = `
-                    <div style="font-size:2rem; font-weight:700; margin-bottom:10px; color:#222;">
+                    <div style="font-size:2rem; font-weight:700; margin-bottom:15px; color:#222;">
                         <div class="audio-btn-wrapper"><button class="audio-btn" onclick="speak('${data.word.replace(/'/g, "\\'")}', 'en')">단어 듣기</button></div>
                         ${data.word}
                     </div>`;
