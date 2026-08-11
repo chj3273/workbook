@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
@@ -7,51 +7,48 @@
     <style>
         * { box-sizing: border-box; font-family: "Apple SD Gothic Neo", "Pretendard", "Malgun Gothic", sans-serif; }
         body { 
-            margin: 0; padding: 20px 15px; 
+            margin: 0; padding: 12px; 
             background-color: #f7f8f9;
             color: #222;
             font-size: 16px; line-height: 1.5;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
         h1 { 
-            font-size: 1.8rem; text-align: center; 
-            margin-bottom: 25px; color: #222; font-weight: 700;
+            font-size: 1.6rem; text-align: center; 
+            margin: 5px 0 15px 0; color: #222; font-weight: 700;
         }
         
         .card { 
             background: #fff; padding: 0; 
-            border: 1px solid #dcdcdc; margin-bottom: 15px; 
+            border: 1px solid #dcdcdc; margin-bottom: 12px; 
             border-radius: 12px;
             overflow: hidden; 
         }
         .card-header {
-            padding: 18px 20px; background-color: #fff; color: #222;
+            padding: 15px 18px; background-color: #fff; color: #222;
             border-bottom: 1px solid #eee;
             cursor: pointer; display: flex; justify-content: space-between; align-items: center;
             user-select: none; 
         }
-        .card-header h2 { margin: 0; font-size: 1.15rem; font-weight: 600; }
+        .card-header h2 { margin: 0; font-size: 1.1rem; font-weight: 600; }
         .card-header .toggle-icon { font-size: 0.9rem; color: #888; transition: transform 0.2s; }
         
-        .card-content { padding: 20px; display: flex; flex-direction: column; gap: 10px; }
+        .card-content { padding: 15px; display: flex; flex-direction: column; gap: 10px; }
         .card-content.collapsed { display: none; }
 
-
-
-
         textarea {
-            width: 100%; height: 120px; padding: 15px; border: 1px solid #dcdcdc;
+            width: 100%; height: 110px; padding: 12px; border: 1px solid #dcdcdc;
             font-size: 1rem; resize: none; background-color: #fff;
             border-radius: 8px; color: #222;
         }
         textarea:focus { outline: none; border-color: #888; }
 
-
-
-
         button { 
-            width: 100%; height: 55px; 
+            width: 100%; height: 50px; 
             background-color: #fff; color: #222; 
-            border: 1px solid #d0d0d0; font-size: 1.05rem; font-weight: 600;
+            border: 1px solid #d0d0d0; font-size: 1rem; font-weight: 600;
             cursor: pointer; touch-action: manipulation;
             border-radius: 8px; 
             display: flex; align-items: center; justify-content: center;
@@ -60,126 +57,104 @@
         button:active { background-color: #f0f0f0; border-color: #999; }
         
         .hidden { display: none !important; }
-        .margin-top-15 { margin-top: 15px; }
+        .margin-top-15 { margin-top: 12px; }
         
-        .result-msg { text-align: center; margin-top: 20px; font-size: 1.1rem; padding: 15px; border: 1px solid #ccc; font-weight: 600; border-radius: 8px; }
+        .result-msg { text-align: center; margin-top: 15px; font-size: 1.05rem; padding: 12px; border: 1px solid #ccc; font-weight: 600; border-radius: 8px; }
         .correct { background-color: #fff; color: #222; border-color: #888; }
         .wrong { background-color: #f2f2f2; color: #444; }
         
-        .set-selection-list { text-align: left; max-height: 300px; overflow-y: auto; border: 1px solid #eee; padding: 5px 10px; border-radius: 8px; background: #fff; }
-        .set-item { display: flex; align-items: center; padding: 12px 5px; border-bottom: 1px solid #f5f5f5; }
+        .set-selection-list { text-align: left; max-height: calc(100vh - 280px); overflow-y: auto; border: 1px solid #eee; padding: 5px 10px; border-radius: 8px; background: #fff; }
+        .set-item { display: flex; align-items: center; padding: 10px 5px; border-bottom: 1px solid #f5f5f5; }
         .set-item:last-child { border-bottom: none; }
-        .set-item label { flex: 1; font-size: 1.05rem; margin-left: 10px; cursor: pointer; color: #333; }
-
-
-
+        .set-item label { flex: 1; font-size: 1rem; margin-left: 10px; cursor: pointer; color: #333; }
 
         .flashcard-box {
-            position: relative; border: 1px solid #dcdcdc; padding: 30px 20px;
-            text-align: center; margin: 20px 0; background-color: #fff; cursor: pointer;
-            height: 380px; 
+            position: relative; border: 1px solid #dcdcdc; padding: 20px 15px;
+            text-align: center; margin: 10px 0; background-color: #fff; cursor: pointer;
+            height: calc(100vh - 300px); 
+            min-height: 280px;
+            max-height: 450px;
             border-radius: 12px; 
             display: flex; flex-direction: column;
             justify-content: center; align-items: center;
         }
         
         .flash-meta {
-            position: absolute; top: 15px; left: 15px; text-align: left;
-            color: #666; font-size: 0.9rem; font-weight: 600;
+            position: absolute; top: 12px; left: 12px; text-align: left;
+            color: #666; font-size: 0.85rem; font-weight: 600;
         }
 
-
-
-
-        .flash-text-main { font-size: 2.5rem; font-weight: 700; color: #222; margin-bottom: 15px; word-break: keep-all; line-height: 1.2; }
-        .flash-text-sub { font-size: 1.4rem; color: #555; margin-top: 10px; font-weight: 600; word-break: keep-all; }
+        .flash-text-main { font-size: 2.2rem; font-weight: 700; color: #222; margin-bottom: 10px; word-break: keep-all; line-height: 1.2; }
+        .flash-text-sub { font-size: 1.3rem; color: #555; margin-top: 8px; font-weight: 600; word-break: keep-all; }
         
         .flash-example { 
-            font-size: 1.1rem; color: #333; margin-top: 15px; 
-            padding: 15px; border: 1px solid #eee; width: 100%; word-break: keep-all; 
+            font-size: 1rem; color: #333; margin-top: 10px; 
+            padding: 12px; border: 1px solid #eee; width: 100%; word-break: keep-all; 
             border-radius: 8px; background: #fff;
         }
         .flash-ex-ko { background: #f5f5f7; border-color: #e5e5e5; }
         
         .highlight-word { font-weight: 700; text-decoration: underline; color: #111; }
-        .flash-guide { font-size: 0.95rem; color: #888; margin-top: 25px; }
+        .flash-guide { font-size: 0.9rem; color: #888; margin-top: 15px; }
 
-
-
-
-        .audio-btn-wrapper { text-align: center; margin-bottom: 10px; }
+        .audio-btn-wrapper { text-align: center; margin-bottom: 8px; }
         .audio-btn {
             background: #fff; color: #444; border: 1px solid #ccc; cursor: pointer; 
-            font-size: 0.8rem; height: auto; padding: 6px 14px; font-weight: 600; 
+            font-size: 0.75rem; height: auto; padding: 5px 12px; font-weight: 600; 
             border-radius: 20px; display: inline-flex; width: auto;
         }
         .audio-btn:active { background: #eee; }
         
         .star-toggle-btn {
-            position: absolute; top: 15px; right: 15px; font-size: 0.85rem;
+            position: absolute; top: 12px; right: 12px; font-size: 0.8rem;
             background: #fff; border: 1px solid #ccc; cursor: pointer; color: #888;
-            height: auto; padding: 6px 12px; width: auto; z-index: 10; margin-top: 0; font-weight: 600;
+            height: auto; padding: 5px 10px; width: auto; z-index: 10; margin-top: 0; font-weight: 600;
             border-radius: 20px;
         }
         .star-toggle-btn.active { background: #222; color: #fff; border-color: #222; }
 
-
-
-
         .mc-option {
-            background: #fff; border: 1px solid #d0d0d0; padding: 0 15px; margin-bottom: 10px;
-            font-size: 1.05rem; font-weight: 500; cursor: pointer; text-align: left; color: #222; 
-            width: 100%; border-radius: 8px; height: 55px; 
+            background: #fff; border: 1px solid #d0d0d0; padding: 0 15px; margin-bottom: 8px;
+            font-size: 1rem; font-weight: 500; cursor: pointer; text-align: left; color: #222; 
+            width: 100%; border-radius: 8px; height: 50px; 
             display: flex; align-items: center; justify-content: flex-start;
         }
         .mc-option.selected-correct { border: 2px solid #222; font-weight: 700; }
         .mc-option.selected-wrong { background-color: #f2f2f2; color: #888; text-decoration: line-through; border-color: #ddd; }
 
-
-
-
         .spelling-input {
-            width: 100%; height: 55px; padding: 0 15px; font-size: 1.3rem; text-align: center; font-weight: 600;
-            border: 1px solid #aaa; margin-bottom: 15px; background: #fff; color: #222;
+            width: 100%; height: 50px; padding: 0 15px; font-size: 1.2rem; text-align: center; font-weight: 600;
+            border: 1px solid #aaa; margin-bottom: 12px; background: #fff; color: #222;
             border-radius: 8px;
         }
         .spelling-hint-char { font-weight: 700; text-decoration: underline; color: #222; }
 
-
-
-
         ul { padding-left: 0; list-style: none; margin: 0; }
         #manage-list li, #set-detail-list li, .word-list-item { 
-            border-bottom: 1px solid #eee; padding: 15px 0; display: flex; 
+            border-bottom: 1px solid #eee; padding: 12px 0; display: flex; 
             justify-content: space-between; align-items: center; background: #fff;
         }
         .word-list-item { flex-direction: column; align-items: flex-start; }
         
         .item-action-btn {
-            background-color: #fff; color: #444; border: 1px solid #ccc; padding: 0 12px;
-            height: 36px; font-size: 0.9rem; font-weight: 600; margin-left: 5px; width: auto; 
+            background-color: #fff; color: #444; border: 1px solid #ccc; padding: 0 10px;
+            height: 32px; font-size: 0.85rem; font-weight: 600; margin-left: 5px; width: auto; 
             border-radius: 6px;
         }
         
-        .scroll-list { max-height: 400px; overflow-y: auto; padding-right: 5px; }
-        #word-list-container { max-height: 65vh; }
+        .scroll-list { max-height: calc(100vh - 250px); overflow-y: auto; padding-right: 5px; }
+        #word-list-container { max-height: calc(100vh - 200px); }
         
-        .badge { display: inline-block; padding: 6px 12px; background: #fff; border: 1px solid #222; color: #222; font-weight: 600; font-size: 0.9rem; margin-bottom: 15px; border-radius: 20px; }
+        .badge { display: inline-block; padding: 5px 10px; background: #fff; border: 1px solid #222; color: #222; font-weight: 600; font-size: 0.85rem; margin-bottom: 10px; border-radius: 20px; }
         
-        .flex-row { display: flex; gap: 10px; width: 100%; }
+        .flex-row { display: flex; gap: 8px; width: 100%; }
         .flex-row button { flex: 1; }
     </style>
     <link rel="manifest" href="manifest.json">
 </head>
 <body>
 
-
-
-
-    <h1>영단어장</h1>
-
-
-
+    <h1 id="main-app-title">영단어장</h1>
 
     <div class="card" id="flashcard-menu-section">
         <div class="card-header" onclick="toggleSection(this)">
@@ -195,9 +170,6 @@
         </div>
     </div>
 
-
-
-
     <div class="card" id="test-menu-section">
         <div class="card-header" onclick="toggleSection(this)">
             <h2>테스트 및 복습</h2>
@@ -210,22 +182,16 @@
         </div>
     </div>
 
-
-
-
     <div class="card" id="view-menu-section">
         <div class="card-header" onclick="toggleSection(this)">
             <h2>단어 한눈에 보기</h2>
             <span class="toggle-icon">▲</span>
         </div>
         <div class="card-content">
-            <div style="font-size: 0.95rem; color: #666; margin-bottom: 5px;">등록된 단어를 리스트 형태로 바로 확인합니다.</div>
+            <div style="font-size: 0.9rem; color: #666; margin-bottom: 3px;">등록된 단어를 리스트 형태로 바로 확인합니다.</div>
             <button onclick="openSetSelection('view-list')">단어 목록 열람하기</button>
         </div>
     </div>
-
-
-
 
     <div class="card" id="input-section">
         <div class="card-header collapsed" onclick="toggleSection(this)" style="border-bottom: none;">
@@ -233,14 +199,14 @@
             <span class="toggle-icon">▼</span>
         </div>
         <div class="card-content collapsed">
-            <div style="font-size: 0.9rem; color: #555; margin-bottom: 5px;">
+            <div style="font-size: 0.85rem; color: #555; margin-bottom: 3px;">
                 형식: Day/순번/단어/뜻/예문/해석<br>
                 예시: Day 01/1/apple/사과/I ate an apple./나는 사과를 먹었다.
             </div>
             <textarea id="bulk-input" placeholder="여기에 데이터를 붙여넣으세요..."></textarea>
             <button onclick="addWordSetsAuto()">단어 등록하기</button>
             
-            <div style="margin-top:15px; text-align: right; color: #555; font-size: 0.95rem;">저장된 단어장: <strong id="set-count">0</strong>개</div>
+            <div style="margin-top:10px; text-align: right; color: #555; font-size: 0.9rem;">저장된 단어장: <strong id="set-count">0</strong>개</div>
             <button onclick="toggleManageList()">단어장 목록 편집 / 삭제</button>
             <button onclick="backupData()">데이터 백업 (파일 저장)</button>
             <button onclick="triggerRestore()">데이터 복구 (파일 불러오기)</button>
@@ -249,35 +215,26 @@
         </div>
     </div>
 
-
-
-
     <div class="card hidden" id="manage-section">
         <div class="card-content">
-            <h2 style="margin:0 0 15px 0; font-size:1.1rem; color:#222;">목록 편집</h2>
+            <h2 style="margin:0 0 10px 0; font-size:1.05rem; color:#222;">목록 편집</h2>
             <div class="scroll-list"><ul id="manage-list"></ul></div>
             <button class="margin-top-15" onclick="toggleManageList()">닫기</button>
         </div>
     </div>
 
-
-
-
     <div class="card hidden" id="set-detail-section">
         <div class="card-content">
-            <h2 id="detail-set-title" style="margin:0 0 15px 0; font-size:1.1rem; color:#222;">상세 편집</h2>
+            <h2 id="detail-set-title" style="margin:0 0 10px 0; font-size:1.05rem; color:#222;">상세 편집</h2>
             <div class="scroll-list"><ul id="set-detail-list"></ul></div>
             <button class="margin-top-15" onclick="closeSetDetail()">뒤로 가기</button>
         </div>
     </div>
 
-
-
-
     <div class="card hidden" id="selection-section">
         <div class="card-content">
-            <h2 style="margin:0 0 15px 0; font-size:1.1rem; color:#222;">학습할 단어장 선택</h2>
-            <div class="flex-row" style="margin-bottom: 15px;">
+            <h2 style="margin:0 0 10px 0; font-size:1.05rem; color:#222;">학습할 단어장 선택</h2>
+            <div class="flex-row" style="margin-bottom: 10px;">
                 <button onclick="selectAllSets(true)">전체 선택</button>
                 <button onclick="selectAllSets(false)">선택 해제</button>
             </div>
@@ -287,24 +244,18 @@
         </div>
     </div>
 
-
-
-
     <div class="card hidden" id="word-list-section">
         <div class="card-content">
-            <h2 style="margin:0 0 15px 0; font-size:1.1rem; color:#222;">단어 목록</h2>
-            <div class="scroll-list" id="word-list-container" style="border: 1px solid #eee; border-radius: 8px; padding: 10px; margin-bottom: 15px;"></div>
+            <h2 style="margin:0 0 10px 0; font-size:1.05rem; color:#222;">단어 목록</h2>
+            <div class="scroll-list" id="word-list-container" style="border: 1px solid #eee; border-radius: 8px; padding: 10px; margin-bottom: 12px;"></div>
             <button onclick="location.reload()">메인으로 돌아가기</button>
         </div>
     </div>
 
-
-
-
     <div class="card hidden" id="flashcard-section">
         <div class="card-content">
             <div style="text-align:center;"><span id="flash-mode-badge" class="badge">모드</span></div>
-            <div id="flash-progress" style="text-align:center; font-size: 1.05rem; color: #555;">1 / 10</div>
+            <div id="flash-progress" style="text-align:center; font-size: 1rem; color: #555;">1 / 10</div>
             
             <div class="flashcard-box" onclick="handleFlashClick()">
                 <div id="flash-meta-info" class="flash-meta"></div>
@@ -316,17 +267,11 @@
                     <div id="flash-back" class="flash-text-sub hidden">Meaning</div>
                 </div>
 
-
-
-
                 <div id="flash-content-ex-group" class="hidden" style="width:100%;">
                     <div class="audio-btn-wrapper"><button class="audio-btn" onclick="playAudioText('ex-en', 'en', event)">예문 듣기</button></div>
                     <div id="flash-ex-en" class="flash-example" style="border-bottom:none;">Example</div>
                     <div id="flash-ex-ko" class="flash-example flash-ex-ko hidden">Translation</div>
                 </div>
-
-
-
 
                 <div id="flash-guide" class="flash-guide">화면을 터치하세요</div>
             </div>
@@ -340,20 +285,14 @@
         </div>
     </div>
 
-
-
-
     <div class="card hidden" id="test-section">
         <div class="card-content">
             <div style="text-align:center;"><span id="test-type-badge" class="badge">테스트</span></div>
-            <div id="question-title" style="text-align:center; font-size: 1.05rem; color: #555;">문제</div>
+            <div id="question-title" style="text-align:center; font-size: 1rem; color: #555;">문제</div>
             
-            <div style="text-align: center; margin: 20px 0;">
-                <div id="question-display" style="width:100%; margin-bottom:20px;"></div>
+            <div style="text-align: center; margin: 15px 0;">
+                <div id="question-display" style="width:100%; margin-bottom:15px;"></div>
             </div>
-
-
-
 
             <div id="test-input-container"></div>
             <div id="result-message" class="result-msg hidden"></div>
@@ -362,9 +301,6 @@
             <button class="margin-top-15" onclick="location.reload()">종료하기</button>
         </div>
     </div>
-
-
-
 
 <script>
     let wordSets = []; 
@@ -379,13 +315,7 @@
     let editingSetId = null; 
     let synth = window.speechSynthesis;
 
-
-
-
     window.onload = function() { loadData(); };
-
-
-
 
     function toggleSection(headerElement) {
         const content = headerElement.nextElementSibling;
@@ -400,9 +330,6 @@
             headerElement.style.borderBottom = 'none';
         }
     }
-
-
-
 
     function loadData() {
         const savedSets = localStorage.getItem('hjWordSets_v3');
@@ -421,9 +348,6 @@
         updateSetCount();
     }
 
-
-
-
     function saveData() {
         localStorage.setItem('hjWordSets_v3', JSON.stringify(wordSets));
         localStorage.setItem('hjWrongAnswers_v3', JSON.stringify(wrongAnswers));
@@ -432,22 +356,13 @@
     
     function updateSetCount() { document.getElementById('set-count').innerText = wordSets.length; }
 
-
-
-
     function addWordSetsAuto() {
         const rawText = document.getElementById('bulk-input').value.trim();
         if (!rawText) { alert("데이터를 입력해주세요."); return; }
 
-
-
-
         const lines = rawText.split('\n');
         const tempMap = {}; 
         let successCount = 0;
-
-
-
 
         lines.forEach(line => {
             const parts = line.split('/');
@@ -458,9 +373,6 @@
                 const mean = parts[3].trim();
                 const ex = parts[4] ? parts[4].trim() : "";
                 const exTrans = parts[5] ? parts[5].trim() : "";
-
-
-
 
                 if (dayTitle && word) {
                     if (!tempMap[dayTitle]) tempMap[dayTitle] = [];
@@ -473,16 +385,10 @@
             }
         });
 
-
-
-
         if (successCount === 0) {
             alert("입력 형식이 맞지 않습니다.\n형식: Day/순번/단어/뜻/예문/해석");
             return;
         }
-
-
-
 
         for (const [day, newWords] of Object.entries(tempMap)) {
             const existingIndex = wordSets.findIndex(s => s.title === day);
@@ -494,29 +400,24 @@
         }
         wordSets.sort((a, b) => a.title.localeCompare(b.title, undefined, { numeric: true, sensitivity: 'base' }));
 
-
-
-
         saveData();
         alert(`${successCount}개의 단어가 등록되었습니다.`);
         document.getElementById('bulk-input').value = '';
         if(!document.getElementById('manage-section').classList.contains('hidden')) renderManageList();
     }
 
-
-
-
     function toggleManageList() {
         const section = document.getElementById('manage-section');
         if (section.classList.contains('hidden')) { 
+            hideAllSections();
             section.classList.remove('hidden'); 
             renderManageList(); 
-            section.scrollIntoView({ behavior: 'smooth' });
-        } else { section.classList.add('hidden'); }
+        } else { 
+            section.classList.add('hidden');
+            document.getElementById('main-app-title').classList.remove('hidden');
+            document.getElementById('input-section').classList.remove('hidden');
+        }
     }
-
-
-
 
     function renderManageList() {
         const ul = document.getElementById('manage-list');
@@ -531,23 +432,14 @@
             infoDiv.innerHTML = `<strong style="color:#222;">${set.title}</strong> <span style="font-size:0.9em; color:#888;">(${set.words.length} 단어)</span>`;
             infoDiv.onclick = function() { openSetDetail(set.id); };
 
-
-
-
             const delBtn = document.createElement('button');
             delBtn.className = 'item-action-btn';
             delBtn.innerText = '삭제';
             delBtn.onclick = function(e) { e.stopPropagation(); deleteSet(set.id); };
 
-
-
-
             li.appendChild(infoDiv); li.appendChild(delBtn); ul.appendChild(li);
         });
     }
-
-
-
 
     function deleteSet(id) {
         const set = wordSets.find(s => s.id === id);
@@ -559,9 +451,6 @@
         alert("삭제 완료.");
     }
 
-
-
-
     function openSetDetail(id) {
         editingSetId = id;
         const set = wordSets.find(s => s.id === id);
@@ -572,23 +461,17 @@
         renderSetDetailList(set);
     }
 
-
-
-
     function renderSetDetailList(set) {
         const ul = document.getElementById('set-detail-list');
         ul.innerHTML = '';
         if(set.words.length === 0) { ul.innerHTML = '<li style="color:#888; border:none; justify-content:center;">단어가 없습니다.</li>'; return; }
 
-
-
-
         set.words.forEach((item, index) => {
             const li = document.createElement('li');
             li.innerHTML = `
                 <div style="flex:1; padding-right:10px;">
-                    <div style="font-weight:700; font-size:1.1rem; color:#222;">${item.word}</div>
-                    <div style="color:#666; font-size:0.95rem;">${item.mean}</div>
+                    <div style="font-weight:700; font-size:1rem; color:#222;">${item.word}</div>
+                    <div style="color:#666; font-size:0.9rem;">${item.mean}</div>
                 </div>
                 <div>
                     <button class="item-action-btn" onclick="editWordInSet(${index})">수정</button>
@@ -599,9 +482,6 @@
         });
     }
 
-
-
-
     function editWordInSet(index) {
         const set = wordSets.find(s => s.id === editingSetId);
         if(!set) return;
@@ -610,9 +490,6 @@
         
         const oldStr = `${item.day}/${item.seq}/${item.word}/${item.mean}/${item.ex}/${item.exTrans}`;
         const newStr = prompt("데이터 수정 (Day/순번/단어/뜻/예문/해석)", oldStr);
-
-
-
 
         if (newStr && newStr !== oldStr) {
             const parts = newStr.split('/');
@@ -624,9 +501,6 @@
                 item.mean = parts[3].trim();
                 if(parts[4]) item.ex = parts[4].trim();
                 if(parts[5]) item.exTrans = parts[5].trim();
-
-
-
 
                 if (newDay !== oldDay) {
                     set.words.splice(index, 1);
@@ -649,9 +523,6 @@
         }
     }
 
-
-
-
     function deleteWordInSet(wordIndex) {
         const set = wordSets.find(s => s.id === editingSetId);
         if(!set) return;
@@ -662,18 +533,12 @@
         }
     }
 
-
-
-
     function closeSetDetail() {
         editingSetId = null;
         document.getElementById('set-detail-section').classList.add('hidden');
         document.getElementById('manage-section').classList.remove('hidden');
         renderManageList(); 
     }
-
-
-
 
     function clearAllData() {
         const check = prompt("모든 데이터를 초기화합니다. 계속하려면 '초기화'를 입력하세요.");
@@ -686,13 +551,7 @@
         }
     }
 
-
-
-
     let pendingAction = '';
-
-
-
 
     function openSetSelection(action) {
         if (wordSets.length === 0) { alert("등록된 단어장이 없습니다."); return; }
@@ -709,20 +568,11 @@
         
         let hasVisibleSet = false;
 
-
-
-
         wordSets.forEach(set => {
             const starredCount = set.words.filter(w => w.isStarred).length;
             const totalCount = set.words.length;
 
-
-
-
             if (action === 'flash-star' && starredCount === 0) return;
-
-
-
 
             hasVisibleSet = true;
             const div = document.createElement('div');
@@ -735,36 +585,21 @@
                 labelHtml = `${set.title} (${totalCount} 단어)`;
             }
 
-
-
-
             div.innerHTML = `<input type="checkbox" id="set-${set.id}" value="${set.id}"><label for="set-${set.id}">${labelHtml}</label>`;
             container.appendChild(div);
         });
-
-
-
 
         if (!hasVisibleSet && action === 'flash-star') {
             container.innerHTML = '<div style="padding:15px; text-align:center; color:#888;">즐겨찾기 등록된 단어가 없습니다.</div>';
         }
 
-
-
-
         hideAllSections();
         document.getElementById('selection-section').classList.remove('hidden');
     }
 
-
-
-
     function selectAllSets(isSelected) {
         document.querySelectorAll('#set-selection-container input[type="checkbox"]').forEach(c => c.checked = isSelected);
     }
-
-
-
 
     function closeSelection() {
         document.getElementById('selection-section').classList.add('hidden');
@@ -772,10 +607,8 @@
         document.getElementById('test-menu-section').classList.remove('hidden');
         document.getElementById('view-menu-section').classList.remove('hidden');
         document.getElementById('input-section').classList.remove('hidden');
+        document.getElementById('main-app-title').classList.remove('hidden');
     }
-
-
-
 
     function confirmSelection() {
         const checkboxes = document.querySelectorAll('#set-selection-container input[type="checkbox"]:checked');
@@ -786,9 +619,6 @@
             const set = wordSets.find(s => s.id == chk.value);
             if (set) combinedWords = combinedWords.concat(set.words);
         });
-
-
-
 
         if (combinedWords.length === 0) { alert("선택된 단어장에 단어가 없습니다."); return; }
         
@@ -806,19 +636,14 @@
         else if (pendingAction === 'view-list') showWordList(combinedWords);
     }
 
-
-
-
     function hideAllSections() {
         const ids = ['flashcard-menu-section', 'test-menu-section', 'view-menu-section', 'input-section', 'manage-section', 'set-detail-section', 'selection-section', 'flashcard-section', 'test-section', 'word-list-section'];
         ids.forEach(id => {
             const el = document.getElementById(id);
             if(el) el.classList.add('hidden');
         });
+        document.getElementById('main-app-title').classList.add('hidden');
     }
-
-
-
 
     function showWordList(list) {
         hideAllSections();
@@ -826,30 +651,21 @@
         const listDiv = document.getElementById('word-list-container');
         listDiv.innerHTML = '';
 
-
-
-
         list.forEach(item => {
             const div = document.createElement('div');
             div.className = 'word-list-item';
             div.innerHTML = `
                 <div style="width:100%; display:flex; justify-content:space-between; margin-bottom:5px;">
-                    <div style="font-size:1.15rem; font-weight:700; color:#222;">${item.word}</div>
-                    <div style="font-size:1rem; color:#666;">${item.mean}</div>
+                    <div style="font-size:1.1rem; font-weight:700; color:#222;">${item.word}</div>
+                    <div style="font-size:0.95rem; color:#666;">${item.mean}</div>
                 </div>
-                ${item.ex ? `<div style="width:100%; font-size:0.9rem; background:#f9f9f9; padding:8px 10px; margin-top:5px; border-radius:6px; color:#555;">${item.ex}<br><span style="color:#888;">${item.exTrans || ''}</span></div>` : ''}
+                ${item.ex ? `<div style="width:100%; font-size:0.85rem; background:#f9f9f9; padding:6px 8px; margin-top:3px; border-radius:6px; color:#555;">${item.ex}<br><span style="color:#888;">${item.exTrans || ''}</span></div>` : ''}
             `;
             listDiv.appendChild(div);
         });
 
-
-
-
         container.classList.remove('hidden');
     }
-
-
-
 
     function startFlashcard(list, mode) {
         flashMode = mode;
@@ -871,17 +687,11 @@
             else document.getElementById('flash-mode-badge').innerText = "상세 예문 (순서)";
         }
 
-
-
-
         currentIndex = 0;
         hideAllSections();
         document.getElementById('flashcard-section').classList.remove('hidden');
         loadFlashcard();
     }
-
-
-
 
     function loadFlashcard() {
         flashStep = 0; 
@@ -892,9 +702,6 @@
         const dayTxt = data.day ? data.day : "";
         const seqTxt = data.seq ? `No.${data.seq}` : "";
         metaDiv.innerHTML = `${dayTxt} ${seqTxt}`;
-
-
-
 
         updateStarBtnUI(data.isStarred);
         document.getElementById('flash-content-word-group').classList.remove('hidden');
@@ -909,9 +716,6 @@
         document.getElementById('flash-ex-ko').innerHTML = formatKoreanExample(data.exTrans || "해석 없음", data.mean);
         document.getElementById('flash-ex-ko').classList.add('hidden');
 
-
-
-
         document.getElementById('flash-guide').innerText = "화면을 터치하여 뜻 확인";
         document.getElementById('flash-guide').classList.remove('hidden');
         document.getElementById('flash-action-btn').classList.add('hidden');
@@ -919,14 +723,8 @@
         document.getElementById('flashcard-section').setAttribute('data-word', data.word);
         document.getElementById('flashcard-section').setAttribute('data-ex', data.ex || '');
 
-
-
-
         speak(data.word, 'en', 1.0);
     }
-
-
-
 
     function playAudioText(type, lang, event) {
         event.stopPropagation();
@@ -934,9 +732,6 @@
         const text = type === 'front' ? section.getAttribute('data-word') : section.getAttribute('data-ex');
         if(text) speak(text, lang, 1.0);
     }
-
-
-
 
     function prevFlashcard() {
         if (currentIndex > 0) {
@@ -947,14 +742,8 @@
         }
     }
 
-
-
-
     function handleFlashClick() {
         const data = currentTestList[currentIndex];
-
-
-
 
         if (flashMode.includes('speed')) {
             if (flashStep === 0) {
@@ -988,9 +777,6 @@
         }
     }
 
-
-
-
     function handleNextButton() {
         const data = currentTestList[currentIndex];
         if (flashMode.includes('speed')) {
@@ -1011,9 +797,6 @@
         }
     }
 
-
-
-
     function nextFlashcard() {
         currentIndex++;
         if (currentIndex < currentTestList.length) {
@@ -1023,9 +806,6 @@
             closeSelection();
         }
     }
-
-
-
 
     function formatExample(sentence, word) {
         if (!sentence) return "예문이 없습니다.";
@@ -1037,9 +817,6 @@
         const regex = new RegExp(pattern, 'gi');
         return sentence.replace(regex, '<span class="highlight-word">$&</span>');
     }
-
-
-
 
     function formatKoreanExample(sentence, meanStr) {
         let formatted = sentence;
@@ -1060,9 +837,6 @@
         return formatted.replace(regex, '<span class="highlight-word">$&</span>');
     }
 
-
-
-
     function startTest(list, mode) {
         currentTestMode = mode;
         hideAllSections();
@@ -1077,9 +851,6 @@
         loadQuestion();
     }
 
-
-
-
     function loadQuestion() {
         const data = currentTestList[currentIndex];
         const inputContainer = document.getElementById('test-input-container');
@@ -1087,9 +858,6 @@
         document.getElementById('result-message').className = "result-msg hidden";
         document.getElementById('next-btn').classList.add('hidden');
         document.getElementById('question-title').innerText = `문제 ${currentIndex + 1} / ${currentTestList.length}`;
-
-
-
 
         let displayHtml = "";
         
@@ -1120,9 +888,6 @@
             
             speak("단어를 완성하세요", 'ko');
 
-
-
-
             inputContainer.innerHTML = `
                 <input type="text" id="spelling-input" class="spelling-input" placeholder="정답 입력" autocomplete="off" autocapitalize="off" spellcheck="false">
                 <button onclick="checkAnswer(null, null, null)">정답 확인</button>
@@ -1131,9 +896,6 @@
                 if (event.key === "Enter") checkAnswer(null, null, null);
             });
             setTimeout(() => document.getElementById('spelling-input').focus(), 100);
-
-
-
 
         } else {
             if (data.ex) {
@@ -1144,7 +906,7 @@
                     </div>`;
             } else {
                 displayHtml = `
-                    <div style="font-size:2.2rem; font-weight:700; margin-bottom:20px; color:#222;">
+                    <div style="font-size:2rem; font-weight:700; margin-bottom:15px; color:#222;">
                         <div class="audio-btn-wrapper"><button class="audio-btn" onclick="speak('${data.word.replace(/'/g, "\\'")}', 'en')">단어 듣기</button></div>
                         ${data.word}
                     </div>`;
@@ -1152,18 +914,12 @@
             
             speak(data.ex || data.word, 'en', 1.0);
 
-
-
-
             const allWords = getAllWordsFlat();
             let distractors = allWords.filter(w => w.word !== data.word).sort(() => Math.random() - 0.5).slice(0, 3);
             while(distractors.length < 3) { distractors.push({mean: "오답 (저장된 단어 부족)"}); }
             
             let options = [...distractors, data];
             options.sort(() => Math.random() - 0.5);
-
-
-
 
             options.forEach(opt => {
                 const btn = document.createElement('button');
@@ -1176,16 +932,10 @@
         document.getElementById('question-display').innerHTML = displayHtml;
     }
 
-
-
-
     function checkAnswer(btn, isCorrectChoice, data) {
         const currentData = currentTestList[currentIndex];
         const msgDiv = document.getElementById('result-message');
         let isCorrect = false;
-
-
-
 
         if (currentTestMode === 'spelling') {
             const inputVal = document.getElementById('spelling-input').value.trim().toLowerCase();
@@ -1197,13 +947,7 @@
             btns.forEach(b => b.onclick = null);
         }
 
-
-
-
         msgDiv.classList.remove('hidden');
-
-
-
 
         if (isCorrect) {
             if(btn) btn.classList.add('selected-correct');
@@ -1216,15 +960,12 @@
                  const btns = document.querySelectorAll('.mc-option');
                  btns.forEach(b => { if(b.innerText === currentData.mean) b.classList.add('selected-correct'); });
             }
-            msgDiv.innerHTML = `오답!<br>정답: <span style="font-weight:700;">${currentData.word}</span><br><span style="font-size:0.95rem; font-weight:normal; color:#555;">${currentData.mean}</span>`;
+            msgDiv.innerHTML = `오답!<br>정답: <span style="font-weight:700;">${currentData.word}</span><br><span style="font-size:0.9rem; font-weight:normal; color:#555;">${currentData.mean}</span>`;
             msgDiv.className = "result-msg wrong";
             addToWrong(currentData);
         }
         document.getElementById('next-btn').classList.remove('hidden');
     }
-
-
-
 
     function addToWrong(data) {
         if (!wrongAnswers.some(w => w.word === data.word)) {
@@ -1233,26 +974,17 @@
         }
     }
 
-
-
-
     function nextQuestion() {
         currentIndex++;
         if (currentIndex < currentTestList.length) loadQuestion();
         else { alert("테스트가 끝났습니다."); closeSelection(); }
     }
 
-
-
-
     function getAllWordsFlat() {
         let all = [];
         wordSets.forEach(s => all = all.concat(s.words));
         return all;
     }
-
-
-
 
     function toggleStar(event) {
         event.stopPropagation();
@@ -1270,17 +1002,11 @@
         if(found) { updateStarBtnUI(data.isStarred); saveData(); }
     }
 
-
-
-
     function updateStarBtnUI(isStarred) {
         const btn = document.getElementById('star-btn');
         if (isStarred) { btn.innerText = "★ 즐겨찾기 해제"; btn.classList.add('active'); }
         else { btn.innerText = "☆ 즐겨찾기 등록"; btn.classList.remove('active'); }
     }
-
-
-
 
     function speak(text, lang, speed = 1.0) {
         if (!synth) return;
