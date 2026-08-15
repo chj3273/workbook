@@ -1,1219 +1,1024 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>영단어장</title>
-    <style>
-        * { box-sizing: border-box; font-family: "Apple SD Gothic Neo", "Pretendard", "Malgun Gothic", sans-serif; }
-        body { 
-            margin: 0 auto; 
-            max-width: 640px;
-            padding: 20px 16px; 
-            background-color: #f7f8f9;
-            color: #222;
-            font-size: 16px; line-height: 1.5;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .card { 
-            background: #fff; padding: 0; 
-            border: 1px solid #dcdcdc; margin-bottom: 16px; 
-            border-radius: 12px;
-            overflow: hidden; 
-        }
-        .card:last-child { margin-bottom: 0; }
-        .card-header {
-            padding: 14px 16px; background-color: #fff; color: #222;
-            border-bottom: 1px solid #eee;
-            cursor: pointer; display: flex; justify-content: space-between; align-items: center;
-            user-select: none; 
-        }
-        .card-header h2 { margin: 0; font-size: 1.1rem; font-weight: 700; }
-        .card-header .toggle-icon { font-size: 0.85rem; color: #666; font-weight: 600; }
-        
-        .card-content { padding: 16px; display: flex; flex-direction: column; gap: 10px; }
-        .card-content.collapsed { display: none; }
-
-        textarea {
-            width: 100%; height: 90px; padding: 10px; border: 1px solid #dcdcdc;
-            font-size: 0.95rem; resize: none; background-color: #fff;
-            border-radius: 8px; color: #222;
-        }
-        textarea:focus { outline: none; border-color: #444; }
-
-        button { 
-            width: 100%; height: 46px; 
-            background-color: #fff; color: #222; 
-            border: 1px solid #d0d0d0; font-size: 1rem; font-weight: 600;
-            cursor: pointer; touch-action: manipulation;
-            border-radius: 8px; 
-            display: flex; align-items: center; justify-content: center;
-            transition: all 0.2s;
-        }
-        button:active { background-color: #f0f0f0; border-color: #888; }
-        
-        .hidden { display: none !important; }
-        .margin-top-15 { margin-top: 8px; }
-        
-        .result-msg { text-align: center; margin-top: 8px; font-size: 1.05rem; padding: 10px; border: 1px solid #ccc; font-weight: 600; border-radius: 8px; }
-        .correct { background-color: #fff; color: #222; border-color: #222; }
-        .wrong { background-color: #f2f2f2; color: #444; border-color: #bbb; }
-        
-        .set-selection-list { text-align: left; max-height: 50vh; overflow-y: auto; border: 1px solid #eee; padding: 8px; border-radius: 8px; background: #fff; }
-        .set-item { display: flex; align-items: center; padding: 12px 8px; border-bottom: 1px solid #f5f5f5; }
-        .set-item:last-child { border-bottom: none; }
-        .set-item label { flex: 1; font-size: 1rem; margin-left: 10px; cursor: pointer; color: #333; }
-
-        .flashcard-box {
-            position: relative; border: 1px solid #dcdcdc; padding: 20px 16px;
-            text-align: center; margin: 8px 0; background-color: #fff; cursor: pointer;
-            height: 52vh; min-height: 340px; max-height: 460px;
-            border-radius: 12px; 
-            display: flex; flex-direction: column;
-            justify-content: center; align-items: center;
-        }
-        
-        .flash-meta {
-            position: absolute; top: 14px; left: 16px; text-align: left;
-            color: #666; font-size: 0.85rem; font-weight: 600;
-        }
-
-        .flash-text-main { font-size: 2.3rem; font-weight: 700; color: #222; margin-bottom: 8px; word-break: keep-all; line-height: 1.2; }
-        .flash-text-sub { font-size: 1.35rem; color: #444; margin-top: 8px; font-weight: 600; word-break: keep-all; }
-        
-        .flash-example { 
-            font-size: 1.05rem; color: #333; margin-top: 10px; 
-            padding: 12px; border: 1px solid #eee; width: 100%; word-break: keep-all; 
-            border-radius: 8px; background: #fff;
-        }
-        .flash-ex-ko { background: #f5f5f7; border-color: #e5e5e5; }
-        
-        .flash-guide { font-size: 0.85rem; color: #888; margin-top: 16px; }
-
-        .audio-btn-wrapper { text-align: center; margin-bottom: 6px; }
-        .audio-btn {
-            background: #fff; color: #444; border: 1px solid #ccc; cursor: pointer; 
-            font-size: 0.8rem; height: auto; padding: 4px 12px; font-weight: 600; 
-            border-radius: 20px; display: inline-flex; width: auto;
-        }
-        .audio-btn:active { background: #eee; }
-        
-        .top-ctrl-container {
-            position: absolute; top: 12px; right: 16px;
-            display: flex; gap: 6px; z-index: 10;
-        }
-        .top-ctrl-btn {
-            font-size: 0.8rem; background: #fff; border: 1px solid #ccc; cursor: pointer; color: #666;
-            height: auto; padding: 5px 12px; width: auto; font-weight: 600;
-            border-radius: 20px; white-space: nowrap;
-        }
-        .top-ctrl-btn.active { background: #222; color: #fff; border-color: #222; }
-
-        .mc-option {
-            background: #fff; border: 1px solid #d0d0d0; padding: 0 15px; margin-bottom: 6px;
-            font-size: 1rem; font-weight: 500; cursor: pointer; text-align: left; color: #222; 
-            width: 100%; border-radius: 8px; height: 46px; 
-            display: flex; align-items: center; justify-content: flex-start;
-        }
-        .mc-option.selected-correct { border: 2px solid #222; font-weight: 700; background-color: #fcfcfc; }
-        .mc-option.selected-wrong { background-color: #f2f2f2; color: #888; text-decoration: line-through; border-color: #ddd; }
-
-        .spelling-input {
-            width: 100%; height: 46px; padding: 0 15px; font-size: 1.2rem; text-align: center; font-weight: 600;
-            border: 1px solid #aaa; margin-bottom: 8px; background: #fff; color: #222;
-            border-radius: 8px;
-        }
-
-        ul { padding-left: 0; list-style: none; margin: 0; }
-        #manage-list li, #set-detail-list li { 
-            border-bottom: 1px solid #eee; padding: 12px 0; display: flex; 
-            justify-content: space-between; align-items: center; background: #fff;
-        }
-        
-        .item-action-btn {
-            background-color: #fff; color: #444; border: 1px solid #ccc; padding: 0 10px;
-            height: 30px; font-size: 0.8rem; font-weight: 600; margin-left: 5px; width: auto; 
-            border-radius: 6px;
-        }
-        
-        .scroll-list { max-height: 62vh; overflow-y: auto; padding: 4px; }
-        #word-list-container { max-height: 65vh; padding: 8px; }
-        
-        .word-list-item {
-            border-bottom: 1px solid #eee;
-            padding: 6px 0;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: #fff;
-        }
-        .word-list-item:last-child { border-bottom: none; }
-        
-        .word-tap-box {
-            flex: 1;
-            min-height: 54px;
-            padding: 12px 14px;
-            border-radius: 8px;
-            border: 1px solid #e2e4e8;
-            background-color: #fafafa;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            user-select: none;
-            transition: background-color 0.15s, border-color 0.15s;
-        }
-        .word-tap-box:active { background-color: #eee; }
-        .word-tap-box.en { font-weight: 700; color: #222; font-size: 1.05rem; }
-        .word-tap-box.ko { font-weight: 500; color: #444; font-size: 1rem; }
-        
-        .masked-text { 
-            background-color: #e2e4e8 !important; 
-            color: transparent !important; 
-            border-color: #d1d5db !important;
-            border-radius: 8px;
-        }
-
-        .badge { display: inline-block; padding: 4px 12px; background: #fff; border: 1px solid #222; color: #222; font-weight: 600; font-size: 0.8rem; margin-bottom: 8px; border-radius: 20px; }
-        
-        .flex-row { display: flex; gap: 8px; width: 100%; }
-        .flex-row button { flex: 1; }
-
-        /* 매칭 게임 스타일 */
-        .game-grid {
-            display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin: 10px 0;
-        }
-        .game-card {
-            background: #fff; border: 1px solid #d0d0d0; border-radius: 8px; min-height: 68px;
-            display: flex; align-items: center; justify-content: center; text-align: center;
-            font-size: 0.95rem; font-weight: 600; cursor: pointer; padding: 8px 10px;
-            user-select: none; word-break: keep-all; transition: all 0.15s;
-        }
-        .game-card.selected { border: 2px solid #000; background: #f0f0f0; }
-        .game-card.matched { visibility: hidden; opacity: 0; pointer-events: none; }
-
-        .filter-bar { display: flex; gap: 6px; margin-bottom: 10px; }
-        .filter-btn { flex: 1; height: 38px; font-size: 0.85rem; border: 1px solid #ccc; background: #fff; border-radius: 6px; cursor: pointer; font-weight: 600; }
-        .filter-btn.active { background: #222; color: #fff; border-color: #222; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>영단어장</title>
+<style>
+* { box-sizing: border-box; font-family: "Apple SD Gothic Neo", "Pretendard", "Malgun Gothic", sans-serif; }
+body {
+margin: 0 auto;
+max-width: 640px;
+padding: 20px 16px;
+background-color: #f7f8f9;
+color: #222;
+font-size: 16px; line-height: 1.5;
+min-height: 100vh;
+display: flex;
+flex-direction: column;
+}
+.card {
+background: #fff; padding: 0;
+border: 1px solid #dcdcdc; margin-bottom: 16px;
+border-radius: 12px;
+overflow: hidden;
+}
+.card:last-child { margin-bottom: 0; }
+.card-header {
+padding: 14px 16px; background-color: #fff; color: #222;
+border-bottom: 1px solid #eee;
+cursor: pointer; display: flex; justify-content: space-between; align-items: center;
+user-select: none;
+}
+.card-header h2 { margin: 0; font-size: 1.1rem; font-weight: 700; }
+.card-header .toggle-icon { font-size: 0.85rem; color: #666; font-weight: 600; }
+.card-content { padding: 16px; display: flex; flex-direction: column; gap: 10px; }
+.card-content.collapsed { display: none; }
+textarea {
+width: 100%; height: 90px; padding: 10px; border: 1px solid #dcdcdc;
+font-size: 0.95rem; resize: none; background-color: #fff;
+border-radius: 8px; color: #222;
+}
+textarea:focus { outline: none; border-color: #444; }
+button {
+width: 100%; height: 46px;
+background-color: #fff; color: #222;
+border: 1px solid #d0d0d0; font-size: 1rem; font-weight: 600;
+cursor: pointer; touch-action: manipulation;
+border-radius: 8px;
+display: flex; align-items: center; justify-content: center;
+transition: all 0.2s;
+}
+button:active { background-color: #f0f0f0; border-color: #888; }
+.hidden { display: none !important; }
+.margin-top-15 { margin-top: 8px; }
+.result-msg { text-align: center; margin-top: 8px; font-size: 1.05rem; padding: 10px; border: 1px solid #ccc; font-weight: 600; border-radius: 8px; }
+.correct { background-color: #fff; color: #222; border-color: #222; }
+.wrong { background-color: #f2f2f2; color: #444; border-color: #bbb; }
+.set-selection-list { text-align: left; max-height: 50vh; overflow-y: auto; border: 1px solid #eee; padding: 8px; border-radius: 8px; background: #fff; }
+.set-item { display: flex; align-items: center; padding: 12px 8px; border-bottom: 1px solid #f5f5f5; }
+.set-item:last-child { border-bottom: none; }
+.set-item label { flex: 1; font-size: 1rem; margin-left: 10px; cursor: pointer; color: #333; }
+.flashcard-box {
+position: relative; border: 1px solid #dcdcdc; padding: 20px 16px;
+text-align: center; margin: 8px 0; background-color: #fff; cursor: pointer;
+height: 52vh; min-height: 340px; max-height: 460px;
+border-radius: 12px;
+display: flex; flex-direction: column;
+justify-content: center; align-items: center;
+}
+.flash-meta {
+position: absolute; top: 14px; left: 16px; text-align: left;
+color: #666; font-size: 0.85rem; font-weight: 600;
+}
+.flash-text-main { font-size: 2.3rem; font-weight: 700; color: #222; margin-bottom: 8px; word-break: keep-all; line-height: 1.2; }
+.flash-text-sub { font-size: 1.35rem; color: #444; margin-top: 8px; font-weight: 600; word-break: keep-all; }
+.flash-example {
+font-size: 1.05rem; color: #333; margin-top: 10px;
+padding: 12px; border: 1px solid #eee; width: 100%; word-break: keep-all;
+border-radius: 8px; background: #fff;
+}
+.flash-ex-ko { background: #f5f5f7; border-color: #e5e5e5; }
+.flash-guide { font-size: 0.85rem; color: #888; margin-top: 16px; }
+.audio-btn-wrapper { text-align: center; margin-bottom: 6px; }
+.audio-btn {
+background: #fff; color: #444; border: 1px solid #ccc; cursor: pointer;
+font-size: 0.8rem; height: auto; padding: 4px 12px; font-weight: 600;
+border-radius: 20px; display: inline-flex; width: auto;
+}
+.audio-btn:active { background: #eee; }
+.top-ctrl-container {
+position: absolute; top: 12px; right: 16px;
+display: flex; gap: 6px; z-index: 10;
+}
+.top-ctrl-btn {
+font-size: 0.8rem; background: #fff; border: 1px solid #ccc; cursor: pointer; color: #666;
+height: auto; padding: 5px 12px; width: auto; font-weight: 600;
+border-radius: 20px; white-space: nowrap;
+}
+.top-ctrl-btn.active { background: #222; color: #fff; border-color: #222; }
+.mc-option {
+background: #fff; border: 1px solid #d0d0d0; padding: 0 15px; margin-bottom: 6px;
+font-size: 1rem; font-weight: 500; cursor: pointer; text-align: left; color: #222;
+width: 100%; border-radius: 8px; height: 46px;
+display: flex; align-items: center; justify-content: flex-start;
+}
+.mc-option.selected-correct { border: 2px solid #222; font-weight: 700; background-color: #fcfcfc; }
+.mc-option.selected-wrong { background-color: #f2f2f2; color: #888; text-decoration: line-through; border-color: #ddd; }
+.spelling-input {
+width: 100%; height: 46px; padding: 0 15px; font-size: 1.2rem; text-align: center; font-weight: 600;
+border: 1px solid #aaa; margin-bottom: 8px; background: #fff; color: #222;
+border-radius: 8px;
+}
+ul { padding-left: 0; list-style: none; margin: 0; }
+#manage-list li, #set-detail-list li {
+border-bottom: 1px solid #eee; padding: 12px 0; display: flex;
+justify-content: space-between; align-items: center; background: #fff;
+}
+.item-action-btn {
+background-color: #fff; color: #444; border: 1px solid #ccc; padding: 0 10px;
+height: 30px; font-size: 0.8rem; font-weight: 600; margin-left: 5px; width: auto;
+border-radius: 6px;
+}
+.scroll-list { max-height: 62vh; overflow-y: auto; padding: 4px; }
+#word-list-container { max-height: 65vh; padding: 8px; }
+.word-list-item {
+border-bottom: 1px solid #eee;
+padding: 6px 0;
+display: flex;
+align-items: stretch;
+gap: 8px;
+background: #fff;
+}
+.word-list-item:last-child { border-bottom: none; }
+.word-tap-box {
+flex: 1;
+min-height: 54px;
+padding: 12px 14px;
+border-radius: 8px;
+border: 1px solid #e2e4e8;
+background-color: #fafafa;
+cursor: pointer;
+display: flex;
+align-items: center;
+justify-content: flex-start;
+user-select: none;
+transition: background-color 0.15s, border-color 0.15s;
+}
+.word-tap-box:active { background-color: #eee; }
+.word-tap-box.en { font-weight: 700; color: #222; font-size: 1.05rem; }
+.word-tap-box.ko { font-weight: 500; color: #444; font-size: 1rem; }
+.masked-text {
+background-color: #e2e4e8 !important;
+color: transparent !important;
+border-color: #d1d5db !important;
+border-radius: 8px;
+}
+.badge { display: inline-block; padding: 4px 12px; background: #fff; border: 1px solid #222; color: #222; font-weight: 600; font-size: 0.8rem; margin-bottom: 8px; border-radius: 20px; }
+.flex-row { display: flex; gap: 8px; width: 100%; }
+.flex-row button { flex: 1; }
+.game-grid {
+display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin: 10px 0;
+}
+.game-card {
+background: #fff; border: 1px solid #d0d0d0; border-radius: 8px; min-height: 68px;
+display: flex; align-items: center; justify-content: center; text-align: center;
+font-size: 0.95rem; font-weight: 600; cursor: pointer; padding: 8px 10px;
+user-select: none; word-break: keep-all; transition: all 0.15s;
+}
+.game-card.selected { border: 2px solid #000; background: #f0f0f0; }
+.game-card.matched { visibility: hidden; opacity: 0; pointer-events: none; }
+.filter-bar { display: flex; gap: 6px; margin-bottom: 10px; }
+.filter-btn { flex: 1; height: 38px; font-size: 0.85rem; border: 1px solid #ccc; background: #fff; border-radius: 6px; cursor: pointer; font-weight: 600; }
+.filter-btn.active { background: #222; color: #fff; border-color: #222; }
+</style>
 </head>
 <body>
+<div class="card" id="step-learning-section">
+<div class="card-header" onclick="toggleSection(this)">
+<h2>3단계 단어 학습</h2>
+<span class="toggle-icon">[접기]</span>
+</div>
+<div class="card-content">
+<button onclick="openSetSelection('step1-memorize')">1단계 암기 학습</button>
+<button onclick="openSetSelection('step2-recall')">2단계 리콜 학습</button>
+<button onclick="openSetSelection('step3-spell')">3단계 스펠 학습</button>
+</div>
+</div>
+<div class="card" id="test-menu-section">
+<div class="card-header" onclick="toggleSection(this)">
+<h2>실전 연습</h2>
+<span class="toggle-icon">[접기]</span>
+</div>
+<div class="card-content">
+<button onclick="openSetSelection('game-match')" style="border: 1px solid #222; font-weight: 700;">스피드 매칭 게임</button>
+<button onclick="openSetSelection('flash-deep')">상세 예문 학습</button>
+<button onclick="openSetSelection('flash-star')" style="border: 1px solid #888;">즐겨찾기 단어 복습</button>
+<button onclick="openSetSelection('wrong-drill-choice')">틀린 오답 단어 다시 풀기</button>
+</div>
+</div>
+<div class="card" id="view-menu-section">
+<div class="card-header" onclick="toggleSection(this)">
+<h2>단어장</h2>
+<span class="toggle-icon">[접기]</span>
+</div>
+<div class="card-content">
+<button onclick="openSetSelection('view-list')">단어 목록 열람하기</button>
+</div>
+</div>
+<div class="card" id="input-section">
+<div class="card-header collapsed" onclick="toggleSection(this)">
+<h2>데이터 관리</h2>
+<span class="toggle-icon">[열기]</span>
+</div>
+<div class="card-content collapsed">
+<div style="font-size: 0.85rem; color: #555;">
+형식: Day/순번/단어/뜻/예문/해석
 
-    <div class="card" id="step-learning-section">
-        <div class="card-header" onclick="toggleSection(this)">
-            <h2>3단계 단어 학습</h2>
-            <span class="toggle-icon">[접기]</span>
-        </div>
-        <div class="card-content">
-            <button onclick="openSetSelection('step1-memorize')">1단계 암기 학습</button>
-            <button onclick="openSetSelection('step2-recall')">2단계 리콜 학습</button>
-            <button onclick="openSetSelection('step3-spell')">3단계 스펠 학습</button>
-        </div>
-    </div>
-
-    <div class="card" id="test-menu-section">
-        <div class="card-header" onclick="toggleSection(this)">
-            <h2>실전 연습</h2>
-            <span class="toggle-icon">[접기]</span>
-        </div>
-        <div class="card-content">
-            <button onclick="openSetSelection('game-match')" style="border: 1px solid #222; font-weight: 700;">스피드 매칭 게임</button>
-            <button onclick="openSetSelection('flash-deep')">상세 예문 학습</button>
-            <button onclick="openSetSelection('flash-star')" style="border: 1px dashed #888;">즐겨찾기 단어 복습</button>
-            <button onclick="openSetSelection('wrong-drill-choice')">틀린 오답 단어 다시 풀기</button>
-        </div>
-    </div>
-
-    <div class="card" id="view-menu-section">
-        <div class="card-header" onclick="toggleSection(this)">
-            <h2>단어장</h2>
-            <span class="toggle-icon">[접기]</span>
-        </div>
-        <div class="card-content">
-            <button onclick="openSetSelection('view-list')">단어 목록 열람하기</button>
-        </div>
-    </div>
-
-    <div class="card" id="input-section">
-        <div class="card-header collapsed" onclick="toggleSection(this)">
-            <h2>데이터 관리</h2>
-            <span class="toggle-icon">[열기]</span>
-        </div>
-        <div class="card-content collapsed">
-            <div style="font-size: 0.85rem; color: #555;">
-                형식: Day/순번/단어/뜻/예문/해석<br>
-                예시: Day 01/1/apple/사과/I ate an apple./나는 사과를 먹었다.
-            </div>
-            <textarea id="bulk-input" placeholder="여기에 데이터를 붙여넣으세요..."></textarea>
-            <button onclick="addWordSetsAuto()">단어 등록하기</button>
-            
-            <div style="margin-top:6px; text-align: right; color: #555; font-size: 0.9rem;">저장된 단어장: <strong id="set-count">0</strong>개</div>
-            <button onclick="toggleManageList()">단어장 목록 편집 / 삭제</button>
-            <button onclick="backupData()">데이터 백업 (파일 저장)</button>
-            <button onclick="triggerRestore()">데이터 복구 (파일 불러오기)</button>
-            <input type="file" id="restore-input" style="display: none;" accept=".json" onchange="restoreData(this)">
-            <button class="margin-top-15" onclick="clearAllData()">전체 데이터 초기화</button>
-        </div>
-    </div>
-
-    <div class="card hidden" id="manage-section">
-        <div class="card-content">
-            <h2 style="margin:0 0 8px 0; font-size:1.1rem;">목록 편집</h2>
-            <div class="scroll-list"><ul id="manage-list"></ul></div>
-            <button class="margin-top-15" onclick="toggleManageList()">닫기</button>
-        </div>
-    </div>
-
-    <div class="card hidden" id="set-detail-section">
-        <div class="card-content">
-            <h2 id="detail-set-title" style="margin:0 0 8px 0; font-size:1.1rem;">상세 편집</h2>
-            <div class="scroll-list"><ul id="set-detail-list"></ul></div>
-            <button class="margin-top-15" onclick="closeSetDetail()">뒤로 가기</button>
-        </div>
-    </div>
-
-    <div class="card hidden" id="selection-section">
-        <div class="card-content">
-            <h2 style="margin:0 0 8px 0; font-size:1.1rem;">학습할 단어장 선택</h2>
-            <div class="flex-row" style="margin-bottom: 8px;">
-                <button onclick="selectAllSets(true)">전체 선택</button>
-                <button onclick="selectAllSets(false)">선택 해제</button>
-            </div>
-            <div class="set-selection-list" id="set-selection-container"></div>
-            <button onclick="confirmSelection()">시작하기</button>
-            <button class="margin-top-15" onclick="closeSelection()">취소</button>
-        </div>
-    </div>
-
-    <div class="card hidden" id="word-list-section">
-        <div class="card-content">
-            <h2 style="margin:0 0 6px 0; font-size:1.1rem;">단어 목록</h2>
-            <div class="filter-bar">
-                <button class="filter-btn active" id="filter-all" onclick="setWordListFilter('all')">전체 보기</button>
-                <button class="filter-btn" id="filter-en" onclick="setWordListFilter('hide-en')">단어 가리기</button>
-                <button class="filter-btn" id="filter-ko" onclick="setWordListFilter('hide-ko')">뜻 가리기</button>
-            </div>
-            <div class="scroll-list" id="word-list-container" style="border: 1px solid #eee; border-radius: 8px;"></div>
-            <button class="margin-top-15" onclick="location.reload()">메인으로 돌아가기</button>
-        </div>
-    </div>
-
-    <div class="card hidden" id="flashcard-section">
-        <div class="card-content">
-            <div style="text-align:center;"><span id="flash-mode-badge" class="badge">모드</span></div>
-            <div id="flash-progress" style="text-align:center; font-size: 0.95rem; color: #555;">1 / 10</div>
-            
-            <div class="flashcard-box" onclick="handleFlashClick()">
-                <div id="flash-meta-info" class="flash-meta"></div>
-                
-                <div class="top-ctrl-container">
-                    <button id="autoplay-btn" class="top-ctrl-btn" onclick="toggleAutoplay(event)">자동재생</button>
-                    <button id="star-btn" class="top-ctrl-btn" onclick="toggleStar(event)">즐겨찾기</button>
-                </div>
-                
-                <div id="flash-content-word-group" style="width:100%;">
-                    <div class="audio-btn-wrapper"><button class="audio-btn" onclick="playAudioText('front', 'en', event)">발음 듣기</button></div>
-                    <div id="flash-front" class="flash-text-main">Word</div>
-                    <div id="flash-back" class="flash-text-sub hidden">Meaning</div>
-                </div>
-
-                <div id="flash-content-ex-group" class="hidden" style="width:100%;">
-                    <div class="audio-btn-wrapper"><button class="audio-btn" onclick="playAudioText('ex-en', 'en', event)">예문 듣기</button></div>
-                    <div id="flash-ex-en" class="flash-example">Example</div>
-                    <div id="flash-ex-ko" class="flash-example flash-ex-ko hidden">Translation</div>
-                </div>
-
-                <div id="flash-guide" class="flash-guide">화면을 터치하세요</div>
-            </div>
-            
-            <div class="flex-row margin-top-15">
-                <button onclick="prevFlashcard()">이전</button>
-                <button onclick="handleNextButton()" id="flash-action-btn" class="hidden">다음</button>
-            </div>
-            
-            <button class="margin-top-15" onclick="exitFlashcard()">종료하기</button>
-        </div>
-    </div>
-
-    <div class="card hidden" id="test-section">
-        <div class="card-content">
-            <div style="text-align:center;"><span id="test-type-badge" class="badge">테스트</span></div>
-            <div id="question-title" style="text-align:center; font-size: 0.95rem; color: #555;">문제</div>
-            
-            <div style="text-align: center; margin: 6px 0;">
-                <div id="question-display" style="width:100%;"></div>
-            </div>
-
-            <div id="test-input-container"></div>
-            <div id="result-message" class="result-msg hidden"></div>
-            
-            <button onclick="nextQuestion()" id="next-btn" class="hidden margin-top-15">다음 문제</button>
-            <button class="margin-top-15" onclick="location.reload()">종료하기</button>
-        </div>
-    </div>
-
-    <div class="card hidden" id="game-section">
-        <div class="card-content">
-            <div style="text-align:center;"><span class="badge">매칭 게임</span></div>
-            <div style="display:flex; justify-content:space-between; font-weight:700; padding:0 4px; font-size:0.95rem;">
-                <div>경과 시간: <span id="game-timer">0.0</span>초</div>
-                <div>남은 쌍: <span id="game-pairs">0</span></div>
-            </div>
-            <div id="game-grid-container" class="game-grid"></div>
-            <button class="margin-top-15" onclick="location.reload()">게임 종료</button>
-        </div>
-    </div>
-
-    <div class="card hidden" id="report-section">
-        <div class="card-content" style="text-align:center;">
-            <h2 style="margin: 8px 0 4px 0;">학습 완료!</h2>
-            <div id="report-summary" style="font-size:1.1rem; font-weight:600; margin-bottom:12px;"></div>
-            <div class="scroll-list" id="report-wrong-list" style="text-align:left; border: 1px solid #eee; border-radius: 8px; padding: 4px 8px; margin-bottom: 8px;"></div>
-            <button onclick="location.reload()">메인으로 돌아가기</button>
-        </div>
-    </div>
-
+예시: Day 01/1/apple/사과/I ate an apple./나는 사과를 먹었다.
+</div>
+<textarea id="bulk-input" placeholder="여기에 데이터를 붙여넣으세요..."></textarea>
+<button onclick="addWordSetsAuto()">단어 등록하기</button>
+<div style="margin-top:6px; text-align: right; color: #555; font-size: 0.9rem;">저장된 단어장: <strong id="set-count">0</strong>개</div>
+<button onclick="toggleManageList()">단어장 목록 편집 / 삭제</button>
+<button onclick="backupData()">데이터 백업 (파일 저장)</button>
+<button onclick="triggerRestore()">데이터 복구 (파일 불러오기)</button>
+<input type="file" id="restore-input" style="display: none;" accept=".json" onchange="restoreData(this)">
+<button class="margin-top-15" onclick="clearAllData()">전체 데이터 초기화</button>
+</div>
+</div>
+<div class="card hidden" id="manage-section">
+<div class="card-content">
+<h2 style="margin:0 0 8px 0; font-size:1.1rem;">목록 편집</h2>
+<div class="scroll-list"><ul id="manage-list"></ul></div>
+<button class="margin-top-15" onclick="toggleManageList()">닫기</button>
+</div>
+</div>
+<div class="card hidden" id="set-detail-section">
+<div class="card-content">
+<h2 id="detail-set-title" style="margin:0 0 8px 0; font-size:1.1rem;">상세 편집</h2>
+<div class="scroll-list"><ul id="set-detail-list"></ul></div>
+<button class="margin-top-15" onclick="closeSetDetail()">뒤로 가기</button>
+</div>
+</div>
+<div class="card hidden" id="selection-section">
+<div class="card-content">
+<h2 style="margin:0 0 8px 0; font-size:1.1rem;">학습할 단어장 선택</h2>
+<div class="flex-row" style="margin-bottom: 8px;">
+<button onclick="selectAllSets(true)">전체 선택</button>
+<button onclick="selectAllSets(false)">선택 해제</button>
+</div>
+<div class="set-selection-list" id="set-selection-container"></div>
+<button onclick="confirmSelection()">시작하기</button>
+<button class="margin-top-15" onclick="closeSelection()">취소</button>
+</div>
+</div>
+<div class="card hidden" id="word-list-section">
+<div class="card-content">
+<h2 style="margin:0 0 6px 0; font-size:1.1rem;">단어 목록</h2>
+<div class="filter-bar">
+<button class="filter-btn active" id="filter-all" onclick="setWordListFilter('all')">전체 보기</button>
+<button class="filter-btn" id="filter-en" onclick="setWordListFilter('hide-en')">단어 가리기</button>
+<button class="filter-btn" id="filter-ko" onclick="setWordListFilter('hide-ko')">뜻 가리기</button>
+</div>
+<div class="scroll-list" id="word-list-container" style="border: 1px solid #eee; border-radius: 8px;"></div>
+<button class="margin-top-15" onclick="location.reload()">메인으로 돌아가기</button>
+</div>
+</div>
+<div class="card hidden" id="flashcard-section">
+<div class="card-content">
+<div style="text-align:center;"><span id="flash-mode-badge" class="badge">모드</span></div>
+<div id="flash-progress" style="text-align:center; font-size: 0.95rem; color: #555;">1 / 10</div>
+<div class="flashcard-box" onclick="handleFlashClick()">
+<div id="flash-meta-info" class="flash-meta"></div>
+<div class="top-ctrl-container">
+<button id="autoplay-btn" class="top-ctrl-btn" onclick="toggleAutoplay(event)">자동재생</button>
+<button id="star-btn" class="top-ctrl-btn" onclick="toggleStar(event)">즐겨찾기</button>
+</div>
+<div id="flash-content-word-group" style="width:100%;">
+<div class="audio-btn-wrapper"><button class="audio-btn" onclick="playAudioText('front', 'en', event)">발음 듣기</button></div>
+<div id="flash-front" class="flash-text-main">Word</div>
+<div id="flash-back" class="flash-text-sub hidden">Meaning</div>
+</div>
+<div id="flash-content-ex-group" class="hidden" style="width:100%;">
+<div class="audio-btn-wrapper"><button class="audio-btn" onclick="playAudioText('ex-en', 'en', event)">예문 듣기</button></div>
+<div id="flash-ex-en" class="flash-example">Example</div>
+<div id="flash-ex-ko" class="flash-example flash-ex-ko hidden">Translation</div>
+</div>
+<div id="flash-guide" class="flash-guide">화면을 터치하세요</div>
+</div>
+<div class="flex-row margin-top-15">
+<button onclick="prevFlashcard()">이전</button>
+<button onclick="handleNextButton()" id="flash-action-btn" class="hidden">다음</button>
+</div>
+<button class="margin-top-15" onclick="exitFlashcard()">종료하기</button>
+</div>
+</div>
+<div class="card hidden" id="test-section">
+<div class="card-content">
+<div style="text-align:center;"><span id="test-type-badge" class="badge">테스트</span></div>
+<div id="question-title" style="text-align:center; font-size: 0.95rem; color: #555;">문제</div>
+<div style="text-align: center; margin: 6px 0;">
+<div id="question-display" style="width:100%;"></div>
+</div>
+<div id="test-input-container"></div>
+<div id="result-message" class="result-msg hidden"></div>
+<button onclick="nextQuestion()" id="next-btn" class="hidden margin-top-15">다음 문제</button>
+<button class="margin-top-15" onclick="location.reload()">종료하기</button>
+</div>
+</div>
+<div class="card hidden" id="game-section">
+<div class="card-content">
+<div style="text-align:center;"><span class="badge">매칭 게임</span></div>
+<div style="display:flex; justify-content:space-between; font-weight:700; padding:0 4px; font-size:0.95rem;">
+<div>경과 시간: <span id="game-timer">0.0</span>초</div>
+<div>남은 쌍: <span id="game-pairs">0</span></div>
+</div>
+<div id="game-grid-container" class="game-grid"></div>
+<button class="margin-top-15" onclick="location.reload()">게임 종료</button>
+</div>
+</div>
+<div class="card hidden" id="report-section">
+<div class="card-content" style="text-align:center;">
+<h2 style="margin: 8px 0 4px 0;">학습 완료!</h2>
+<div id="report-summary" style="font-size:1.1rem; font-weight:600; margin-bottom:12px;"></div>
+<div class="scroll-list" id="report-wrong-list" style="text-align:left; border: 1px solid #eee; border-radius: 8px; padding: 4px 8px; margin-bottom: 8px;"></div>
+<button onclick="location.reload()">메인으로 돌아가기</button>
+</div>
+</div>
 <script>
-    let wordSets = []; 
-    let wrongAnswers = []; 
-    let currentTestList = [];
-    let currentIndex = 0;
-    
-    let flashMode = ''; 
-    let flashStep = 0; 
-    let currentTestMode = ''; 
-    
-    let editingSetId = null; 
-    let synth = window.speechSynthesis;
-
-    let autoplayTimeout = null;
-    let isAutoplay = false;
-    let gameTimerInterval = null;
-    let gameStartTime = 0;
-    let selectedGameCards = [];
-    let matchedPairsCount = 0;
-    let totalPairs = 0;
-
-    let sessionCorrectCount = 0;
-    let sessionWrongWords = [];
-
-    window.onload = function() { loadData(); };
-
-    function speak(text, lang = 'en', rate = 1.0) {
-        if (!synth || !text) return;
-        synth.cancel();
-        const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = (lang === 'en') ? 'en-US' : 'ko-KR';
-        utterance.rate = rate;
-        synth.speak(utterance);
-    }
-
-    function toggleSection(headerElement) {
-        const content = headerElement.nextElementSibling;
-        const icon = headerElement.querySelector('.toggle-icon');
-        if (content.classList.contains('collapsed')) {
-            content.classList.remove('collapsed');
-            icon.innerText = '[접기]';
-            headerElement.style.borderBottom = '1px solid #eee';
-        } else {
-            content.classList.add('collapsed');
-            icon.innerText = '[열기]';
-            headerElement.style.borderBottom = 'none';
-        }
-    }
-
-    function loadData() {
-        const savedSets = localStorage.getItem('hjWordSets_v3');
-        const savedWrong = localStorage.getItem('hjWrongAnswers_v3');
-        if (savedSets) wordSets = JSON.parse(savedSets);
-        if (savedWrong) wrongAnswers = JSON.parse(savedWrong);
-        updateSetCount();
-    }
-
-    function saveData() {
-        localStorage.setItem('hjWordSets_v3', JSON.stringify(wordSets));
-        localStorage.setItem('hjWrongAnswers_v3', JSON.stringify(wrongAnswers));
-        updateSetCount();
-    }
-    
-    function updateSetCount() { document.getElementById('set-count').innerText = wordSets.length; }
-
-    function addWordSetsAuto() {
-        const rawText = document.getElementById('bulk-input').value.trim();
-        if (!rawText) { alert("데이터를 입력해주세요."); return; }
-
-        const lines = rawText.split('\n');
-        const tempMap = {}; 
-        let successCount = 0;
-
-        lines.forEach(line => {
-            const parts = line.split('/');
-            if (parts.length >= 4) {
-                const dayTitle = parts[0].trim();
-                const seq = parts[1].trim(); 
-                const word = parts[2].trim();
-                const mean = parts[3].trim();
-                const ex = parts[4] ? parts[4].trim() : "";
-                const exTrans = parts[5] ? parts[5].trim() : "";
-
-                if (dayTitle && word) {
-                    if (!tempMap[dayTitle]) tempMap[dayTitle] = [];
-                    tempMap[dayTitle].push({ 
-                        word: word, mean: mean, ex: ex, exTrans: exTrans,
-                        day: dayTitle, seq: seq, isStarred: false 
-                    });
-                    successCount++;
-                }
-            }
-        });
-
-        if (successCount === 0) {
-            alert("입력 형식이 맞지 않습니다.\n형식: Day/순번/단어/뜻/예문/해석");
-            return;
-        }
-
-        for (const [day, newWords] of Object.entries(tempMap)) {
-            const existingIndex = wordSets.findIndex(s => s.title === day);
-            if (existingIndex > -1) {
-                wordSets[existingIndex].words = wordSets[existingIndex].words.concat(newWords);
-            } else {
-                wordSets.push({ id: Date.now() + Math.random(), title: day, words: newWords });
-            }
-        }
-        wordSets.sort((a, b) => a.title.localeCompare(b.title, undefined, { numeric: true, sensitivity: 'base' }));
-
-        saveData();
-        alert(`${successCount}개의 단어가 등록되었습니다.`);
-        document.getElementById('bulk-input').value = '';
-        if(!document.getElementById('manage-section').classList.contains('hidden')) renderManageList();
-    }
-
-    function toggleManageList() {
-        const section = document.getElementById('manage-section');
-        if (section.classList.contains('hidden')) { 
-            section.classList.remove('hidden'); 
-            renderManageList(); 
-            section.scrollIntoView({ behavior: 'smooth' });
-        } else { section.classList.add('hidden'); }
-    }
-
-    function renderManageList() {
-        const ul = document.getElementById('manage-list');
-        ul.innerHTML = '';
-        if (wordSets.length === 0) { ul.innerHTML = '<li style="color:#888; justify-content:center;">저장된 단어장이 없습니다.</li>'; return; }
-        
-        wordSets.forEach(set => {
-            const li = document.createElement('li');
-            const infoDiv = document.createElement('div');
-            infoDiv.style.flex = "1";
-            infoDiv.style.cursor = "pointer";
-            infoDiv.innerHTML = `<strong style="color:#222;">${set.title}</strong> <span style="font-size:0.85em; color:#888;">(${set.words.length} 단어)</span>`;
-            infoDiv.onclick = function() { openSetDetail(set.id); };
-
-            const delBtn = document.createElement('button');
-            delBtn.className = 'item-action-btn';
-            delBtn.innerText = '삭제';
-            delBtn.onclick = function(e) { e.stopPropagation(); deleteSet(set.id); };
-
-            li.appendChild(infoDiv); li.appendChild(delBtn); ul.appendChild(li);
-        });
-    }
-
-    function deleteSet(id) {
-        const set = wordSets.find(s => s.id === id);
-        if (confirm(`'${set.title}' 단어장을 삭제하시겠습니까?`)) {
-            wordSets = wordSets.filter(s => s.id !== id);
-            saveData();
-            renderManageList();
-        }
-    }
-
-    function openSetDetail(id) {
-        editingSetId = id;
-        const set = wordSets.find(s => s.id === id);
-        if(!set) return;
-        document.getElementById('manage-section').classList.add('hidden'); 
-        document.getElementById('set-detail-section').classList.remove('hidden'); 
-        document.getElementById('detail-set-title').innerText = `${set.title} 편집`;
-        renderSetDetailList(set);
-    }
-
-    function renderSetDetailList(set) {
-        const ul = document.getElementById('set-detail-list');
-        ul.innerHTML = '';
-        if(set.words.length === 0) { ul.innerHTML = '<li style="color:#888; justify-content:center;">단어가 없습니다.</li>'; return; }
-
-        set.words.forEach((item, index) => {
-            const li = document.createElement('li');
-            li.innerHTML = `
-                <div style="flex:1; padding-right:10px;">
-                    <div style="font-weight:700; font-size:1rem; color:#222;">${item.word}</div>
-                    <div style="color:#666; font-size:0.85rem;">${item.mean}</div>
-                </div>
-                <div>
-                    <button class="item-action-btn" onclick="editWordInSet(${index})">수정</button>
-                    <button class="item-action-btn" onclick="deleteWordInSet(${index})">삭제</button>
-                </div>
-            `;
-            ul.appendChild(li);
-        });
-    }
-
-    function editWordInSet(index) {
-        const set = wordSets.find(s => s.id === editingSetId);
-        if(!set) return;
-        const item = set.words[index];
-        const oldStr = `${item.day}/${item.seq}/${item.word}/${item.mean}/${item.ex}/${item.exTrans}`;
-        const newStr = prompt("데이터 수정 (Day/순번/단어/뜻/예문/해석)", oldStr);
-
-        if (newStr && newStr !== oldStr) {
-            const parts = newStr.split('/');
-            if (parts.length >= 4) {
-                item.day = parts[0].trim();
-                item.seq = parts[1].trim();
-                item.word = parts[2].trim();
-                item.mean = parts[3].trim();
-                if(parts[4]) item.ex = parts[4].trim();
-                if(parts[5]) item.exTrans = parts[5].trim();
-                saveData();
-                renderSetDetailList(set);
-            } else { alert("형식이 올바르지 않습니다."); }
-        }
-    }
-
-    function deleteWordInSet(wordIndex) {
-        const set = wordSets.find(s => s.id === editingSetId);
-        if(!set) return;
-        if(confirm("이 단어를 삭제하시겠습니까?")) {
-            set.words.splice(wordIndex, 1);
-            saveData();
-            renderSetDetailList(set);
-        }
-    }
-
-    function closeSetDetail() {
-        editingSetId = null;
-        document.getElementById('set-detail-section').classList.add('hidden');
-        document.getElementById('manage-section').classList.remove('hidden');
-        renderManageList(); 
-    }
-
-    function clearAllData() {
-        if (confirm("모든 단어장 데이터를 삭제하고 초기화하시겠습니까?")) {
-            localStorage.clear();
-            location.reload();
-        }
-    }
-
-    function backupData() {
-        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify({ wordSets, wrongAnswers }));
-        const downloadAnchor = document.createElement('a');
-        downloadAnchor.setAttribute("href", dataStr);
-        downloadAnchor.setAttribute("download", `hj_word_backup_${Date.now()}.json`);
-        document.body.appendChild(downloadAnchor);
-        downloadAnchor.click();
-        downloadAnchor.remove();
-    }
-
-    function triggerRestore() {
-        document.getElementById('restore-input').click();
-    }
-
-    function restoreData(input) {
-        const file = input.files[0];
-        if (!file) return;
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            try {
-                const data = JSON.parse(e.target.result);
-                if (data.wordSets) wordSets = data.wordSets;
-                if (data.wrongAnswers) wrongAnswers = data.wrongAnswers;
-                saveData();
-                alert("데이터 복구가 완료되었습니다.");
-                location.reload();
-            } catch (err) {
-                alert("올바르지 않은 백업 파일입니다.");
-            }
-        };
-        reader.readAsText(file);
-    }
-
-    let pendingAction = '';
-
-    function openSetSelection(action) {
-        if (wordSets.length === 0) { alert("등록된 단어장이 없습니다."); return; }
-        pendingAction = action;
-        
-        if (action === 'wrong-drill-choice') {
-            if (wrongAnswers.length === 0) { alert("저장된 오답 기록이 없습니다."); return; }
-            startTest(wrongAnswers, 'choice');
-            return;
-        }
-        
-        const container = document.getElementById('set-selection-container');
-        container.innerHTML = '';
-        let hasVisibleSet = false;
-
-        wordSets.forEach(set => {
-            const starredCount = set.words.filter(w => w.isStarred).length;
-            const totalCount = set.words.length;
-            if (action === 'flash-star' && starredCount === 0) return;
-
-            hasVisibleSet = true;
-            const div = document.createElement('div');
-            div.className = 'set-item';
-            
-            let labelHtml = (action === 'flash-star') 
-                ? `${set.title} (즐겨찾기: <strong>${starredCount}</strong> / ${totalCount})`
-                : `${set.title} (${totalCount} 단어)`;
-
-            div.innerHTML = `<input type="checkbox" id="set-${set.id}" value="${set.id}"><label for="set-${set.id}">${labelHtml}</label>`;
-            container.appendChild(div);
-        });
-
-        if (!hasVisibleSet && action === 'flash-star') {
-            container.innerHTML = '<div style="padding:15px; text-align:center; color:#888;">즐겨찾기 단어가 없습니다.</div>';
-        }
-
-        hideAllSections();
-        document.getElementById('selection-section').classList.remove('hidden');
-    }
-
-    function selectAllSets(isSelected) {
-        document.querySelectorAll('#set-selection-container input[type="checkbox"]').forEach(c => c.checked = isSelected);
-    }
-
-    function closeSelection() {
-        document.getElementById('selection-section').classList.add('hidden');
-        document.getElementById('step-learning-section').classList.remove('hidden');
-        document.getElementById('test-menu-section').classList.remove('hidden');
-        document.getElementById('view-menu-section').classList.remove('hidden');
-        document.getElementById('input-section').classList.remove('hidden');
-    }
-
-    function confirmSelection() {
-        const checkboxes = document.querySelectorAll('#set-selection-container input[type="checkbox"]:checked');
-        if (checkboxes.length === 0) { alert("단어장을 선택하세요."); return; }
-        
-        let combinedWords = [];
-        checkboxes.forEach(chk => {
-            const set = wordSets.find(s => s.id == chk.value);
-            if (set) combinedWords = combinedWords.concat(set.words);
-        });
-
-        if (combinedWords.length === 0) { alert("선택된 단어장에 단어가 없습니다."); return; }
-        
-        if (pendingAction === 'step1-memorize') startFlashcard(combinedWords, 'speed');
-        else if (pendingAction === 'step2-recall') startTest(combinedWords, 'choice');
-        else if (pendingAction === 'step3-spell') startTest(combinedWords, 'spelling');
-        else if (pendingAction === 'game-match') startMatchingGame(combinedWords);
-        else if (pendingAction === 'flash-deep') startFlashcard(combinedWords, 'deep');
-        else if (pendingAction === 'flash-star') {
-            const starred = combinedWords.filter(w => w.isStarred);
-            startFlashcard(starred, 'deep'); 
-        }
-        else if (pendingAction === 'view-list') showWordList(combinedWords);
-    }
-
-    function hideAllSections() {
-        const ids = ['step-learning-section', 'test-menu-section', 'view-menu-section', 'input-section', 'manage-section', 'set-detail-section', 'selection-section', 'flashcard-section', 'test-section', 'word-list-section', 'game-section', 'report-section'];
-        ids.forEach(id => {
-            const el = document.getElementById(id);
-            if(el) el.classList.add('hidden');
-        });
-    }
-
-    let currentRawList = [];
-    function showWordList(list) {
-        hideAllSections();
-        currentRawList = list;
-        document.getElementById('word-list-section').classList.remove('hidden');
-        renderWordListItems('all');
-    }
-
-    function setWordListFilter(filter) {
-        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-        if(filter === 'all') document.getElementById('filter-all').classList.add('active');
-        else if(filter === 'hide-en') document.getElementById('filter-en').classList.add('active');
-        else if(filter === 'hide-ko') document.getElementById('filter-ko').classList.add('active');
-        renderWordListItems(filter);
-    }
-
-    // 단어 클릭 시 발음 출력 및 가림막 토글 처리 함수
-    function handleWordListItemClick(el, text, lang) {
-        el.classList.toggle('masked-text');
-        speak(text, lang);
-    }
-
-    function renderWordListItems(filter) {
-        const listDiv = document.getElementById('word-list-container');
-        listDiv.innerHTML = '';
-
-        currentRawList.forEach(item => {
-            const div = document.createElement('div');
-            div.className = 'word-list-item';
-            
-            let enClass = filter === 'hide-en' ? 'masked-text' : '';
-            let koClass = filter === 'hide-ko' ? 'masked-text' : '';
-
-            const safeWord = item.word.replace(/'/g, "\\'").replace(/"/g, '&quot;');
-            const safeMean = item.mean.replace(/'/g, "\\'").replace(/"/g, '&quot;');
-
-            div.innerHTML = `
-                <div class="word-tap-box en ${enClass}" onclick="handleWordListItemClick(this, '${safeWord}', 'en')">${item.word}</div>
-                <div class="word-tap-box ko ${koClass}" onclick="handleWordListItemClick(this, '${safeMean}', 'ko')">${item.mean}</div>
-            `;
-            listDiv.appendChild(div);
-        });
-    }
-
-    function startFlashcard(list, mode) {
-        flashMode = mode;
-        currentTestList = list.sort((a, b) => (parseInt(a.seq) || 0) - (parseInt(b.seq) || 0));
-        document.getElementById('flash-mode-badge').innerText = (mode === 'speed') ? "1단계: 암기 학습" : "상세 예문 학습";
-
-        currentIndex = 0;
-        hideAllSections();
-        document.getElementById('flashcard-section').classList.remove('hidden');
-        loadFlashcard();
-    }
-
-    function loadFlashcard() {
-        flashStep = 0; 
-        const data = currentTestList[currentIndex];
-        document.getElementById('flash-progress').innerText = `${currentIndex + 1} / ${currentTestList.length}`;
-        
-        const metaDiv = document.getElementById('flash-meta-info');
-        metaDiv.innerHTML = `${data.day || ""} ${data.seq ? 'No.'+data.seq : ''}`;
-
-        updateStarBtnUI(data.isStarred);
-        document.getElementById('flash-content-word-group').classList.remove('hidden');
-        document.getElementById('flash-content-ex-group').classList.add('hidden');
-        
-        document.getElementById('flash-front').innerText = data.word;
-        document.getElementById('flash-back').classList.add('hidden');
-        document.getElementById('flash-back').innerText = data.mean;
-        
-        document.getElementById('flash-ex-en').innerText = data.ex || "예문 없음";
-        document.getElementById('flash-ex-ko').innerText = data.exTrans || "해석 없음";
-        document.getElementById('flash-ex-ko').classList.add('hidden');
-
-        document.getElementById('flash-guide').innerText = "화면을 터치하여 뜻 확인";
-        document.getElementById('flash-guide').classList.remove('hidden');
-        document.getElementById('flash-action-btn').classList.add('hidden');
-        
-        document.getElementById('flashcard-section').setAttribute('data-word', data.word);
-        document.getElementById('flashcard-section').setAttribute('data-ex', data.ex || '');
-
-        speak(data.word, 'en', 1.0);
-
-        if (isAutoplay) {
-            scheduleAutoplayNextStep();
-        }
-    }
-
-    function toggleAutoplay(event) {
-        if(event) event.stopPropagation();
-        const btn = document.getElementById('autoplay-btn');
-        if (isAutoplay) {
-            stopAutoplay();
-        } else {
-            isAutoplay = true;
-            btn.classList.add('active');
-            btn.innerText = "정지";
-            scheduleAutoplayNextStep();
-        }
-    }
-
-    function stopAutoplay() {
-        isAutoplay = false;
-        if (autoplayTimeout) clearTimeout(autoplayTimeout);
-        autoplayTimeout = null;
-        if (synth) synth.cancel();
-        const btn = document.getElementById('autoplay-btn');
-        if(btn) {
-            btn.classList.remove('active');
-            btn.innerText = "자동재생";
-        }
-    }
-
-    function scheduleAutoplayNextStep() {
-        if (!isAutoplay) return;
-        if (autoplayTimeout) clearTimeout(autoplayTimeout);
-
-        if (flashStep === 0) {
-            autoplayTimeout = setTimeout(() => {
-                if (!isAutoplay) return;
-                handleFlashClick();
-            }, 2200);
-        } else if (flashStep === 1) {
-            autoplayTimeout = setTimeout(() => {
-                if (!isAutoplay) return;
-                handleNextButton();
-            }, 2500);
-        } else if (flashStep === 2) {
-            autoplayTimeout = setTimeout(() => {
-                if (!isAutoplay) return;
-                handleFlashClick();
-            }, 2500);
-        } else if (flashStep === 3) {
-            autoplayTimeout = setTimeout(() => {
-                if (!isAutoplay) return;
-                handleNextButton();
-            }, 2500);
-        }
-    }
-
-    function exitFlashcard() {
-        stopAutoplay();
-        location.reload();
-    }
-
-    function handleFlashClick() {
-        const data = currentTestList[currentIndex];
-
-        if (flashMode.includes('speed')) {
-            if (flashStep === 0) {
-                flashStep = 1;
-                document.getElementById('flash-back').classList.remove('hidden');
-                document.getElementById('flash-guide').classList.add('hidden'); 
-                const btn = document.getElementById('flash-action-btn');
-                btn.innerText = "다음 단어";
-                btn.classList.remove('hidden');
-                speak(data.mean, 'ko', 1.2); 
-                if (isAutoplay) scheduleAutoplayNextStep();
-            }
-        } else {
-            if (flashStep === 0) {
-                flashStep = 1;
-                document.getElementById('flash-back').classList.remove('hidden');
-                document.getElementById('flash-guide').classList.add('hidden'); 
-                const btn = document.getElementById('flash-action-btn');
-                btn.innerText = "다음";
-                btn.classList.remove('hidden');
-                speak(data.mean, 'ko', 1.2); 
-                if (isAutoplay) scheduleAutoplayNextStep();
-            }
-            else if (flashStep === 2) {
-                flashStep = 3;
-                document.getElementById('flash-ex-ko').classList.remove('hidden');
-                document.getElementById('flash-guide').classList.add('hidden');
-                const btn = document.getElementById('flash-action-btn');
-                btn.innerText = "다음 단어";
-                btn.classList.remove('hidden');
-                speak(data.exTrans || "해석 없음", 'ko', 1.1); 
-                if (isAutoplay) scheduleAutoplayNextStep();
-            }
-        }
-    }
-
-    function handleNextButton() {
-        const data = currentTestList[currentIndex];
-        if (flashMode.includes('speed')) {
-            nextFlashcard();
-        } else {
-            if (flashStep === 1) {
-                flashStep = 2;
-                document.getElementById('flash-content-word-group').classList.add('hidden');
-                document.getElementById('flash-content-ex-group').classList.remove('hidden');
-                document.getElementById('flash-action-btn').classList.add('hidden');
-                document.getElementById('flash-guide').innerText = "터치하여 해석 확인";
-                document.getElementById('flash-guide').classList.remove('hidden');
-                if(data.ex) speak(data.ex, 'en', 1.0);
-                if (isAutoplay) scheduleAutoplayNextStep();
-            }
-            else if (flashStep === 3) {
-                nextFlashcard();
-            }
-        }
-    }
-
-    function prevFlashcard() {
-        if (currentIndex > 0) { currentIndex--; loadFlashcard(); }
-    }
-
-    function nextFlashcard() {
-        currentIndex++;
-        if (currentIndex < currentTestList.length) {
-            loadFlashcard();
-        } else {
-            stopAutoplay();
-            alert("학습을 완료했습니다!");
-            location.reload();
-        }
-    }
-
-    function startTest(list, mode) {
-        currentTestMode = mode;
-        sessionCorrectCount = 0;
-        sessionWrongWords = [];
-        hideAllSections();
-        document.getElementById('test-section').classList.remove('hidden');
-        
-        const badge = document.getElementById('test-type-badge');
-        if(mode === 'choice') badge.innerText = "리콜 학습";
-        else badge.innerText = "스펠 학습";
-        
-        currentTestList = list.sort(() => Math.random() - 0.5);
-        currentIndex = 0;
-        loadQuestion();
-    }
-
-    function loadQuestion() {
-        const data = currentTestList[currentIndex];
-        const inputContainer = document.getElementById('test-input-container');
-        inputContainer.innerHTML = '';
-        document.getElementById('result-message').className = "result-msg hidden";
-        document.getElementById('next-btn').classList.add('hidden');
-        document.getElementById('question-title').innerText = `문제 ${currentIndex + 1} / ${currentTestList.length}`;
-
-        let displayHtml = "";
-        
-        if (currentTestMode === 'spelling') {
-            displayHtml = `
-                <div class="flash-example" style="margin-top:0; color:#222; font-weight:700; font-size:1.4rem;">
-                    ${data.mean}
-                </div>`;
-            
-            speak(data.mean, 'ko');
-
-            inputContainer.innerHTML = `
-                <input type="text" id="spelling-input" class="spelling-input" placeholder="영어 스펠링 입력" autocomplete="off" autocapitalize="off" spellcheck="false">
-                <button onclick="checkAnswer(null, null, null)">정답 확인</button>
-            `;
-            document.getElementById('spelling-input').addEventListener("keyup", function(event) {
-                if (event.key === "Enter") checkAnswer(null, null, null);
-            });
-            setTimeout(() => document.getElementById('spelling-input').focus(), 100);
-
-        } else {
-            displayHtml = `
-                <div style="font-size:2rem; font-weight:700; margin-bottom:8px; color:#222;">
-                    <div class="audio-btn-wrapper"><button class="audio-btn" onclick="speak('${data.word.replace(/'/g, "\\'")}', 'en')">단어 듣기</button></div>
-                    ${data.word}
-                </div>`;
-            
-            speak(data.word, 'en', 1.0);
-
-            const allWords = getAllWordsFlat();
-            let distractors = allWords.filter(w => w.word !== data.word).sort(() => Math.random() - 0.5).slice(0, 3);
-            while(distractors.length < 3) { distractors.push({mean: "오답 (단어 부족)"}); }
-            
-            let options = [...distractors, data].sort(() => Math.random() - 0.5);
-
-            options.forEach(opt => {
-                const btn = document.createElement('button');
-                btn.className = 'mc-option';
-                btn.innerText = opt.mean;
-                btn.onclick = () => checkAnswer(btn, opt.mean === data.mean, data);
-                inputContainer.appendChild(btn);
-            });
-        }
-        document.getElementById('question-display').innerHTML = displayHtml;
-    }
-
-    function checkAnswer(btn, isCorrectChoice, data) {
-        const currentData = currentTestList[currentIndex];
-        const msgDiv = document.getElementById('result-message');
-        let isCorrect = false;
-
-        if (currentTestMode === 'spelling') {
-            const inputVal = document.getElementById('spelling-input').value.trim().toLowerCase();
-            if (inputVal === currentData.word.toLowerCase()) isCorrect = true;
-            document.getElementById('spelling-input').disabled = true;
-        } else {
-            isCorrect = isCorrectChoice;
-            document.querySelectorAll('.mc-option').forEach(b => b.onclick = null);
-        }
-
-        msgDiv.classList.remove('hidden');
-
-        if (isCorrect) {
-            if(btn) btn.classList.add('selected-correct');
-            msgDiv.innerText = "정답입니다!";
-            msgDiv.className = "result-msg correct";
-            sessionCorrectCount++;
-            speak("정답", 'ko', 1.2);
-        } else {
-            if(btn) btn.classList.add('selected-wrong');
-            if (currentTestMode === 'choice') {
-                 document.querySelectorAll('.mc-option').forEach(b => {
-                     if(b.innerText === currentData.mean) b.classList.add('selected-correct');
-                 });
-            }
-            msgDiv.innerHTML = `오답!<br>정답: <span style="font-weight:700;">${currentData.word}</span> (${currentData.mean})`;
-            msgDiv.className = "result-msg wrong";
-            sessionWrongWords.push(currentData);
-            addToWrong(currentData);
-        }
-        document.getElementById('next-btn').classList.remove('hidden');
-    }
-
-    function nextQuestion() {
-        currentIndex++;
-        if (currentIndex < currentTestList.length) {
-            loadQuestion();
-        } else {
-            showReport();
-        }
-    }
-
-    function showReport() {
-        hideAllSections();
-        document.getElementById('report-section').classList.remove('hidden');
-        const total = currentTestList.length;
-        const score = Math.round((sessionCorrectCount / total) * 100);
-        
-        document.getElementById('report-summary').innerHTML = `
-            점수: <strong>${score}점</strong> (${sessionCorrectCount} / ${total})
-        `;
-
-        const wrongListDiv = document.getElementById('report-wrong-list');
-        wrongListDiv.innerHTML = '';
-        if (sessionWrongWords.length === 0) {
-            wrongListDiv.innerHTML = '<div style="text-align:center; color:#666; padding:10px;">틀린 단어가 없습니다!</div>';
-        } else {
-            sessionWrongWords.forEach(item => {
-                const div = document.createElement('div');
-                div.style.padding = '8px 0';
-                div.style.borderBottom = '1px solid #eee';
-                div.innerHTML = `<strong style="color:#222;">${item.word}</strong> - <span style="color:#666;">${item.mean}</span>`;
-                wrongListDiv.appendChild(div);
-            });
-        }
-    }
-
-    function startMatchingGame(list) {
-        hideAllSections();
-        document.getElementById('game-section').classList.remove('hidden');
-
-        const sampleSize = Math.min(6, list.length);
-        const gameWords = list.sort(() => Math.random() - 0.5).slice(0, sampleSize);
-        
-        totalPairs = gameWords.length;
-        matchedPairsCount = 0;
-        selectedGameCards = [];
-
-        document.getElementById('game-pairs').innerText = totalPairs;
-
-        let cards = [];
-        gameWords.forEach(w => {
-            cards.push({ id: w.word, text: w.word, type: 'en' });
-            cards.push({ id: w.word, text: w.mean, type: 'ko' });
-        });
-        cards.sort(() => Math.random() - 0.5);
-
-        const grid = document.getElementById('game-grid-container');
-        grid.innerHTML = '';
-
-        cards.forEach((c) => {
-            const cardEl = document.createElement('div');
-            cardEl.className = 'game-card';
-            cardEl.innerText = c.text;
-            cardEl.setAttribute('data-id', c.id);
-            cardEl.setAttribute('data-type', c.type);
-            cardEl.onclick = () => handleGameCardClick(cardEl);
-            grid.appendChild(cardEl);
-        });
-
-        gameStartTime = Date.now();
-        clearInterval(gameTimerInterval);
-        gameTimerInterval = setInterval(() => {
-            const elapsed = ((Date.now() - gameStartTime) / 1000).toFixed(1);
-            document.getElementById('game-timer').innerText = elapsed;
-        }, 100);
-    }
-
-    function handleGameCardClick(cardEl) {
-        if (cardEl.classList.contains('selected') || cardEl.classList.contains('matched')) return;
-        if (selectedGameCards.length >= 2) return;
-
-        cardEl.classList.add('selected');
-        selectedGameCards.push(cardEl);
-
-        if (selectedGameCards.length === 2) {
-            const c1 = selectedGameCards[0];
-            const c2 = selectedGameCards[1];
-
-            const id1 = c1.getAttribute('data-id');
-            const id2 = c2.getAttribute('data-id');
-            const type1 = c1.getAttribute('data-type');
-            const type2 = c2.getAttribute('data-type');
-
-            if (id1 === id2 && type1 !== type2) {
-                setTimeout(() => {
-                    c1.classList.add('matched');
-                    c2.classList.add('matched');
-                    selectedGameCards = [];
-                    matchedPairsCount++;
-                    document.getElementById('game-pairs').innerText = totalPairs - matchedPairsCount;
-
-                    if (matchedPairsCount === totalPairs) {
-                        clearInterval(gameTimerInterval);
-                        const finalTime = ((Date.now() - gameStartTime) / 1000).toFixed(1);
-                        alert(`축하합니다! ${finalTime}초 만에 완료했습니다!`);
-                    }
-                }, 200);
-            } else {
-                setTimeout(() => {
-                    c1.classList.remove('selected');
-                    c2.classList.remove('selected');
-                    selectedGameCards = [];
-                }, 500);
-            }
-        }
-    }
-
-    function playAudioText(type, lang, event) {
-        event.stopPropagation();
-        const section = document.getElementById('flashcard-section');
-        const text = type === 'front' ? section.getAttribute('data-word') : section.getAttribute('data-ex');
-        if(text) speak(text, lang, 1.0);
-    }
-
-    function addToWrong(data) {
-        if (!wrongAnswers.some(w => w.word === data.word)) {
-            wrongAnswers.push(data);
-            saveData();
-        }
-    }
-
-    function getAllWordsFlat() {
-        let all = [];
-        wordSets.forEach(s => all = all.concat(s.words));
-        return all;
-    }
-
-    function toggleStar(event) {
-        event.stopPropagation();
-        const data = currentTestList[currentIndex];
-        let found = false;
-        wordSets.forEach(set => {
-            set.words.forEach(w => {
-                if(w.word === data.word) {
-                    w.isStarred = !w.isStarred;
-                    data.isStarred = w.isStarred;
-                    found = true;
-                }
-            });
-        });
-        if(found) { updateStarBtnUI(data.isStarred); saveData(); }
-    }
-
-    function updateStarBtnUI(isStarred) {
-        const btn = document.getElementById('star-btn');
-        if (!btn) return;
-        if (isStarred) {
-            btn.innerText = "즐겨찾기 ON";
-            btn.classList.add('active');
-        } else {
-            btn.innerText = "즐겨찾기 OFF";
-            btn.classList.remove('active');
-        }
-    }
+let wordSets = [];
+let wrongAnswers = [];
+let currentTestList = [];
+let currentIndex = 0;
+let flashMode = '';
+let flashStep = 0;
+let currentTestMode = '';
+let editingSetId = null;
+let synth = window.speechSynthesis;
+let autoplayTimeout = null;
+let isAutoplay = false;
+let gameTimerInterval = null;
+let gameStartTime = 0;
+let selectedGameCards = [];
+let matchedPairsCount = 0;
+let totalPairs = 0;
+let sessionCorrectCount = 0;
+let sessionWrongWords = [];
+window.onload = function() { loadData(); };
+function speak(text, lang = 'en', rate = 1.0) {
+if (!synth || !text) return;
+synth.cancel();
+const utterance = new SpeechSynthesisUtterance(text);
+utterance.lang = (lang === 'en') ? 'en-US' : 'ko-KR';
+utterance.rate = rate;
+synth.speak(utterance);
+}
+function toggleSection(headerElement) {
+const content = headerElement.nextElementSibling;
+const icon = headerElement.querySelector('.toggle-icon');
+if (content.classList.contains('collapsed')) {
+content.classList.remove('collapsed');
+icon.innerText = '[접기]';
+headerElement.style.borderBottom = '1px solid #eee';
+} else {
+content.classList.add('collapsed');
+icon.innerText = '[열기]';
+headerElement.style.borderBottom = 'none';
+}
+}
+function loadData() {
+const savedSets = localStorage.getItem('hjWordSets_v3');
+const savedWrong = localStorage.getItem('hjWrongAnswers_v3');
+if (savedSets) wordSets = JSON.parse(savedSets);
+if (savedWrong) wrongAnswers = JSON.parse(savedWrong);
+updateSetCount();
+}
+function saveData() {
+localStorage.setItem('hjWordSets_v3', JSON.stringify(wordSets));
+localStorage.setItem('hjWrongAnswers_v3', JSON.stringify(wrongAnswers));
+updateSetCount();
+}
+function updateSetCount() { document.getElementById('set-count').innerText = wordSets.length; }
+function addWordSetsAuto() {
+const rawText = document.getElementById('bulk-input').value.trim();
+if (!rawText) { alert("데이터를 입력해주세요."); return; }
+const lines = rawText.split('\n');
+const tempMap = {};
+let successCount = 0;
+lines.forEach(line => {
+const parts = line.split('/');
+if (parts.length >= 4) {
+const dayTitle = parts[0].trim();
+const seq = parts[1].trim();
+const word = parts[2].trim();
+const mean = parts[3].trim();
+const ex = parts[4] ? parts[4].trim() : "";
+const exTrans = parts[5] ? parts[5].trim() : "";
+if (dayTitle && word) {
+if (!tempMap[dayTitle]) tempMap[dayTitle] = [];
+tempMap[dayTitle].push({
+word: word, mean: mean, ex: ex, exTrans: exTrans,
+day: dayTitle, seq: seq, isStarred: false
+});
+successCount++;
+}
+}
+});
+if (successCount === 0) {
+alert("입력 형식이 맞지 않습니다.\n형식: Day/순번/단어/뜻/예문/해석");
+return;
+}
+for (const [day, newWords] of Object.entries(tempMap)) {
+const existingIndex = wordSets.findIndex(s => s.title === day);
+if (existingIndex > -1) {
+wordSets[existingIndex].words = wordSets[existingIndex].words.concat(newWords);
+} else {
+wordSets.push({ id: Date.now() + Math.random(), title: day, words: newWords });
+}
+}
+wordSets.sort((a, b) => a.title.localeCompare(b.title, undefined, { numeric: true, sensitivity: 'base' }));
+saveData();
+alert(${successCount}개의 단어가 등록되었습니다.);
+document.getElementById('bulk-input').value = '';
+if(!document.getElementById('manage-section').classList.contains('hidden')) renderManageList();
+}
+function toggleManageList() {
+const section = document.getElementById('manage-section');
+if (section.classList.contains('hidden')) {
+section.classList.remove('hidden');
+renderManageList();
+section.scrollIntoView({ behavior: 'smooth' });
+} else { section.classList.add('hidden'); }
+}
+function renderManageList() {
+const ul = document.getElementById('manage-list');
+ul.innerHTML = '';
+if (wordSets.length === 0) { ul.innerHTML = '<li style="color:#888; justify-content:center;">저장된 단어장이 없습니다.</li>'; return; }
+wordSets.forEach(set => {
+const li = document.createElement('li');
+const infoDiv = document.createElement('div');
+infoDiv.style.flex = "1";
+infoDiv.style.cursor = "pointer";
+infoDiv.innerHTML = <strong style="color:#222;">${set.title}</strong> <span style="font-size:0.85em; color:#888;">(${set.words.length} 단어)</span>;
+infoDiv.onclick = function() { openSetDetail(set.id); };
+const delBtn = document.createElement('button');
+delBtn.className = 'item-action-btn';
+delBtn.innerText = '삭제';
+delBtn.onclick = function(e) { e.stopPropagation(); deleteSet(set.id); };
+li.appendChild(infoDiv); li.appendChild(delBtn); ul.appendChild(li);
+});
+}
+function deleteSet(id) {
+const set = wordSets.find(s => s.id === id);
+if (confirm('${set.title}' 단어장을 삭제하시겠습니까?)) {
+wordSets = wordSets.filter(s => s.id !== id);
+saveData();
+renderManageList();
+}
+}
+function openSetDetail(id) {
+editingSetId = id;
+const set = wordSets.find(s => s.id === id);
+if(!set) return;
+document.getElementById('manage-section').classList.add('hidden');
+document.getElementById('set-detail-section').classList.remove('hidden');
+document.getElementById('detail-set-title').innerText = ${set.title} 편집;
+renderSetDetailList(set);
+}
+function renderSetDetailList(set) {
+const ul = document.getElementById('set-detail-list');
+ul.innerHTML = '';
+if(set.words.length === 0) { ul.innerHTML = '<li style="color:#888; justify-content:center;">단어가 없습니다.</li>'; return; }
+set.words.forEach((item, index) => {
+const li = document.createElement('li');
+li.innerHTML = <div style="flex:1; padding-right:10px;"> <div style="font-weight:700; font-size:1rem; color:#222;">${item.word}</div> <div style="color:#666; font-size:0.85rem;">${item.mean}</div> </div> <div> <button class="item-action-btn" onclick="editWordInSet(${index})">수정</button> <button class="item-action-btn" onclick="deleteWordInSet(${index})">삭제</button> </div>;
+ul.appendChild(li);
+});
+}
+function editWordInSet(index) {
+const set = wordSets.find(s => s.id === editingSetId);
+if(!set) return;
+const item = set.words[index];
+const oldStr = ${item.day}/${item.seq}/${item.word}/${item.mean}/${item.ex}/${item.exTrans};
+const newStr = prompt("데이터 수정 (Day/순번/단어/뜻/예문/해석)", oldStr);
+if (newStr && newStr !== oldStr) {
+const parts = newStr.split('/');
+if (parts.length >= 4) {
+item.day = parts[0].trim();
+item.seq = parts[1].trim();
+item.word = parts[2].trim();
+item.mean = parts[3].trim();
+if(parts[4]) item.ex = parts[4].trim();
+if(parts[5]) item.exTrans = parts[5].trim();
+saveData();
+renderSetDetailList(set);
+} else { alert("형식이 올바르지 않습니다."); }
+}
+}
+function deleteWordInSet(wordIndex) {
+const set = wordSets.find(s => s.id === editingSetId);
+if(!set) return;
+if(confirm("이 단어를 삭제하시겠습니까?")) {
+set.words.splice(wordIndex, 1);
+saveData();
+renderSetDetailList(set);
+}
+}
+function closeSetDetail() {
+editingSetId = null;
+document.getElementById('set-detail-section').classList.add('hidden');
+document.getElementById('manage-section').classList.remove('hidden');
+renderManageList();
+}
+function clearAllData() {
+if (confirm("모든 단어장 데이터를 삭제하고 초기화하시겠습니까?")) {
+localStorage.clear();
+location.reload();
+}
+}
+function backupData() {
+const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify({ wordSets, wrongAnswers }));
+const downloadAnchor = document.createElement('a');
+downloadAnchor.setAttribute("href", dataStr);
+downloadAnchor.setAttribute("download", hj_word_backup_${Date.now()}.json);
+document.body.appendChild(downloadAnchor);
+downloadAnchor.click();
+downloadAnchor.remove();
+}
+function triggerRestore() {
+document.getElementById('restore-input').click();
+}
+function restoreData(input) {
+const file = input.files[0];
+if (!file) return;
+const reader = new FileReader();
+reader.onload = function(e) {
+try {
+const data = JSON.parse(e.target.result);
+if (data.wordSets) wordSets = data.wordSets;
+if (data.wrongAnswers) wrongAnswers = data.wrongAnswers;
+saveData();
+alert("데이터 복구가 완료되었습니다.");
+location.reload();
+} catch (err) {
+alert("올바르지 않은 백업 파일입니다.");
+}
+};
+reader.readAsText(file);
+}
+let pendingAction = '';
+function openSetSelection(action) {
+if (wordSets.length === 0) { alert("등록된 단어장이 없습니다."); return; }
+pendingAction = action;
+if (action === 'wrong-drill-choice') {
+if (wrongAnswers.length === 0) { alert("저장된 오답 기록이 없습니다."); return; }
+startTest(wrongAnswers, 'choice');
+return;
+}
+const container = document.getElementById('set-selection-container');
+container.innerHTML = '';
+let hasVisibleSet = false;
+wordSets.forEach(set => {
+const starredCount = set.words.filter(w => w.isStarred).length;
+const totalCount = set.words.length;
+if (action === 'flash-star' && starredCount === 0) return;
+hasVisibleSet = true;
+const div = document.createElement('div');
+div.className = 'set-item';
+let labelHtml = (action === 'flash-star')
+? ${set.title} (즐겨찾기: <strong>${starredCount}</strong> / ${totalCount})
+: ${set.title} (${totalCount} 단어);
+div.innerHTML = <input type="checkbox" id="set-${set.id}" value="${set.id}"><label for="set-${set.id}">${labelHtml}</label>;
+container.appendChild(div);
+});
+if (!hasVisibleSet && action === 'flash-star') {
+container.innerHTML = '<div style="padding:15px; text-align:center; color:#888;">즐겨찾기 단어가 없습니다.</div>';
+}
+hideAllSections();
+document.getElementById('selection-section').classList.remove('hidden');
+}
+function selectAllSets(isSelected) {
+document.querySelectorAll('#set-selection-container input[type="checkbox"]').forEach(c => c.checked = isSelected);
+}
+function closeSelection() {
+document.getElementById('selection-section').classList.add('hidden');
+document.getElementById('step-learning-section').classList.remove('hidden');
+document.getElementById('test-menu-section').classList.remove('hidden');
+document.getElementById('view-menu-section').classList.remove('hidden');
+document.getElementById('input-section').classList.remove('hidden');
+}
+function confirmSelection() {
+const checkboxes = document.querySelectorAll('#set-selection-container input[type="checkbox"]:checked');
+if (checkboxes.length === 0) { alert("단어장을 선택하세요."); return; }
+let combinedWords = [];
+checkboxes.forEach(chk => {
+const set = wordSets.find(s => s.id == chk.value);
+if (set) combinedWords = combinedWords.concat(set.words);
+});
+if (combinedWords.length === 0) { alert("선택된 단어장에 단어가 없습니다."); return; }
+if (pendingAction === 'step1-memorize') startFlashcard(combinedWords, 'speed');
+else if (pendingAction === 'step2-recall') startTest(combinedWords, 'choice');
+else if (pendingAction === 'step3-spell') startTest(combinedWords, 'spelling');
+else if (pendingAction === 'game-match') startMatchingGame(combinedWords);
+else if (pendingAction === 'flash-deep') startFlashcard(combinedWords, 'deep');
+else if (pendingAction === 'flash-star') {
+const starred = combinedWords.filter(w => w.isStarred);
+startFlashcard(starred, 'deep');
+}
+else if (pendingAction === 'view-list') showWordList(combinedWords);
+}
+function hideAllSections() {
+const ids = ['step-learning-section', 'test-menu-section', 'view-menu-section', 'input-section', 'manage-section', 'set-detail-section', 'selection-section', 'flashcard-section', 'test-section', 'word-list-section', 'game-section', 'report-section'];
+ids.forEach(id => {
+const el = document.getElementById(id);
+if(el) el.classList.add('hidden');
+});
+}
+let currentRawList = [];
+function showWordList(list) {
+hideAllSections();
+currentRawList = list;
+document.getElementById('word-list-section').classList.remove('hidden');
+renderWordListItems('all');
+}
+function setWordListFilter(filter) {
+document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+if(filter === 'all') document.getElementById('filter-all').classList.add('active');
+else if(filter === 'hide-en') document.getElementById('filter-en').classList.add('active');
+else if(filter === 'hide-ko') document.getElementById('filter-ko').classList.add('active');
+renderWordListItems(filter);
+}
+function handleWordListItemClick(el, text, lang) {
+el.classList.toggle('masked-text');
+speak(text, lang);
+}
+function renderWordListItems(filter) {
+const listDiv = document.getElementById('word-list-container');
+listDiv.innerHTML = '';
+currentRawList.forEach(item => {
+const div = document.createElement('div');
+div.className = 'word-list-item';
+let enClass = filter === 'hide-en' ? 'masked-text' : '';
+let koClass = filter === 'hide-ko' ? 'masked-text' : '';
+const safeWord = item.word.replace(/'/g, "\'").replace(/"/g, '"');
+const safeMean = item.mean.replace(/'/g, "\'").replace(/"/g, '"');
+div.innerHTML = <div class="word-tap-box en ${enClass}" onclick="handleWordListItemClick(this, '${safeWord}', 'en')">${item.word}</div> <div class="word-tap-box ko ${koClass}" onclick="handleWordListItemClick(this, '${safeMean}', 'ko')">${item.mean}</div>;
+listDiv.appendChild(div);
+});
+}
+function startFlashcard(list, mode) {
+flashMode = mode;
+currentTestList = list.sort((a, b) => (parseInt(a.seq) || 0) - (parseInt(b.seq) || 0));
+document.getElementById('flash-mode-badge').innerText = (mode === 'speed') ? "1단계: 암기 학습" : "상세 예문 학습";
+currentIndex = 0;
+hideAllSections();
+document.getElementById('flashcard-section').classList.remove('hidden');
+loadFlashcard();
+}
+function loadFlashcard() {
+flashStep = 0;
+const data = currentTestList[currentIndex];
+document.getElementById('flash-progress').innerText = ${currentIndex + 1} / ${currentTestList.length};
+const metaDiv = document.getElementById('flash-meta-info');
+metaDiv.innerHTML = ${data.day || ""} ${data.seq ? 'No.'+data.seq : ''};
+updateStarBtnUI(data.isStarred);
+document.getElementById('flash-content-word-group').classList.remove('hidden');
+document.getElementById('flash-content-ex-group').classList.add('hidden');
+document.getElementById('flash-front').innerText = data.word;
+document.getElementById('flash-back').classList.add('hidden');
+document.getElementById('flash-back').innerText = data.mean;
+document.getElementById('flash-ex-en').innerText = data.ex || "예문 없음";
+document.getElementById('flash-ex-ko').innerText = data.exTrans || "해석 없음";
+document.getElementById('flash-ex-ko').classList.add('hidden');
+document.getElementById('flash-guide').innerText = "화면을 터치하여 뜻 확인";
+document.getElementById('flash-guide').classList.remove('hidden');
+document.getElementById('flash-action-btn').classList.add('hidden');
+document.getElementById('flashcard-section').setAttribute('data-word', data.word);
+document.getElementById('flashcard-section').setAttribute('data-ex', data.ex || '');
+speak(data.word, 'en', 1.0);
+if (isAutoplay) {
+scheduleAutoplayNextStep();
+}
+}
+function toggleAutoplay(event) {
+if(event) event.stopPropagation();
+const btn = document.getElementById('autoplay-btn');
+if (isAutoplay) {
+stopAutoplay();
+} else {
+isAutoplay = true;
+btn.classList.add('active');
+btn.innerText = "정지";
+scheduleAutoplayNextStep();
+}
+}
+function stopAutoplay() {
+isAutoplay = false;
+if (autoplayTimeout) clearTimeout(autoplayTimeout);
+autoplayTimeout = null;
+if (synth) synth.cancel();
+const btn = document.getElementById('autoplay-btn');
+if(btn) {
+btn.classList.remove('active');
+btn.innerText = "자동재생";
+}
+}
+function scheduleAutoplayNextStep() {
+if (!isAutoplay) return;
+if (autoplayTimeout) clearTimeout(autoplayTimeout);
+if (flashStep === 0) {
+autoplayTimeout = setTimeout(() => {
+if (!isAutoplay) return;
+handleFlashClick();
+}, 2200);
+} else if (flashStep === 1) {
+autoplayTimeout = setTimeout(() => {
+if (!isAutoplay) return;
+handleNextButton();
+}, 2500);
+} else if (flashStep === 2) {
+autoplayTimeout = setTimeout(() => {
+if (!isAutoplay) return;
+handleFlashClick();
+}, 2500);
+} else if (flashStep === 3) {
+autoplayTimeout = setTimeout(() => {
+if (!isAutoplay) return;
+handleNextButton();
+}, 2500);
+}
+}
+function exitFlashcard() {
+stopAutoplay();
+location.reload();
+}
+function handleFlashClick() {
+const data = currentTestList[currentIndex];
+if (flashMode.includes('speed')) {
+if (flashStep === 0) {
+flashStep = 1;
+document.getElementById('flash-back').classList.remove('hidden');
+document.getElementById('flash-guide').classList.add('hidden');
+const btn = document.getElementById('flash-action-btn');
+btn.innerText = "다음 단어";
+btn.classList.remove('hidden');
+speak(data.mean, 'ko', 1.2);
+if (isAutoplay) scheduleAutoplayNextStep();
+}
+} else {
+if (flashStep === 0) {
+flashStep = 1;
+document.getElementById('flash-back').classList.remove('hidden');
+document.getElementById('flash-guide').classList.add('hidden');
+const btn = document.getElementById('flash-action-btn');
+btn.innerText = "다음";
+btn.classList.remove('hidden');
+speak(data.mean, 'ko', 1.2);
+if (isAutoplay) scheduleAutoplayNextStep();
+}
+else if (flashStep === 2) {
+flashStep = 3;
+document.getElementById('flash-ex-ko').classList.remove('hidden');
+document.getElementById('flash-guide').classList.add('hidden');
+const btn = document.getElementById('flash-action-btn');
+btn.innerText = "다음 단어";
+btn.classList.remove('hidden');
+speak(data.exTrans || "해석 없음", 'ko', 1.1);
+if (isAutoplay) scheduleAutoplayNextStep();
+}
+}
+}
+function handleNextButton() {
+const data = currentTestList[currentIndex];
+if (flashMode.includes('speed')) {
+nextFlashcard();
+} else {
+if (flashStep === 1) {
+flashStep = 2;
+document.getElementById('flash-content-word-group').classList.add('hidden');
+document.getElementById('flash-content-ex-group').classList.remove('hidden');
+document.getElementById('flash-action-btn').classList.add('hidden');
+document.getElementById('flash-guide').innerText = "터치하여 해석 확인";
+document.getElementById('flash-guide').classList.remove('hidden');
+if(data.ex) speak(data.ex, 'en', 1.0);
+if (isAutoplay) scheduleAutoplayNextStep();
+}
+else if (flashStep === 3) {
+nextFlashcard();
+}
+}
+}
+function prevFlashcard() {
+if (currentIndex > 0) { currentIndex--; loadFlashcard(); }
+}
+function nextFlashcard() {
+currentIndex++;
+if (currentIndex < currentTestList.length) {
+loadFlashcard();
+} else {
+stopAutoplay();
+alert("학습을 완료했습니다!");
+location.reload();
+}
+}
+function startTest(list, mode) {
+currentTestMode = mode;
+sessionCorrectCount = 0;
+sessionWrongWords = [];
+hideAllSections();
+document.getElementById('test-section').classList.remove('hidden');
+const badge = document.getElementById('test-type-badge');
+if(mode === 'choice') badge.innerText = "리콜 학습";
+else badge.innerText = "스펠 학습";
+currentTestList = list.sort(() => Math.random() - 0.5);
+currentIndex = 0;
+loadQuestion();
+}
+function loadQuestion() {
+const data = currentTestList[currentIndex];
+const inputContainer = document.getElementById('test-input-container');
+inputContainer.innerHTML = '';
+document.getElementById('result-message').className = "result-msg hidden";
+document.getElementById('next-btn').classList.add('hidden');
+document.getElementById('question-title').innerText = 문제 ${currentIndex + 1} / ${currentTestList.length};
+let displayHtml = "";
+if (currentTestMode === 'spelling') {
+displayHtml =  <div class="flash-example" style="margin-top:0; color:#222; font-weight:700; font-size:1.4rem;"> ${data.mean} </div>;
+speak(data.mean, 'ko');
+inputContainer.innerHTML = <input type="text" id="spelling-input" class="spelling-input" placeholder="영어 스펠링 입력" autocomplete="off" autocapitalize="off" spellcheck="false"> <button onclick="checkAnswer(null, null, null)">정답 확인</button>;
+document.getElementById('spelling-input').addEventListener("keyup", function(event) {
+if (event.key === "Enter") checkAnswer(null, null, null);
+});
+setTimeout(() => document.getElementById('spelling-input').focus(), 100);
+} else {
+displayHtml =  <div style="font-size:2rem; font-weight:700; margin-bottom:8px; color:#222;"> <div class="audio-btn-wrapper"><button class="audio-btn" onclick="speak('${data.word.replace(/'/g, "\\'")}', 'en')">단어 듣기</button></div> ${data.word} </div>;
+speak(data.word, 'en', 1.0);
+const allWords = getAllWordsFlat();
+let distractors = allWords.filter(w => w.word !== data.word).sort(() => Math.random() - 0.5).slice(0, 3);
+while(distractors.length < 3) { distractors.push({mean: "오답 (단어 부족)"}); }
+let options = [...distractors, data].sort(() => Math.random() - 0.5);
+options.forEach(opt => {
+const btn = document.createElement('button');
+btn.className = 'mc-option';
+btn.innerText = opt.mean;
+btn.onclick = () => checkAnswer(btn, opt.mean === data.mean, data);
+inputContainer.appendChild(btn);
+});
+}
+document.getElementById('question-display').innerHTML = displayHtml;
+}
+function checkAnswer(btn, isCorrectChoice, data) {
+const currentData = currentTestList[currentIndex];
+const msgDiv = document.getElementById('result-message');
+let isCorrect = false;
+if (currentTestMode === 'spelling') {
+const inputVal = document.getElementById('spelling-input').value.trim().toLowerCase();
+if (inputVal === currentData.word.toLowerCase()) isCorrect = true;
+document.getElementById('spelling-input').disabled = true;
+} else {
+isCorrect = isCorrectChoice;
+document.querySelectorAll('.mc-option').forEach(b => b.onclick = null);
+}
+msgDiv.classList.remove('hidden');
+if (isCorrect) {
+if(btn) btn.classList.add('selected-correct');
+msgDiv.innerText = "정답입니다!";
+msgDiv.className = "result-msg correct";
+sessionCorrectCount++;
+speak("정답", 'ko', 1.2);
+} else {
+if(btn) btn.classList.add('selected-wrong');
+if (currentTestMode === 'choice') {
+document.querySelectorAll('.mc-option').forEach(b => {
+if(b.innerText === currentData.mean) b.classList.add('selected-correct');
+});
+}
+msgDiv.innerHTML = 오답!<br>정답: <span style="font-weight:700;">${currentData.word}</span> (${currentData.mean});
+msgDiv.className = "result-msg wrong";
+sessionWrongWords.push(currentData);
+addToWrong(currentData);
+}
+document.getElementById('next-btn').classList.remove('hidden');
+}
+function nextQuestion() {
+currentIndex++;
+if (currentIndex < currentTestList.length) {
+loadQuestion();
+} else {
+showReport();
+}
+}
+function showReport() {
+hideAllSections();
+document.getElementById('report-section').classList.remove('hidden');
+const total = currentTestList.length;
+const score = Math.round((sessionCorrectCount / total) * 100);
+document.getElementById('report-summary').innerHTML = 점수: <strong>${score}점</strong> (${sessionCorrectCount} / ${total});
+const wrongListDiv = document.getElementById('report-wrong-list');
+wrongListDiv.innerHTML = '';
+if (sessionWrongWords.length === 0) {
+wrongListDiv.innerHTML = '<div style="text-align:center; color:#666; padding:10px;">틀린 단어가 없습니다!</div>';
+} else {
+sessionWrongWords.forEach(item => {
+const div = document.createElement('div');
+div.style.padding = '8px 0';
+div.style.borderBottom = '1px solid #eee';
+div.innerHTML = <strong style="color:#222;">${item.word}</strong> - <span style="color:#666;">${item.mean}</span>;
+wrongListDiv.appendChild(div);
+});
+}
+}
+function startMatchingGame(list) {
+hideAllSections();
+document.getElementById('game-section').classList.remove('hidden');
+const sampleSize = Math.min(6, list.length);
+const gameWords = list.sort(() => Math.random() - 0.5).slice(0, sampleSize);
+totalPairs = gameWords.length;
+matchedPairsCount = 0;
+selectedGameCards = [];
+document.getElementById('game-pairs').innerText = totalPairs;
+let cards = [];
+gameWords.forEach(w => {
+cards.push({ id: w.word, text: w.word, type: 'en' });
+cards.push({ id: w.word, text: w.mean, type: 'ko' });
+});
+cards.sort(() => Math.random() - 0.5);
+const grid = document.getElementById('game-grid-container');
+grid.innerHTML = '';
+cards.forEach((c) => {
+const cardEl = document.createElement('div');
+cardEl.className = 'game-card';
+cardEl.innerText = c.text;
+cardEl.setAttribute('data-id', c.id);
+cardEl.setAttribute('data-type', c.type);
+cardEl.onclick = () => handleGameCardClick(cardEl);
+grid.appendChild(cardEl);
+});
+gameStartTime = Date.now();
+clearInterval(gameTimerInterval);
+gameTimerInterval = setInterval(() => {
+const elapsed = ((Date.now() - gameStartTime) / 1000).toFixed(1);
+document.getElementById('game-timer').innerText = elapsed;
+}, 100);
+}
+function handleGameCardClick(cardEl) {
+if (cardEl.classList.contains('selected') || cardEl.classList.contains('matched')) return;
+if (selectedGameCards.length >= 2) return;
+cardEl.classList.add('selected');
+selectedGameCards.push(cardEl);
+if (selectedGameCards.length === 2) {
+const c1 = selectedGameCards[0];
+const c2 = selectedGameCards[1];
+const id1 = c1.getAttribute('data-id');
+const id2 = c2.getAttribute('data-id');
+const type1 = c1.getAttribute('data-type');
+const type2 = c2.getAttribute('data-type');
+if (id1 === id2 && type1 !== type2) {
+setTimeout(() => {
+c1.classList.add('matched');
+c2.classList.add('matched');
+selectedGameCards = [];
+matchedPairsCount++;
+document.getElementById('game-pairs').innerText = totalPairs - matchedPairsCount;
+if (matchedPairsCount === totalPairs) {
+clearInterval(gameTimerInterval);
+const finalTime = ((Date.now() - gameStartTime) / 1000).toFixed(1);
+alert(축하합니다! ${finalTime}초 만에 완료했습니다!);
+}
+}, 200);
+} else {
+setTimeout(() => {
+c1.classList.remove('selected');
+c2.classList.remove('selected');
+selectedGameCards = [];
+}, 500);
+}
+}
+}
+function playAudioText(type, lang, event) {
+event.stopPropagation();
+const section = document.getElementById('flashcard-section');
+const text = type === 'front' ? section.getAttribute('data-word') : section.getAttribute('data-ex');
+if(text) speak(text, lang, 1.0);
+}
+function addToWrong(data) {
+if (!wrongAnswers.some(w => w.word === data.word)) {
+wrongAnswers.push(data);
+saveData();
+}
+}
+function getAllWordsFlat() {
+let all = [];
+wordSets.forEach(s => all = all.concat(s.words));
+return all;
+}
+function toggleStar(event) {
+event.stopPropagation();
+const data = currentTestList[currentIndex];
+let found = false;
+wordSets.forEach(set => {
+set.words.forEach(w => {
+if(w.word === data.word) {
+w.isStarred = !w.isStarred;
+data.isStarred = w.isStarred;
+found = true;
+}
+});
+});
+if(found) { updateStarBtnUI(data.isStarred); saveData(); }
+}
+function updateStarBtnUI(isStarred) {
+const btn = document.getElementById('star-btn');
+if (!btn) return;
+if (isStarred) {
+btn.innerText = "즐겨찾기 ON";
+btn.classList.add('active');
+} else {
+btn.innerText = "즐겨찾기 OFF";
+btn.classList.remove('active');
+}
+}
 </script>
 </body>
 </html>
