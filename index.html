@@ -1001,7 +1001,7 @@
     }
 
     function clearAllData() {
-        if (confirm("모든 단어장 데이터와 오답 기록을 삭제하고 초기화하시겠습니까?")) {
+        if (confirm("모든 데이터를 초기화하시겠습니까?")) {
             localStorage.clear();
             returnToMain();
         }
@@ -1423,7 +1423,7 @@
     }
 
     function checkAnswer(btn, isCorrectChoice, data) {
-        if (synth) synth.cancel(); // 제출 시 기존 음성 중단
+        if (synth) synth.cancel();
         
         const currentData = currentTestList[currentIndex];
         const msgDiv = document.getElementById('result-message');
@@ -1442,10 +1442,10 @@
 
         if (isCorrect) {
             if(btn) btn.classList.add('selected-correct');
-            msgDiv.innerText = "정답입니다!";
+            msgDiv.innerText = "정답!";
             msgDiv.className = "result-msg correct";
             sessionCorrectCount++;
-            playSoundEffect('correct'); // 정답 효과음 재생
+            playSoundEffect('correct');
         } else {
             if(btn) btn.classList.add('selected-wrong');
             if (currentTestMode === 'choice') {
@@ -1457,7 +1457,7 @@
             msgDiv.className = "result-msg wrong";
             sessionWrongWords.push(currentData);
             addToWrong(currentData);
-            playSoundEffect('wrong'); // 오답 효과음 재생
+            playSoundEffect('wrong');
         }
         document.getElementById('next-btn').classList.remove('hidden');
     }
