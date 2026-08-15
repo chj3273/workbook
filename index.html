@@ -14,39 +14,46 @@
         }
         
         html, body {
-            width: 100%;
-            height: 100%;
+            width: 100vw;
+            height: 100vh;
             overflow: hidden;
-            background-color: #f4f4f5;
-            color: #09090b;
+            background-color: #000000;
+            color: #ffffff;
             font-size: 14px;
             line-height: 1.4;
         }
 
         body { 
-            max-width: 600px;
-            margin: 0 auto; 
-            padding: 12px; 
             display: flex;
             flex-direction: column;
-            height: 100vh;
+            align-items: center;
+            justify-content: center;
         }
         
-        .main-container {
-            flex: 1;
+        .main-container, .card.full-height {
+            width: 100%;
+            height: 100%;
+            max-width: 600px;
+            background-color: #09090b;
             display: flex;
             flex-direction: column;
-            gap: 10px;
             overflow: hidden;
+            border-left: 1px solid #18181b;
+            border-right: 1px solid #18181b;
+        }
+
+        .main-container {
+            padding: 16px;
+            gap: 12px;
+            justify-content: space-between;
         }
 
         .card { 
-            background: #ffffff; 
-            border: 1px solid #e4e4e7; 
+            background: #09090b; 
+            border: 1px solid #27272a; 
             border-radius: 12px;
             overflow: hidden; 
             flex-shrink: 0;
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
         }
 
         #main-menu-card {
@@ -59,47 +66,45 @@
             flex: 1;
             display: flex;
             flex-direction: column;
-            gap: 8px;
-            padding: 12px;
+            gap: 10px;
+            padding: 16px;
+            justify-content: center;
         }
 
         #main-menu-card button {
             flex: 1;
-            min-height: 44px;
+            min-height: 48px;
             font-size: 0.95rem;
             font-weight: 600;
             border-radius: 8px;
-            background-color: #ffffff;
-            color: #09090b;
-            border: 1px solid #e4e4e7;
-            padding: 0 14px;
+            background-color: #18181b;
+            color: #ffffff;
+            border: 1px solid #27272a;
+            padding: 0 16px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             letter-spacing: -0.2px;
-            transition: background-color 0.15s, border-color 0.15s;
+            transition: all 0.15s ease;
         }
         #main-menu-card button::after {
             content: "→";
             font-size: 0.85rem;
-            color: #a1a1aa;
+            color: #71717a;
+            transition: color 0.15s;
         }
         #main-menu-card button:active {
-            background-color: #f4f4f5;
-            border-color: #d4d4d8;
+            background-color: #27272a;
+            border-color: #3f3f46;
+        }
+        #main-menu-card button:active::after {
+            color: #ffffff;
         }
         
-        .card.full-height {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
-
         .card-header {
-            padding: 12px 14px;
-            background-color: #ffffff;
-            border-bottom: 1px solid #f4f4f5;
+            padding: 14px 16px;
+            background-color: #09090b;
+            border-bottom: 1px solid #18181b;
             cursor: pointer;
             display: flex;
             justify-content: space-between;
@@ -109,8 +114,8 @@
         .card-header h2 {
             margin: 0;
             font-size: 0.9rem;
-            font-weight: 700;
-            color: #09090b;
+            font-weight: 600;
+            color: #a1a1aa;
             letter-spacing: -0.3px;
         }
         .card-header .toggle-icon {
@@ -120,14 +125,15 @@
         }
         
         .card-content {
-            padding: 12px;
+            padding: 16px;
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 10px;
         }
         .card.full-height .card-content {
             flex: 1;
             overflow: hidden;
+            padding: 16px;
         }
         .card-content.collapsed {
             display: none;
@@ -135,27 +141,27 @@
 
         textarea {
             width: 100%;
-            height: 70px;
-            padding: 10px;
-            border: 1px solid #e4e4e7;
+            height: 80px;
+            padding: 12px;
+            border: 1px solid #27272a;
             font-size: 0.85rem;
             resize: none;
-            background-color: #fafafa;
+            background-color: #18181b;
             border-radius: 8px;
-            color: #09090b;
+            color: #ffffff;
         }
         textarea:focus {
             outline: none;
-            border-color: #09090b;
-            background-color: #ffffff;
+            border-color: #52525b;
+            background-color: #09090b;
         }
 
         button { 
             width: 100%;
-            height: 42px; 
-            background-color: #09090b;
-            color: #ffffff; 
-            border: 1px solid #09090b;
+            height: 44px; 
+            background-color: #ffffff;
+            color: #000000; 
+            border: 1px solid #ffffff;
             font-size: 0.9rem;
             font-weight: 600;
             cursor: pointer;
@@ -164,21 +170,31 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: background-color 0.15s, border-color 0.15s;
+            transition: all 0.15s ease;
             flex-shrink: 0;
         }
         button:active {
-            background-color: #27272a;
-            border-color: #27272a;
+            background-color: #e4e4e7;
+            border-color: #e4e4e7;
         }
         button.btn-secondary {
-            background-color: #ffffff;
-            color: #09090b;
-            border: 1px solid #e4e4e7;
+            background-color: #18181b;
+            color: #ffffff;
+            border: 1px solid #27272a;
         }
         button.btn-secondary:active {
-            background-color: #f4f4f5;
-            border-color: #d4d4d8;
+            background-color: #27272a;
+            border-color: #3f3f46;
+        }
+        button.btn-danger {
+            background-color: #18181b;
+            color: #a1a1aa;
+            border: 1px solid #27272a;
+        }
+        button.btn-danger:active {
+            background-color: #27272a;
+            color: #ffffff;
+            border-color: #52525b;
         }
         
         .hidden { display: none !important; }
@@ -188,36 +204,36 @@
             text-align: center;
             margin-top: 8px;
             font-size: 0.9rem;
-            padding: 10px;
-            border: 1px solid #09090b;
+            padding: 12px;
+            border: 1px solid #27272a;
             font-weight: 600;
             border-radius: 8px;
         }
         .correct {
-            background-color: #09090b;
-            color: #ffffff;
-            border-color: #09090b;
+            background-color: #ffffff;
+            color: #000000;
+            border-color: #ffffff;
         }
         .wrong {
-            background-color: #f4f4f5;
-            color: #18181b;
-            border-color: #e4e4e7;
+            background-color: #18181b;
+            color: #ffffff;
+            border-color: #27272a;
         }
         
         .set-selection-list {
             text-align: left;
             flex: 1;
             overflow-y: auto;
-            border: 1px solid #e4e4e7;
-            padding: 4px;
+            border: 1px solid #27272a;
+            padding: 6px;
             border-radius: 8px;
-            background: #ffffff;
+            background: #18181b;
         }
         .set-item {
             display: flex;
             align-items: center;
-            padding: 10px 8px;
-            border-bottom: 1px solid #f4f4f5;
+            padding: 12px 10px;
+            border-bottom: 1px solid #27272a;
         }
         .set-item:last-child { border-bottom: none; }
         .set-item label {
@@ -225,19 +241,19 @@
             font-size: 0.9rem;
             margin-left: 10px;
             cursor: pointer;
-            color: #18181b;
+            color: #e4e4e7;
         }
 
         .flashcard-box {
             position: relative;
-            border: 1px solid #e4e4e7;
-            padding: 16px;
+            border: 1px solid #27272a;
+            padding: 20px;
             text-align: center;
-            margin: 4px 0;
-            background-color: #fafafa;
+            margin: 6px 0;
+            background-color: #18181b;
             cursor: pointer;
             flex: 1;
-            border-radius: 10px; 
+            border-radius: 12px; 
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -246,13 +262,13 @@
             transition: background-color 0.15s;
         }
         .flashcard-box:active {
-            background-color: #f4f4f5;
+            background-color: #27272a;
         }
         
         .flash-meta {
             position: absolute;
-            top: 12px;
-            left: 12px;
+            top: 14px;
+            left: 14px;
             text-align: left;
             color: #71717a;
             font-size: 0.75rem;
@@ -260,79 +276,80 @@
         }
 
         .flash-text-main {
-            font-size: 1.8rem;
+            font-size: 2rem;
             font-weight: 700;
-            color: #09090b;
-            margin-bottom: 6px;
+            color: #ffffff;
+            margin-bottom: 8px;
             word-break: keep-all;
             line-height: 1.2;
             letter-spacing: -0.5px;
         }
         .flash-text-sub {
-            font-size: 1.1rem;
-            color: #27272a;
+            font-size: 1.15rem;
+            color: #a1a1aa;
             margin-top: 6px;
-            font-weight: 600;
+            font-weight: 500;
             word-break: keep-all;
         }
         
         .flash-example { 
-            font-size: 0.9rem;
-            color: #09090b;
-            margin-top: 8px; 
-            padding: 10px;
-            border: 1px solid #e4e4e7;
+            font-size: 0.95rem;
+            color: #ffffff;
+            margin-top: 10px; 
+            padding: 12px;
+            border: 1px solid #27272a;
             width: 100%;
             word-break: keep-all; 
             border-radius: 8px;
-            background: #ffffff;
+            background: #09090b;
             text-align: left;
+            line-height: 1.4;
         }
         .flash-ex-ko {
-            background: #f4f4f5;
-            border-color: #e4e4e7;
-            color: #52525b;
+            background: #18181b;
+            border-color: #27272a;
+            color: #a1a1aa;
         }
         
         .flash-guide {
             font-size: 0.75rem;
-            color: #a1a1aa;
-            margin-top: 10px;
+            color: #52525b;
+            margin-top: 12px;
         }
 
         .audio-btn-wrapper {
             text-align: center;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
         }
         .audio-btn {
-            background: #ffffff;
-            color: #09090b;
-            border: 1px solid #d4d4d8;
+            background: #09090b;
+            color: #a1a1aa;
+            border: 1px solid #27272a;
             cursor: pointer; 
             font-size: 0.75rem;
             height: auto;
-            padding: 3px 10px;
+            padding: 4px 12px;
             font-weight: 600; 
             border-radius: 20px;
             display: inline-flex;
             width: auto;
         }
-        .audio-btn:active { background: #f4f4f5; }
+        .audio-btn:active { background: #27272a; color: #ffffff; }
         
         .top-ctrl-container {
             position: absolute;
-            top: 10px;
-            right: 10px;
+            top: 12px;
+            right: 12px;
             display: flex;
-            gap: 4px;
+            gap: 6px;
             z-index: 10;
         }
         .top-ctrl-btn {
             font-size: 0.7rem;
-            background: #ffffff;
-            border: 1px solid #d4d4d8;
+            background: #09090b;
+            border: 1px solid #27272a;
             cursor: pointer;
-            color: #52525b;
+            color: #71717a;
             height: auto;
             padding: 4px 10px;
             width: auto;
@@ -341,177 +358,178 @@
             white-space: nowrap;
         }
         .top-ctrl-btn.active {
-            background: #09090b;
-            color: #ffffff;
-            border-color: #09090b;
+            background: #ffffff;
+            color: #000000;
+            border-color: #ffffff;
         }
 
         .mc-option {
-            background: #ffffff;
-            border: 1px solid #e4e4e7;
-            padding: 0 12px;
-            margin-bottom: 6px;
+            background: #18181b;
+            border: 1px solid #27272a;
+            padding: 0 14px;
+            margin-bottom: 8px;
             font-size: 0.9rem;
             font-weight: 500;
             cursor: pointer;
             text-align: left;
-            color: #09090b; 
+            color: #e4e4e7; 
             width: 100%;
             border-radius: 8px;
-            height: 42px; 
+            height: 44px; 
             display: flex;
             align-items: center;
             justify-content: flex-start;
             transition: background-color 0.15s;
         }
-        .mc-option:active { background-color: #f4f4f5; }
+        .mc-option:active { background-color: #27272a; }
         .mc-option.selected-correct {
-            border: 2px solid #09090b;
-            font-weight: 700;
+            border: 1px solid #ffffff;
             background-color: #ffffff;
-            color: #09090b;
+            color: #000000;
+            font-weight: 700;
         }
         .mc-option.selected-wrong {
-            background-color: #f4f4f5;
-            color: #a1a1aa;
+            background-color: #09090b;
+            color: #52525b;
             text-decoration: line-through;
-            border-color: #e4e4e7;
+            border-color: #27272a;
         }
 
         .spelling-input {
             width: 100%;
-            height: 44px;
-            padding: 0 12px;
+            height: 46px;
+            padding: 0 14px;
             font-size: 1.05rem;
             text-align: center;
             font-weight: 600;
-            border: 1px solid #d4d4d8;
-            margin-bottom: 6px;
-            background: #ffffff;
-            color: #09090b;
+            border: 1px solid #27272a;
+            margin-bottom: 8px;
+            background: #18181b;
+            color: #ffffff;
             border-radius: 8px;
         }
         .spelling-input:focus {
             outline: none;
-            border-color: #09090b;
+            border-color: #ffffff;
         }
 
         ul { padding-left: 0; list-style: none; margin: 0; }
         #manage-list li, #set-detail-list li { 
-            border-bottom: 1px solid #f4f4f5;
-            padding: 10px 0;
+            border-bottom: 1px solid #18181b;
+            padding: 12px 0;
             display: flex; 
             justify-content: space-between;
             align-items: center;
-            background: #ffffff;
+            background: transparent;
         }
         
         .item-action-btn {
-            background-color: #ffffff;
-            color: #09090b;
-            border: 1px solid #d4d4d8;
-            padding: 0 8px;
-            height: 30px;
+            background-color: #18181b;
+            color: #ffffff;
+            border: 1px solid #27272a;
+            padding: 0 10px;
+            height: 32px;
             font-size: 0.75rem;
             font-weight: 600;
-            margin-left: 4px;
+            margin-left: 6px;
             width: auto; 
             border-radius: 6px;
         }
-        .item-action-btn:active { background-color: #f4f4f5; }
+        .item-action-btn:active { background-color: #27272a; }
         
-        .scroll-list { flex: 1; overflow-y: auto; padding: 2px; }
-        #word-list-container { flex: 1; overflow-y: auto; padding: 4px; }
+        .scroll-list { flex: 1; overflow-y: auto; padding-right: 2px; }
+        #word-list-container { flex: 1; overflow-y: auto; padding: 6px; }
         
         .word-list-item {
-            border-bottom: 1px solid #f4f4f5;
+            border-bottom: 1px solid #18181b;
             padding: 4px 0;
             display: flex;
             align-items: stretch;
             gap: 6px;
-            background: #ffffff;
+            background: transparent;
         }
         .word-list-item:last-child { border-bottom: none; }
         
         .word-tap-box {
             flex: 1;
-            min-height: 40px;
-            padding: 8px 10px;
+            min-height: 42px;
+            padding: 8px 12px;
             border-radius: 6px;
-            border: 1px solid #e4e4e7;
-            background-color: #fafafa;
+            border: 1px solid #27272a;
+            background-color: #18181b;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: flex-start;
             user-select: none;
-            transition: background-color 0.15s, border-color 0.15s;
+            transition: all 0.15s ease;
         }
-        .word-tap-box:active { background-color: #f4f4f5; }
-        .word-tap-box.en { font-weight: 700; color: #09090b; font-size: 0.9rem; }
-        .word-tap-box.ko { font-weight: 500; color: #3f3f46; font-size: 0.85rem; }
+        .word-tap-box:active { background-color: #27272a; }
+        .word-tap-box.en { font-weight: 700; color: #ffffff; font-size: 0.9rem; }
+        .word-tap-box.ko { font-weight: 500; color: #a1a1aa; font-size: 0.85rem; }
         
         .masked-text { 
-            background-color: #e4e4e7 !important; 
+            background-color: #27272a !important; 
             color: transparent !important; 
-            border-color: #d4d4d8 !important;
+            border-color: #3f3f46 !important;
             border-radius: 6px;
         }
 
         .badge {
             display: inline-block;
-            padding: 3px 10px;
-            background: #09090b;
-            color: #ffffff;
+            padding: 4px 12px;
+            background: #18181b;
+            color: #a1a1aa;
+            border: 1px solid #27272a;
             font-weight: 600;
             font-size: 0.7rem;
-            margin-bottom: 4px;
+            margin-bottom: 6px;
             border-radius: 20px;
         }
         
-        .flex-row { display: flex; gap: 6px; width: 100%; }
+        .flex-row { display: flex; gap: 8px; width: 100%; }
         .flex-row button { flex: 1; }
 
-        .filter-bar { display: flex; gap: 4px; margin-bottom: 6px; }
+        .filter-bar { display: flex; gap: 6px; margin-bottom: 8px; }
         .filter-btn {
             flex: 1;
-            height: 34px;
+            height: 36px;
             font-size: 0.8rem;
-            border: 1px solid #e4e4e7;
-            background: #ffffff;
-            color: #09090b;
+            border: 1px solid #27272a;
+            background: #18181b;
+            color: #a1a1aa;
             border-radius: 6px;
             cursor: pointer;
             font-weight: 600;
         }
         .filter-btn.active {
-            background: #09090b;
-            color: #ffffff;
-            border-color: #09090b;
+            background: #ffffff;
+            color: #000000;
+            border-color: #ffffff;
         }
         
         .data-manage-card {
-            border: 1px solid #e4e4e7;
-            background: #ffffff;
+            border: 1px solid #27272a;
+            background: #09090b;
             border-radius: 12px;
         }
         .data-manage-card .card-header {
-            padding: 10px 14px;
+            padding: 12px 16px;
             background-color: transparent;
         }
         .data-manage-card .card-header h2 {
             font-size: 0.85rem;
-            color: #52525b;
+            color: #71717a;
             font-weight: 600;
         }
         .data-manage-card .card-content {
-            padding: 12px;
-            gap: 6px;
+            padding: 14px;
+            gap: 8px;
             max-height: 380px;
             overflow-y: auto;
         }
         .data-manage-card button {
-            height: 36px;
+            height: 38px;
             font-size: 0.82rem;
             border-radius: 6px;
         }
@@ -545,19 +563,20 @@
                 <textarea id="bulk-input" placeholder="여기에 데이터를 붙여넣으세요..."></textarea>
                 <button onclick="addWordSetsAuto()">단어 등록하기</button>
                 
-                <div style="margin-top:2px; text-align: right; color: #71717a; font-size: 0.75rem;">저장된 단어장: <strong id="set-count">0</strong>개</div>
+                <div style="margin-top:2px; text-align: right; color: #71717a; font-size: 0.75rem;">저장된 단어장: <strong id="set-count" style="color:#ffffff;">0</strong>개</div>
                 <button class="btn-secondary" onclick="toggleManageList()">단어장 목록 편집 / 삭제</button>
                 <button class="btn-secondary" onclick="backupData()">데이터 백업 (파일 저장)</button>
                 <button class="btn-secondary" onclick="triggerRestore()">데이터 복구 (파일 불러오기)</button>
                 <input type="file" id="restore-input" style="display: none;" accept=".json" onchange="restoreData(this)">
-                <button class="btn-secondary margin-top-8" onclick="clearAllData()">전체 데이터 초기화</button>
+                <button class="btn-danger margin-top-8" onclick="clearWrongAnswers()">오답 기록 초기화</button>
+                <button class="btn-danger" onclick="clearAllData()">전체 데이터 초기화</button>
             </div>
         </div>
     </div>
 
     <div class="card full-height hidden" id="manage-section">
         <div class="card-content">
-            <h2 style="margin:0 0 6px 0; font-size:0.95rem;">목록 편집</h2>
+            <h2 style="margin:0 0 8px 0; font-size:0.95rem; color:#ffffff;">목록 편집</h2>
             <div class="scroll-list"><ul id="manage-list"></ul></div>
             <button class="btn-secondary margin-top-8" onclick="toggleManageList()">닫기</button>
         </div>
@@ -565,7 +584,7 @@
 
     <div class="card full-height hidden" id="set-detail-section">
         <div class="card-content">
-            <h2 id="detail-set-title" style="margin:0 0 6px 0; font-size:0.95rem;">상세 편집</h2>
+            <h2 id="detail-set-title" style="margin:0 0 8px 0; font-size:0.95rem; color:#ffffff;">상세 편집</h2>
             <div class="scroll-list"><ul id="set-detail-list"></ul></div>
             <button class="btn-secondary margin-top-8" onclick="closeSetDetail()">뒤로 가기</button>
         </div>
@@ -573,7 +592,7 @@
 
     <div class="card full-height hidden" id="selection-section">
         <div class="card-content">
-            <h2 style="margin:0 0 6px 0; font-size:0.95rem;">학습할 단어장 선택</h2>
+            <h2 style="margin:0 0 8px 0; font-size:0.95rem; color:#ffffff;">학습할 단어장 선택</h2>
             <div class="flex-row" style="margin-bottom: 4px;">
                 <button class="btn-secondary" onclick="selectAllSets(true)">전체 선택</button>
                 <button class="btn-secondary" onclick="selectAllSets(false)">선택 해제</button>
@@ -586,13 +605,13 @@
 
     <div class="card full-height hidden" id="word-list-section">
         <div class="card-content">
-            <h2 style="margin:0 0 6px 0; font-size:0.95rem;">단어 목록</h2>
+            <h2 style="margin:0 0 8px 0; font-size:0.95rem; color:#ffffff;">단어 목록</h2>
             <div class="filter-bar">
                 <button class="filter-btn active" id="filter-all" onclick="setWordListFilter('all')">전체 보기</button>
                 <button class="filter-btn" id="filter-en" onclick="setWordListFilter('hide-en')">단어 가리기</button>
                 <button class="filter-btn" id="filter-ko" onclick="setWordListFilter('hide-ko')">뜻 가리기</button>
             </div>
-            <div id="word-list-container" style="border: 1px solid #e4e4e7; border-radius: 8px;"></div>
+            <div id="word-list-container" style="border: 1px solid #27272a; border-radius: 8px; background:#18181b;"></div>
             <button class="btn-secondary margin-top-8" onclick="returnToMain()">메인으로 돌아가기</button>
         </div>
     </div>
@@ -653,9 +672,9 @@
 
     <div class="card full-height hidden" id="report-section">
         <div class="card-content" style="text-align:center;">
-            <h2 style="margin: 6px 0 4px 0; font-size: 1rem;">학습 완료!</h2>
-            <div id="report-summary" style="font-size:0.95rem; font-weight:600; margin-bottom:8px;"></div>
-            <div class="scroll-list" id="report-wrong-list" style="text-align:left; border: 1px solid #e4e4e7; border-radius: 8px; padding: 6px; margin-bottom: 4px;"></div>
+            <h2 style="margin: 8px 0 4px 0; font-size: 1.1rem; color:#ffffff;">학습 완료!</h2>
+            <div id="report-summary" style="font-size:0.95rem; font-weight:600; margin-bottom:12px; color:#a1a1aa;"></div>
+            <div class="scroll-list" id="report-wrong-list" style="text-align:left; border: 1px solid #27272a; border-radius: 8px; padding: 10px; margin-bottom: 8px; background:#18181b;"></div>
             <button onclick="returnToMain()">메인으로 돌아가기</button>
         </div>
     </div>
@@ -750,7 +769,7 @@
         if (content.classList.contains('collapsed')) {
             content.classList.remove('collapsed');
             icon.innerText = '[접기]';
-            headerElement.style.borderBottom = '1px solid #f4f4f5';
+            headerElement.style.borderBottom = '1px solid #18181b';
         } else {
             content.classList.add('collapsed');
             icon.innerText = '[열기]';
@@ -843,7 +862,7 @@
             const infoDiv = document.createElement('div');
             infoDiv.style.flex = "1";
             infoDiv.style.cursor = "pointer";
-            infoDiv.innerHTML = `<strong style="color:#09090b;">${set.title}</strong> <span style="font-size:0.8em; color:#71717a;">(${set.words.length} 단어)</span>`;
+            infoDiv.innerHTML = `<strong style="color:#ffffff;">${set.title}</strong> <span style="font-size:0.8em; color:#71717a;">(${set.words.length} 단어)</span>`;
             infoDiv.onclick = function() { openSetDetail(set.id); };
 
             const delBtn = document.createElement('button');
@@ -883,8 +902,8 @@
             const li = document.createElement('li');
             li.innerHTML = `
                 <div style="flex:1; padding-right:8px;">
-                    <div style="font-weight:700; font-size:0.9rem; color:#09090b;">${item.word}</div>
-                    <div style="color:#52525b; font-size:0.75rem;">${item.mean}</div>
+                    <div style="font-weight:700; font-size:0.9rem; color:#ffffff;">${item.word}</div>
+                    <div style="color:#a1a1aa; font-size:0.75rem;">${item.mean}</div>
                 </div>
                 <div>
                     <button class="item-action-btn" onclick="editWordInSet(${index})">수정</button>
@@ -934,9 +953,23 @@
         renderManageList(); 
     }
 
+    function clearWrongAnswers() {
+        if (wrongAnswers.length === 0) {
+            alert("저장된 오답 기록이 없습니다.");
+            return;
+        }
+        if (confirm("저장된 오답 기록을 모두 초기화하시겠습니까?")) {
+            wrongAnswers = [];
+            localStorage.setItem('hjWrongAnswers_v3', JSON.stringify(wrongAnswers));
+            alert("오답 기록이 초기화되었습니다.");
+        }
+    }
+
     function clearAllData() {
-        if (confirm("모든 단어장 데이터를 삭제하고 초기화하시겠습니까?")) {
+        if (confirm("모든 단어장 데이터와 오답 기록을 삭제하고 초기화하시겠습니까?")) {
             localStorage.clear();
+            wordSets = [];
+            wrongAnswers = [];
             returnToMain();
         }
     }
@@ -977,7 +1010,7 @@
     let pendingAction = '';
 
     function openSetSelection(action) {
-        if (wordSets.length === 0) { alert("등록된 단어장이 없습니다."); return; }
+        if (wordSets.length === 0 && action !== 'wrong-drill-choice') { alert("등록된 단어장이 없습니다."); return; }
         pendingAction = action;
         
         if (action === 'wrong-drill-choice') {
@@ -1000,7 +1033,7 @@
             div.className = 'set-item';
             
             let labelHtml = (action === 'flash-star') 
-                ? `${set.title} (즐겨찾기: <strong>${starredCount}</strong> / ${totalCount})`
+                ? `${set.title} (즐겨찾기: <strong style="color:#ffffff;">${starredCount}</strong> / ${totalCount})`
                 : `${set.title} (${totalCount} 단어)`;
 
             div.innerHTML = `<input type="checkbox" id="set-${set.id}" value="${set.id}"><label for="set-${set.id}">${labelHtml}</label>`;
@@ -1315,7 +1348,7 @@
         
         if (currentTestMode === 'spelling') {
             displayHtml = `
-                <div class="flash-example" style="margin-top:0; color:#09090b; font-weight:700; font-size:1.2rem; text-align:center;">
+                <div class="flash-example" style="margin-top:0; color:#ffffff; font-weight:700; font-size:1.2rem; text-align:center; background:#18181b;">
                     ${data.mean}
                 </div>`;
             
@@ -1332,7 +1365,7 @@
 
         } else {
             displayHtml = `
-                <div style="font-size:1.6rem; font-weight:700; margin-bottom:4px; color:#09090b;">
+                <div style="font-size:1.6rem; font-weight:700; margin-bottom:4px; color:#ffffff;">
                     <div class="audio-btn-wrapper"><button class="audio-btn" onclick="speak('${data.word.replace(/'/g, "\\'")}', 'en')">단어 듣기</button></div>
                     ${data.word}
                 </div>`;
@@ -1385,7 +1418,7 @@
                      if(b.innerText === currentData.mean) b.classList.add('selected-correct');
                  });
             }
-            msgDiv.innerHTML = `오답!<br>정답: <span style="font-weight:700;">${currentData.word}</span> (${currentData.mean})`;
+            msgDiv.innerHTML = `오답!<br>정답: <span style="font-weight:700; color:#ffffff;">${currentData.word}</span> (${currentData.mean})`;
             msgDiv.className = "result-msg wrong";
             sessionWrongWords.push(currentData);
             addToWrong(currentData);
@@ -1409,7 +1442,7 @@
         const score = Math.round((sessionCorrectCount / total) * 100);
         
         document.getElementById('report-summary').innerHTML = `
-            점수: <strong>${score}점</strong> (${sessionCorrectCount} / ${total})
+            점수: <strong style="color:#ffffff;">${score}점</strong> (${sessionCorrectCount} / ${total})
         `;
 
         const wrongListDiv = document.getElementById('report-wrong-list');
@@ -1419,9 +1452,9 @@
         } else {
             sessionWrongWords.forEach(item => {
                 const div = document.createElement('div');
-                div.style.padding = '6px 0';
-                div.style.borderBottom = '1px solid #f4f4f5';
-                div.innerHTML = `<strong style="color:#09090b;">${item.word}</strong> - <span style="color:#52525b;">${item.mean}</span>`;
+                div.style.padding = '8px 0';
+                div.style.borderBottom = '1px solid #27272a';
+                div.innerHTML = `<strong style="color:#ffffff;">${item.word}</strong> - <span style="color:#a1a1aa;">${item.mean}</span>`;
                 wrongListDiv.appendChild(div);
             });
         }
