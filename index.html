@@ -563,8 +563,11 @@
                 <button class="btn-secondary" onclick="backupData()">데이터 백업</button>
                 <button class="btn-secondary" onclick="triggerRestore()">데이터 복구</button>
                 <input type="file" id="restore-input" style="display: none;" accept=".json" onchange="restoreData(this)">
-                <button class="btn-danger-soft" onclick="clearWrongAnswers()">오답 기록 초기화</button>
-                <button class="btn-danger-soft" onclick="clearAllData()">전체 데이터 초기화</button>
+                
+                <div class="flex-row">
+                    <button class="btn-danger-soft" onclick="clearWrongAnswers()">오답 기록 초기화</button>
+                    <button class="btn-danger-soft" onclick="clearAllData()">전체 데이터 초기화</button>
+                </div>
             </div>
         </div>
     </div>
