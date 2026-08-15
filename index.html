@@ -386,13 +386,55 @@
         loadData();
     }
 
-    function speak(text, lang = 'en', rate = 1.0) {
-        if (!synth || !text) return;
+    function speak(text, lang = 'en', rate = 1.0, onEndCallback = null) {
+        if (autoplayTimeout) {
+            clearTimeout(autoplayTimeout);
+            autoplayTimeout = null;
+        }
+
+        if (!synth || !text) {
+            if (onEndCallback) onEndCallback();
+            return;
+        }
+        
         synth.cancel();
-        const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = (lang === 'en') ? 'en-US' : 'ko-KR';
-        utterance.rate = rate;
-        synth.speak(utterance);
+
+        setTimeout(() => {
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = (lang === 'en') ? 'en-US' : 'ko-KR';
+            utterance.rate = rate;
+
+            let hasFinished = false;
+            const done = () => {
+                if (!hasFinished) {
+                    hasFinished = true;
+                    if (autoplayTimeout) {
+                        clearTimeout(autoplayTimeout);
+                        autoplayTimeout = null;
+                    }
+                    if (onEndCallback) onEndCallback();
+                }
+            };
+
+            utterance.onend = done;
+            utterance.onerror = done;
+
+            const fallbackDuration = Math.max(2000, text.length * 250);
+            autoplayTimeout = setTimeout(done, fallbackDuration);
+
+            synth.speak(utterance);
+        }, 50);
+    }
+
+    function playAudioText(type, lang = 'en', event) {
+        if (event) event.stopPropagation();
+        const data = currentTestList[currentIndex];
+        if (!data) return;
+        if (type === 'front') {
+            speak(data.word, lang, 1.0);
+        } else if (type === 'ex-en') {
+            speak(data.ex || '예문이 없습니다.', lang, 1.0);
+        }
     }
 
     function toggleSection(headerElement) {
@@ -786,11 +828,13 @@
         document.getElementById('flashcard-section').setAttribute('data-word', data.word);
         document.getElementById('flashcard-section').setAttribute('data-ex', data.ex || '');
 
-        speak(data.word, 'en', 1.0);
-
-        if (isAutoplay) {
-            scheduleAutoplayNextStep();
-        }
+        speak(data.word, 'en', 1.0, () => {
+            if (isAutoplay) {
+                autoplayTimeout = setTimeout(() => {
+                    if (isAutoplay && flashStep === 0) handleFlashClick();
+                }, 600);
+            }
+        });
     }
 
     function toggleAutoplay(event) {
@@ -802,7 +846,26 @@
             isAutoplay = true;
             btn.classList.add('active');
             btn.innerText = "정지";
-            scheduleAutoplayNextStep();
+            const data = currentTestList[currentIndex];
+            if (!data) return;
+            
+            if (flashStep === 0) {
+                speak(data.word, 'en', 1.0, () => {
+                    if (isAutoplay && flashStep === 0) handleFlashClick();
+                });
+            } else if (flashStep === 1) {
+                speak(data.mean, 'ko', 1.1, () => {
+                    if (isAutoplay && flashStep === 1) handleNextButton();
+                });
+            } else if (flashStep === 2) {
+                speak(data.ex || "예문 없음", 'en', 1.0, () => {
+                    if (isAutoplay && flashStep === 2) handleFlashClick();
+                });
+            } else if (flashStep === 3) {
+                speak(data.exTrans || "해석 없음", 'ko', 1.1, () => {
+                    if (isAutoplay && flashStep === 3) handleNextButton();
+                });
+            }
         }
     }
 
@@ -815,33 +878,6 @@
         if(btn) {
             btn.classList.remove('active');
             btn.innerText = "자동재생";
-        }
-    }
-
-    function scheduleAutoplayNextStep() {
-        if (!isAutoplay) return;
-        if (autoplayTimeout) clearTimeout(autoplayTimeout);
-
-        if (flashStep === 0) {
-            autoplayTimeout = setTimeout(() => {
-                if (!isAutoplay) return;
-                handleFlashClick();
-            }, 2200);
-        } else if (flashStep === 1) {
-            autoplayTimeout = setTimeout(() => {
-                if (!isAutoplay) return;
-                handleNextButton();
-            }, 2500);
-        } else if (flashStep === 2) {
-            autoplayTimeout = setTimeout(() => {
-                if (!isAutoplay) return;
-                handleFlashClick();
-            }, 2500);
-        } else if (flashStep === 3) {
-            autoplayTimeout = setTimeout(() => {
-                if (!isAutoplay) return;
-                handleNextButton();
-            }, 2500);
         }
     }
 
@@ -860,8 +896,13 @@
                 const btn = document.getElementById('flash-action-btn');
                 btn.innerText = "다음 단어";
                 btn.classList.remove('hidden');
-                speak(data.mean, 'ko', 1.2); 
-                if (isAutoplay) scheduleAutoplayNextStep();
+                speak(data.mean, 'ko', 1.1, () => {
+                    if (isAutoplay) {
+                        autoplayTimeout = setTimeout(() => {
+                            if (isAutoplay && flashStep === 1) handleNextButton();
+                        }, 1000);
+                    }
+                }); 
             }
         } else {
             if (flashStep === 0) {
@@ -871,8 +912,13 @@
                 const btn = document.getElementById('flash-action-btn');
                 btn.innerText = "다음";
                 btn.classList.remove('hidden');
-                speak(data.mean, 'ko', 1.2); 
-                if (isAutoplay) scheduleAutoplayNextStep();
+                speak(data.mean, 'ko', 1.1, () => {
+                    if (isAutoplay) {
+                        autoplayTimeout = setTimeout(() => {
+                            if (isAutoplay && flashStep === 1) handleNextButton();
+                        }, 1000);
+                    }
+                }); 
             }
             else if (flashStep === 2) {
                 flashStep = 3;
@@ -881,8 +927,13 @@
                 const btn = document.getElementById('flash-action-btn');
                 btn.innerText = "다음 단어";
                 btn.classList.remove('hidden');
-                speak(data.exTrans || "해석 없음", 'ko', 1.1); 
-                if (isAutoplay) scheduleAutoplayNextStep();
+                speak(data.exTrans || "해석 없음", 'ko', 1.1, () => {
+                    if (isAutoplay) {
+                        autoplayTimeout = setTimeout(() => {
+                            if (isAutoplay && flashStep === 3) handleNextButton();
+                        }, 1200);
+                    }
+                }); 
             }
         }
     }
@@ -899,8 +950,13 @@
                 document.getElementById('flash-action-btn').classList.add('hidden');
                 document.getElementById('flash-guide').innerText = "터치하여 해석 확인";
                 document.getElementById('flash-guide').classList.remove('hidden');
-                if(data.ex) speak(data.ex, 'en', 1.0);
-                if (isAutoplay) scheduleAutoplayNextStep();
+                speak(data.ex || "예문 없음", 'en', 1.0, () => {
+                    if (isAutoplay) {
+                        autoplayTimeout = setTimeout(() => {
+                            if (isAutoplay && flashStep === 2) handleFlashClick();
+                        }, 800);
+                    }
+                });
             }
             else if (flashStep === 3) {
                 nextFlashcard();
