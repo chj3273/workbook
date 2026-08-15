@@ -8,7 +8,7 @@
         * { box-sizing: border-box; font-family: "Apple SD Gothic Neo", "Pretendard", "Malgun Gothic", sans-serif; }
         body { 
             margin: 0; 
-            padding: 8px 8px 0px 8px; 
+            padding: 8px 8px 16px 8px; 
             background-color: #f7f8f9;
             color: #222;
             font-size: 16px; line-height: 1.5;
@@ -16,59 +16,57 @@
         
         .card { 
             background: #fff; padding: 0; 
-            border: 1px solid #dcdcdc; margin-bottom: 6px; 
+            border: 1px solid #dcdcdc; margin-bottom: 8px; 
             border-radius: 12px;
             overflow: hidden; 
         }
-        .card:last-child {
-            margin-bottom: 0;
-        }
+        .card:last-child { margin-bottom: 0; }
         .card-header {
             padding: 12px 16px; background-color: #fff; color: #222;
             border-bottom: 1px solid #eee;
             cursor: pointer; display: flex; justify-content: space-between; align-items: center;
             user-select: none; 
         }
-        .card-header h2 { margin: 0; font-size: 1.15rem; font-weight: 600; }
-        .card-header .toggle-icon { font-size: 0.9rem; color: #888; transition: transform 0.2s; }
+        .card-header h2 { margin: 0; font-size: 1.1rem; font-weight: 700; }
+        .card-header .toggle-icon { font-size: 0.85rem; color: #888; transition: transform 0.2s; }
         
         .card-content { padding: 12px 16px; display: flex; flex-direction: column; gap: 6px; }
         .card-content.collapsed { display: none; }
 
         textarea {
-            width: 100%; height: 100px; padding: 10px; border: 1px solid #dcdcdc;
-            font-size: 1rem; resize: none; background-color: #fff;
+            width: 100%; height: 90px; padding: 10px; border: 1px solid #dcdcdc;
+            font-size: 0.95rem; resize: none; background-color: #fff;
             border-radius: 8px; color: #222;
         }
-        textarea:focus { outline: none; border-color: #888; }
+        textarea:focus { outline: none; border-color: #444; }
 
         button { 
             width: 100%; height: 44px; 
             background-color: #fff; color: #222; 
-            border: 1px solid #d0d0d0; font-size: 1.05rem; font-weight: 600;
+            border: 1px solid #d0d0d0; font-size: 1rem; font-weight: 600;
             cursor: pointer; touch-action: manipulation;
             border-radius: 8px; 
             display: flex; align-items: center; justify-content: center;
             transition: all 0.2s;
         }
-        button:active { background-color: #f0f0f0; border-color: #999; }
+        button:active { background-color: #f0f0f0; border-color: #888; }
         
         .hidden { display: none !important; }
-        .margin-top-15 { margin-top: 6px; }
+        .margin-top-15 { margin-top: 8px; }
         
-        .result-msg { text-align: center; margin-top: 8px; font-size: 1.1rem; padding: 8px; border: 1px solid #ccc; font-weight: 600; border-radius: 8px; }
-        .correct { background-color: #fff; color: #222; border-color: #888; }
-        .wrong { background-color: #f2f2f2; color: #444; }
+        .result-msg { text-align: center; margin-top: 8px; font-size: 1.05rem; padding: 8px; border: 1px solid #ccc; font-weight: 600; border-radius: 8px; }
+        .correct { background-color: #fff; color: #222; border-color: #222; }
+        .wrong { background-color: #f2f2f2; color: #444; border-color: #bbb; }
         
         .set-selection-list { text-align: left; max-height: 50vh; overflow-y: auto; border: 1px solid #eee; padding: 4px 8px; border-radius: 8px; background: #fff; }
-        .set-item { display: flex; align-items: center; padding: 6px 4px; border-bottom: 1px solid #f5f5f5; }
+        .set-item { display: flex; align-items: center; padding: 8px 4px; border-bottom: 1px solid #f5f5f5; }
         .set-item:last-child { border-bottom: none; }
-        .set-item label { flex: 1; font-size: 1.05rem; margin-left: 10px; cursor: pointer; color: #333; }
+        .set-item label { flex: 1; font-size: 1rem; margin-left: 10px; cursor: pointer; color: #333; }
 
         .flashcard-box {
-            position: relative; border: 1px solid #dcdcdc; padding: 25px 15px;
+            position: relative; border: 1px solid #dcdcdc; padding: 20px 15px;
             text-align: center; margin: 8px 0; background-color: #fff; cursor: pointer;
-            height: 54vh; min-height: 360px; max-height: 480px;
+            height: 52vh; min-height: 340px; max-height: 460px;
             border-radius: 12px; 
             display: flex; flex-direction: column;
             justify-content: center; align-items: center;
@@ -76,49 +74,52 @@
         
         .flash-meta {
             position: absolute; top: 12px; left: 15px; text-align: left;
-            color: #666; font-size: 0.9rem; font-weight: 600;
+            color: #666; font-size: 0.85rem; font-weight: 600;
         }
 
-        .flash-text-main { font-size: 2.4rem; font-weight: 700; color: #222; margin-bottom: 12px; word-break: keep-all; line-height: 1.2; }
-        .flash-text-sub { font-size: 1.4rem; color: #555; margin-top: 10px; font-weight: 600; word-break: keep-all; }
+        .flash-text-main { font-size: 2.3rem; font-weight: 700; color: #222; margin-bottom: 8px; word-break: keep-all; line-height: 1.2; }
+        .flash-text-sub { font-size: 1.35rem; color: #444; margin-top: 8px; font-weight: 600; word-break: keep-all; }
         
         .flash-example { 
-            font-size: 1.1rem; color: #333; margin-top: 12px; 
-            padding: 12px; border: 1px solid #eee; width: 100%; word-break: keep-all; 
+            font-size: 1.05rem; color: #333; margin-top: 10px; 
+            padding: 10px; border: 1px solid #eee; width: 100%; word-break: keep-all; 
             border-radius: 8px; background: #fff;
         }
         .flash-ex-ko { background: #f5f5f7; border-color: #e5e5e5; }
         
         .highlight-word { font-weight: 700; text-decoration: underline; color: #111; }
-        .flash-guide { font-size: 0.9rem; color: #888; margin-top: 20px; }
+        .flash-guide { font-size: 0.85rem; color: #888; margin-top: 16px; }
 
-        .audio-btn-wrapper { text-align: center; margin-bottom: 8px; }
+        .audio-btn-wrapper { text-align: center; margin-bottom: 6px; }
         .audio-btn {
             background: #fff; color: #444; border: 1px solid #ccc; cursor: pointer; 
-            font-size: 0.8rem; height: auto; padding: 4px 12px; font-weight: 600; 
+            font-size: 0.8rem; height: auto; padding: 3px 10px; font-weight: 600; 
             border-radius: 20px; display: inline-flex; width: auto;
         }
         .audio-btn:active { background: #eee; }
         
-        .star-toggle-btn {
-            position: absolute; top: 12px; right: 15px; font-size: 0.85rem;
-            background: #fff; border: 1px solid #ccc; cursor: pointer; color: #888;
-            height: auto; padding: 4px 10px; width: auto; z-index: 10; margin-top: 0; font-weight: 600;
+        .top-ctrl-btn {
+            position: absolute; top: 12px; font-size: 0.8rem;
+            background: #fff; border: 1px solid #ccc; cursor: pointer; color: #666;
+            height: auto; padding: 4px 8px; width: auto; z-index: 10; font-weight: 600;
             border-radius: 20px;
         }
+        .star-toggle-btn { right: 15px; }
         .star-toggle-btn.active { background: #222; color: #fff; border-color: #222; }
+        .autoplay-btn { right: 105px; }
+        .autoplay-btn.active { background: #222; color: #fff; border-color: #222; }
 
         .mc-option {
             background: #fff; border: 1px solid #d0d0d0; padding: 0 15px; margin-bottom: 6px;
-            font-size: 1.05rem; font-weight: 500; cursor: pointer; text-align: left; color: #222; 
+            font-size: 1rem; font-weight: 500; cursor: pointer; text-align: left; color: #222; 
             width: 100%; border-radius: 8px; height: 44px; 
             display: flex; align-items: center; justify-content: flex-start;
         }
-        .mc-option.selected-correct { border: 2px solid #222; font-weight: 700; }
+        .mc-option.selected-correct { border: 2px solid #222; font-weight: 700; background-color: #fcfcfc; }
         .mc-option.selected-wrong { background-color: #f2f2f2; color: #888; text-decoration: line-through; border-color: #ddd; }
 
         .spelling-input {
-            width: 100%; height: 44px; padding: 0 15px; font-size: 1.3rem; text-align: center; font-weight: 600;
+            width: 100%; height: 44px; padding: 0 15px; font-size: 1.2rem; text-align: center; font-weight: 600;
             border: 1px solid #aaa; margin-bottom: 8px; background: #fff; color: #222;
             border-radius: 8px;
         }
@@ -126,79 +127,96 @@
 
         ul { padding-left: 0; list-style: none; margin: 0; }
         #manage-list li, #set-detail-list li, .word-list-item { 
-            border-bottom: 1px solid #eee; padding: 8px 0; display: flex; 
+            border-bottom: 1px solid #eee; padding: 10px 0; display: flex; 
             justify-content: space-between; align-items: center; background: #fff;
         }
-        .word-list-item { flex-direction: row; }
         
         .item-action-btn {
             background-color: #fff; color: #444; border: 1px solid #ccc; padding: 0 10px;
-            height: 28px; font-size: 0.85rem; font-weight: 600; margin-left: 5px; width: auto; 
+            height: 28px; font-size: 0.8rem; font-weight: 600; margin-left: 5px; width: auto; 
             border-radius: 6px;
         }
         
         .scroll-list { max-height: 60vh; overflow-y: auto; padding-right: 5px; }
-        #word-list-container { max-height: 78vh; }
+        #word-list-container { max-height: 65vh; }
         
-        .badge { display: inline-block; padding: 4px 10px; background: #fff; border: 1px solid #222; color: #222; font-weight: 600; font-size: 0.85rem; margin-bottom: 6px; border-radius: 20px; }
+        .badge { display: inline-block; padding: 3px 10px; background: #fff; border: 1px solid #222; color: #222; font-weight: 600; font-size: 0.8rem; margin-bottom: 6px; border-radius: 20px; }
         
         .flex-row { display: flex; gap: 6px; width: 100%; }
         .flex-row button { flex: 1; }
+
+        /* 매칭 게임 전용 스타일 */
+        .game-grid {
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin: 10px 0;
+        }
+        .game-card {
+            background: #fff; border: 1px solid #d0d0d0; border-radius: 8px; min-height: 65px;
+            display: flex; align-items: center; justify-content: center; text-align: center;
+            font-size: 0.95rem; font-weight: 600; cursor: pointer; padding: 6px 10px;
+            user-select: none; word-break: keep-all; transition: all 0.15s;
+        }
+        .game-card.selected { border: 2px solid #000; background: #f0f0f0; }
+        .game-card.matched { visibility: hidden; opacity: 0; pointer-events: none; }
+
+        /* 단어장 필터 버튼 */
+        .filter-bar { display: flex; gap: 4px; margin-bottom: 8px; }
+        .filter-btn { flex: 1; height: 32px; font-size: 0.8rem; border: 1px solid #ccc; background: #fff; border-radius: 6px; cursor: pointer; }
+        .filter-btn.active { background: #222; color: #fff; border-color: #222; }
+        .masked-text { background: #eee; color: transparent !important; user-select: none; border-radius: 4px; padding: 0 4px; }
     </style>
 </head>
 <body>
 
-    <div class="card" id="flashcard-menu-section">
+    <div class="card" id="step-learning-section">
         <div class="card-header" onclick="toggleSection(this)">
-            <h2>학습 모드</h2>
+            <h2>클래스카드 3단계 학습법</h2>
             <span class="toggle-icon">▲</span>
         </div>
         <div class="card-content">
-            <button onclick="openSetSelection('flash-speed')">스피드 암기 (순서대로)</button>
-            <button onclick="openSetSelection('flash-speed-random')">스피드 암기 (랜덤섞기)</button>
-            <button onclick="openSetSelection('flash-deep')">상세 예문 학습 (순서대로)</button>
-            <button onclick="openSetSelection('flash-deep-random')">상세 예문 학습 (랜덤섞기)</button>
-            <button onclick="openSetSelection('flash-star')" style="border: 1px dashed #aaa;">즐겨찾기 단어 복습</button>
+            <button onclick="openSetSelection('step1-memorize')">1단계: 암기 학습 (카드 뒤집기)</button>
+            <button onclick="openSetSelection('step2-recall')">2단계: 리콜 학습 (뜻 맞추기)</button>
+            <button onclick="openSetSelection('step3-spell')">3단계: 스펠 학습 (스펠링 쓰기)</button>
         </div>
     </div>
 
     <div class="card" id="test-menu-section">
         <div class="card-header" onclick="toggleSection(this)">
-            <h2>테스트 및 복습</h2>
+            <h2>게임 & 실전 테스트</h2>
             <span class="toggle-icon">▲</span>
         </div>
         <div class="card-content">
-            <button onclick="openSetSelection('test-choice')">객관식 뜻 맞추기</button>
-            <button onclick="openSetSelection('test-spelling')">스펠링 직접 입력하기</button>
-            <button onclick="openSetSelection('wrong-drill-choice')">틀린 단어 다시 풀기</button>
+            <button onclick="openSetSelection('game-match')" style="border: 1px solid #222; font-weight: 700;">⚡ 스피드 매칭 게임 (타임어택)</button>
+            <button onclick="openSetSelection('flash-deep')">상세 예문 학습</button>
+            <button onclick="openSetSelection('flash-star')" style="border: 1px dashed #888;">★ 즐겨찾기 단어 복습</button>
+            <button onclick="openSetSelection('wrong-drill-choice')">틀린 오답 단어 다시 풀기</button>
         </div>
     </div>
 
     <div class="card" id="view-menu-section">
         <div class="card-header" onclick="toggleSection(this)">
-            <h2>단어 한눈에 보기</h2>
+            <h2>단어장 한눈에 보기</h2>
             <span class="toggle-icon">▲</span>
         </div>
         <div class="card-content">
-            <div style="font-size: 0.95rem; color: #666; margin-bottom: 2px;">등록된 단어를 리스트 형태로 바로 확인합니다.</div>
+            <div style="font-size: 0.85rem; color: #666;">단어/뜻 가리기 셀프 테스트 지원</div>
             <button onclick="openSetSelection('view-list')">단어 목록 열람하기</button>
         </div>
     </div>
 
     <div class="card" id="input-section">
-        <div class="card-header collapsed" onclick="toggleSection(this)" style="border-bottom: none;">
-            <h2>데이터 관리 (등록/수정)</h2>
+        <div class="card-header collapsed" onclick="toggleSection(this)">
+            <h2>데이터 관리 (등록/수정/백업)</h2>
             <span class="toggle-icon">▼</span>
         </div>
         <div class="card-content collapsed">
-            <div style="font-size: 0.9rem; color: #555; margin-bottom: 2px;">
+            <div style="font-size: 0.85rem; color: #555;">
                 형식: Day/순번/단어/뜻/예문/해석<br>
                 예시: Day 01/1/apple/사과/I ate an apple./나는 사과를 먹었다.
             </div>
             <textarea id="bulk-input" placeholder="여기에 데이터를 붙여넣으세요..."></textarea>
             <button onclick="addWordSetsAuto()">단어 등록하기</button>
             
-            <div style="margin-top:8px; text-align: right; color: #555; font-size: 0.95rem;">저장된 단어장: <strong id="set-count">0</strong>개</div>
+            <div style="margin-top:6px; text-align: right; color: #555; font-size: 0.9rem;">저장된 단어장: <strong id="set-count">0</strong>개</div>
             <button onclick="toggleManageList()">단어장 목록 편집 / 삭제</button>
             <button onclick="backupData()">데이터 백업 (파일 저장)</button>
             <button onclick="triggerRestore()">데이터 복구 (파일 불러오기)</button>
@@ -209,7 +227,7 @@
 
     <div class="card hidden" id="manage-section">
         <div class="card-content">
-            <h2 style="margin:0 0 8px 0; font-size:1.1rem; color:#222;">목록 편집</h2>
+            <h2 style="margin:0 0 8px 0; font-size:1.1rem;">목록 편집</h2>
             <div class="scroll-list"><ul id="manage-list"></ul></div>
             <button class="margin-top-15" onclick="toggleManageList()">닫기</button>
         </div>
@@ -217,7 +235,7 @@
 
     <div class="card hidden" id="set-detail-section">
         <div class="card-content">
-            <h2 id="detail-set-title" style="margin:0 0 8px 0; font-size:1.1rem; color:#222;">상세 편집</h2>
+            <h2 id="detail-set-title" style="margin:0 0 8px 0; font-size:1.1rem;">상세 편집</h2>
             <div class="scroll-list"><ul id="set-detail-list"></ul></div>
             <button class="margin-top-15" onclick="closeSetDetail()">뒤로 가기</button>
         </div>
@@ -225,7 +243,7 @@
 
     <div class="card hidden" id="selection-section">
         <div class="card-content">
-            <h2 style="margin:0 0 8px 0; font-size:1.1rem; color:#222;">학습할 단어장 선택</h2>
+            <h2 style="margin:0 0 8px 0; font-size:1.1rem;">학습할 단어장 선택</h2>
             <div class="flex-row" style="margin-bottom: 8px;">
                 <button onclick="selectAllSets(true)">전체 선택</button>
                 <button onclick="selectAllSets(false)">선택 해제</button>
@@ -238,20 +256,26 @@
 
     <div class="card hidden" id="word-list-section">
         <div class="card-content">
-            <h2 style="margin:0 0 8px 0; font-size:1.1rem; color:#222;">단어 목록</h2>
-            <div class="scroll-list" id="word-list-container" style="border: 1px solid #eee; border-radius: 8px; padding: 8px; margin-bottom: 6px;"></div>
-            <button onclick="location.reload()">메인으로 돌아가기</button>
+            <h2 style="margin:0 0 6px 0; font-size:1.1rem;">단어 목록</h2>
+            <div class="filter-bar">
+                <button class="filter-btn active" id="filter-all" onclick="setWordListFilter('all')">전체 보기</button>
+                <button class="filter-btn" id="filter-en" onclick="setWordListFilter('hide-en')">단어 가리기</button>
+                <button class="filter-btn" id="filter-ko" onclick="setWordListFilter('hide-ko')">뜻 가리기</button>
+            </div>
+            <div class="scroll-list" id="word-list-container" style="border: 1px solid #eee; border-radius: 8px; padding: 4px 8px;"></div>
+            <button class="margin-top-15" onclick="location.reload()">메인으로 돌아가기</button>
         </div>
     </div>
 
     <div class="card hidden" id="flashcard-section">
         <div class="card-content">
             <div style="text-align:center;"><span id="flash-mode-badge" class="badge">모드</span></div>
-            <div id="flash-progress" style="text-align:center; font-size: 1rem; color: #555;">1 / 10</div>
+            <div id="flash-progress" style="text-align:center; font-size: 0.95rem; color: #555;">1 / 10</div>
             
             <div class="flashcard-box" onclick="handleFlashClick()">
                 <div id="flash-meta-info" class="flash-meta"></div>
-                <button id="star-btn" class="star-toggle-btn" onclick="toggleStar(event)">☆ 즐겨찾기</button>
+                <button id="autoplay-btn" class="top-ctrl-btn autoplay-btn" onclick="toggleAutoplay(event)">▶ 자동재생</button>
+                <button id="star-btn" class="top-ctrl-btn star-toggle-btn" onclick="toggleStar(event)">☆ 즐겨찾기</button>
                 
                 <div id="flash-content-word-group" style="width:100%;">
                     <div class="audio-btn-wrapper"><button class="audio-btn" onclick="playAudioText('front', 'en', event)">발음 듣기</button></div>
@@ -261,7 +285,7 @@
 
                 <div id="flash-content-ex-group" class="hidden" style="width:100%;">
                     <div class="audio-btn-wrapper"><button class="audio-btn" onclick="playAudioText('ex-en', 'en', event)">예문 듣기</button></div>
-                    <div id="flash-ex-en" class="flash-example" style="border-bottom:none;">Example</div>
+                    <div id="flash-ex-en" class="flash-example">Example</div>
                     <div id="flash-ex-ko" class="flash-example flash-ex-ko hidden">Translation</div>
                 </div>
 
@@ -273,17 +297,17 @@
                 <button onclick="handleNextButton()" id="flash-action-btn" class="hidden">다음</button>
             </div>
             
-            <button class="margin-top-15" onclick="location.reload()">종료하기</button>
+            <button class="margin-top-15" onclick="exitFlashcard()">종료하기</button>
         </div>
     </div>
 
     <div class="card hidden" id="test-section">
         <div class="card-content">
             <div style="text-align:center;"><span id="test-type-badge" class="badge">테스트</span></div>
-            <div id="question-title" style="text-align:center; font-size: 1rem; color: #555;">문제</div>
+            <div id="question-title" style="text-align:center; font-size: 0.95rem; color: #555;">문제</div>
             
-            <div style="text-align: center; margin: 8px 0;">
-                <div id="question-display" style="width:100%; margin-bottom:8px;"></div>
+            <div style="text-align: center; margin: 6px 0;">
+                <div id="question-display" style="width:100%;"></div>
             </div>
 
             <div id="test-input-container"></div>
@@ -291,6 +315,27 @@
             
             <button onclick="nextQuestion()" id="next-btn" class="hidden margin-top-15">다음 문제</button>
             <button class="margin-top-15" onclick="location.reload()">종료하기</button>
+        </div>
+    </div>
+
+    <div class="card hidden" id="game-section">
+        <div class="card-content">
+            <div style="text-align:center;"><span class="badge">매칭 게임</span></div>
+            <div style="display:flex; justify-content:space-between; font-weight:700; padding:0 4px; font-size:0.95rem;">
+                <div>경과 시간: <span id="game-timer">0.0</span>초</div>
+                <div>남은 쌍: <span id="game-pairs">0</span></div>
+            </div>
+            <div id="game-grid-container" class="game-grid"></div>
+            <button class="margin-top-15" onclick="location.reload()">게임 종료</button>
+        </div>
+    </div>
+
+    <div class="card hidden" id="report-section">
+        <div class="card-content" style="text-align:center;">
+            <h2 style="margin: 8px 0 4px 0;">학습 완료! 🎉</h2>
+            <div id="report-summary" style="font-size:1.1rem; font-weight:600; margin-bottom:12px;"></div>
+            <div class="scroll-list" id="report-wrong-list" style="text-align:left; border: 1px solid #eee; border-radius: 8px; padding: 4px 8px; margin-bottom: 8px;"></div>
+            <button onclick="location.reload()">메인으로 돌아가기</button>
         </div>
     </div>
 
@@ -306,6 +351,19 @@
     
     let editingSetId = null; 
     let synth = window.speechSynthesis;
+
+    // 자동 재생 & 매칭 게임 타이머
+    let autoplayInterval = null;
+    let isAutoplay = false;
+    let gameTimerInterval = null;
+    let gameStartTime = 0;
+    let selectedGameCards = [];
+    let matchedPairsCount = 0;
+    let totalPairs = 0;
+
+    // 리포트용 기록
+    let sessionCorrectCount = 0;
+    let sessionWrongWords = [];
 
     window.onload = function() { loadData(); };
 
@@ -327,16 +385,7 @@
         const savedSets = localStorage.getItem('hjWordSets_v3');
         const savedWrong = localStorage.getItem('hjWrongAnswers_v3');
         if (savedSets) wordSets = JSON.parse(savedSets);
-        else {
-            const oldSets = localStorage.getItem('hjWordSets_v2');
-            if(oldSets) wordSets = JSON.parse(oldSets);
-        }
-        
         if (savedWrong) wrongAnswers = JSON.parse(savedWrong);
-        else {
-            const oldWrong = localStorage.getItem('hjWrongAnswers_v2');
-            if(oldWrong) wrongAnswers = JSON.parse(oldWrong);
-        }
         updateSetCount();
     }
 
@@ -410,14 +459,14 @@
     function renderManageList() {
         const ul = document.getElementById('manage-list');
         ul.innerHTML = '';
-        if (wordSets.length === 0) { ul.innerHTML = '<li style="color:#888; border:none; justify-content:center;">저장된 단어장이 없습니다.</li>'; return; }
+        if (wordSets.length === 0) { ul.innerHTML = '<li style="color:#888; justify-content:center;">저장된 단어장이 없습니다.</li>'; return; }
         
         wordSets.forEach(set => {
             const li = document.createElement('li');
             const infoDiv = document.createElement('div');
             infoDiv.style.flex = "1";
             infoDiv.style.cursor = "pointer";
-            infoDiv.innerHTML = `<strong style="color:#222;">${set.title}</strong> <span style="font-size:0.9em; color:#888;">(${set.words.length} 단어)</span>`;
+            infoDiv.innerHTML = `<strong style="color:#222;">${set.title}</strong> <span style="font-size:0.85em; color:#888;">(${set.words.length} 단어)</span>`;
             infoDiv.onclick = function() { openSetDetail(set.id); };
 
             const delBtn = document.createElement('button');
@@ -431,12 +480,11 @@
 
     function deleteSet(id) {
         const set = wordSets.find(s => s.id === id);
-        const check = prompt(`'${set.title}' 단어장을 삭제하려면 '삭제'를 입력하세요.`);
-        if (check !== '삭제') { alert("취소되었습니다."); return; }
-        wordSets = wordSets.filter(s => s.id !== id);
-        saveData();
-        renderManageList();
-        alert("삭제 완료.");
+        if (confirm(`'${set.title}' 단어장을 삭제하시겠습니까?`)) {
+            wordSets = wordSets.filter(s => s.id !== id);
+            saveData();
+            renderManageList();
+        }
     }
 
     function openSetDetail(id) {
@@ -452,14 +500,14 @@
     function renderSetDetailList(set) {
         const ul = document.getElementById('set-detail-list');
         ul.innerHTML = '';
-        if(set.words.length === 0) { ul.innerHTML = '<li style="color:#888; border:none; justify-content:center;">단어가 없습니다.</li>'; return; }
+        if(set.words.length === 0) { ul.innerHTML = '<li style="color:#888; justify-content:center;">단어가 없습니다.</li>'; return; }
 
         set.words.forEach((item, index) => {
             const li = document.createElement('li');
             li.innerHTML = `
                 <div style="flex:1; padding-right:10px;">
-                    <div style="font-weight:700; font-size:1.05rem; color:#222;">${item.word}</div>
-                    <div style="color:#666; font-size:0.9rem;">${item.mean}</div>
+                    <div style="font-weight:700; font-size:1rem; color:#222;">${item.word}</div>
+                    <div style="color:#666; font-size:0.85rem;">${item.mean}</div>
                 </div>
                 <div>
                     <button class="item-action-btn" onclick="editWordInSet(${index})">수정</button>
@@ -474,39 +522,20 @@
         const set = wordSets.find(s => s.id === editingSetId);
         if(!set) return;
         const item = set.words[index];
-        const oldDay = item.day;
-        
         const oldStr = `${item.day}/${item.seq}/${item.word}/${item.mean}/${item.ex}/${item.exTrans}`;
         const newStr = prompt("데이터 수정 (Day/순번/단어/뜻/예문/해석)", oldStr);
 
         if (newStr && newStr !== oldStr) {
             const parts = newStr.split('/');
             if (parts.length >= 4) {
-                const newDay = parts[0].trim();
-                item.day = newDay;
+                item.day = parts[0].trim();
                 item.seq = parts[1].trim();
                 item.word = parts[2].trim();
                 item.mean = parts[3].trim();
                 if(parts[4]) item.ex = parts[4].trim();
                 if(parts[5]) item.exTrans = parts[5].trim();
-
-                if (newDay !== oldDay) {
-                    set.words.splice(index, 1);
-                    let targetSet = wordSets.find(s => s.title === newDay);
-                    if (!targetSet) {
-                        targetSet = { id: Date.now(), title: newDay, words: [] };
-                        wordSets.push(targetSet);
-                        wordSets.sort((a, b) => a.title.localeCompare(b.title, undefined, { numeric: true, sensitivity: 'base' }));
-                    }
-                    targetSet.words.push(item);
-                    targetSet.words.sort((a,b) => (parseInt(a.seq)||0) - (parseInt(b.seq)||0));
-                } else {
-                    set.words.sort((a,b) => (parseInt(a.seq)||0) - (parseInt(b.seq)||0));
-                }
-                
                 saveData();
                 renderSetDetailList(set);
-                
             } else { alert("형식이 올바르지 않습니다."); }
         }
     }
@@ -529,12 +558,8 @@
     }
 
     function clearAllData() {
-        const check = prompt("모든 데이터를 초기화합니다. 계속하려면 '초기화'를 입력하세요.");
-        if (check === '초기화') {
-            localStorage.removeItem('hjWordSets_v3');
-            localStorage.removeItem('hjWrongAnswers_v3');
-            localStorage.removeItem('hjWordSets_v2'); 
-            localStorage.removeItem('hjWrongAnswers_v2');
+        if (confirm("모든 단어장 데이터를 삭제하고 초기화하시겠습니까?")) {
+            localStorage.clear();
             location.reload();
         }
     }
@@ -553,32 +578,27 @@
         
         const container = document.getElementById('set-selection-container');
         container.innerHTML = '';
-        
         let hasVisibleSet = false;
 
         wordSets.forEach(set => {
             const starredCount = set.words.filter(w => w.isStarred).length;
             const totalCount = set.words.length;
-
             if (action === 'flash-star' && starredCount === 0) return;
 
             hasVisibleSet = true;
             const div = document.createElement('div');
             div.className = 'set-item';
             
-            let labelHtml = "";
-            if (action === 'flash-star') {
-                labelHtml = `${set.title} (즐겨찾기 <strong>${starredCount}</strong> / ${totalCount})`;
-            } else {
-                labelHtml = `${set.title} (${totalCount} 단어)`;
-            }
+            let labelHtml = (action === 'flash-star') 
+                ? `${set.title} (★ <strong>${starredCount}</strong> / ${totalCount})`
+                : `${set.title} (${totalCount} 단어)`;
 
             div.innerHTML = `<input type="checkbox" id="set-${set.id}" value="${set.id}"><label for="set-${set.id}">${labelHtml}</label>`;
             container.appendChild(div);
         });
 
         if (!hasVisibleSet && action === 'flash-star') {
-            container.innerHTML = '<div style="padding:15px; text-align:center; color:#888;">즐겨찾기 등록된 단어가 없습니다.</div>';
+            container.innerHTML = '<div style="padding:15px; text-align:center; color:#888;">즐겨찾기 단어가 없습니다.</div>';
         }
 
         hideAllSections();
@@ -591,7 +611,7 @@
 
     function closeSelection() {
         document.getElementById('selection-section').classList.add('hidden');
-        document.getElementById('flashcard-menu-section').classList.remove('hidden');
+        document.getElementById('step-learning-section').classList.remove('hidden');
         document.getElementById('test-menu-section').classList.remove('hidden');
         document.getElementById('view-menu-section').classList.remove('hidden');
         document.getElementById('input-section').classList.remove('hidden');
@@ -599,7 +619,7 @@
 
     function confirmSelection() {
         const checkboxes = document.querySelectorAll('#set-selection-container input[type="checkbox"]:checked');
-        if (checkboxes.length === 0) { alert("단어장을 하나 이상 선택하세요."); return; }
+        if (checkboxes.length === 0) { alert("단어장을 선택하세요."); return; }
         
         let combinedWords = [];
         checkboxes.forEach(chk => {
@@ -609,66 +629,67 @@
 
         if (combinedWords.length === 0) { alert("선택된 단어장에 단어가 없습니다."); return; }
         
-        if (pendingAction === 'flash-speed') startFlashcard(combinedWords, 'speed');
-        else if (pendingAction === 'flash-speed-random') startFlashcard(combinedWords, 'speed-random');
+        if (pendingAction === 'step1-memorize') startFlashcard(combinedWords, 'speed');
+        else if (pendingAction === 'step2-recall') startTest(combinedWords, 'choice');
+        else if (pendingAction === 'step3-spell') startTest(combinedWords, 'spelling');
+        else if (pendingAction === 'game-match') startMatchingGame(combinedWords);
         else if (pendingAction === 'flash-deep') startFlashcard(combinedWords, 'deep');
-        else if (pendingAction === 'flash-deep-random') startFlashcard(combinedWords, 'flash-deep-random');
         else if (pendingAction === 'flash-star') {
             const starred = combinedWords.filter(w => w.isStarred);
-            if(starred.length === 0) { alert("즐겨찾기 단어가 없습니다."); return; }
             startFlashcard(starred, 'deep'); 
         }
-        else if (pendingAction === 'test-choice') startTest(combinedWords, 'choice');
-        else if (pendingAction === 'test-spelling') startTest(combinedWords, 'spelling');
         else if (pendingAction === 'view-list') showWordList(combinedWords);
     }
 
     function hideAllSections() {
-        const ids = ['flashcard-menu-section', 'test-menu-section', 'view-menu-section', 'input-section', 'manage-section', 'set-detail-section', 'selection-section', 'flashcard-section', 'test-section', 'word-list-section'];
+        const ids = ['step-learning-section', 'test-menu-section', 'view-menu-section', 'input-section', 'manage-section', 'set-detail-section', 'selection-section', 'flashcard-section', 'test-section', 'word-list-section', 'game-section', 'report-section'];
         ids.forEach(id => {
             const el = document.getElementById(id);
             if(el) el.classList.add('hidden');
         });
     }
 
+    // 단어 목록 열람 & 마스킹 가리기 기능
+    let currentRawList = [];
     function showWordList(list) {
         hideAllSections();
-        const container = document.getElementById('word-list-section');
+        currentRawList = list;
+        document.getElementById('word-list-section').classList.remove('hidden');
+        renderWordListItems('all');
+    }
+
+    function setWordListFilter(filter) {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        if(filter === 'all') document.getElementById('filter-all').classList.add('active');
+        else if(filter === 'hide-en') document.getElementById('filter-en').classList.add('active');
+        else if(filter === 'hide-ko') document.getElementById('filter-ko').classList.add('active');
+        renderWordListItems(filter);
+    }
+
+    function renderWordListItems(filter) {
         const listDiv = document.getElementById('word-list-container');
         listDiv.innerHTML = '';
 
-        list.forEach(item => {
+        currentRawList.forEach(item => {
             const div = document.createElement('div');
             div.className = 'word-list-item';
+            
+            let enClass = filter === 'hide-en' ? 'masked-text' : '';
+            let koClass = filter === 'hide-ko' ? 'masked-text' : '';
+
             div.innerHTML = `
-                <div style="font-size:1.05rem; font-weight:700; color:#222;">${item.word}</div>
-                <div style="font-size:0.95rem; color:#666;">${item.mean}</div>
+                <div style="font-size:1rem; font-weight:700; color:#222; cursor:pointer;" onclick="this.classList.toggle('masked-text')" class="${enClass}">${item.word}</div>
+                <div style="font-size:0.9rem; color:#555; cursor:pointer;" onclick="this.classList.toggle('masked-text')" class="${koClass}">${item.mean}</div>
             `;
             listDiv.appendChild(div);
         });
-
-        container.classList.remove('hidden');
     }
 
+    // 1단계: 암기 학습 (플래시카드)
     function startFlashcard(list, mode) {
         flashMode = mode;
-        if (mode === 'deep-random' || mode === 'speed-random' || mode === 'star') {
-            currentTestList = list.sort(() => Math.random() - 0.5);
-            if(mode === 'deep-random') document.getElementById('flash-mode-badge').innerText = "상세 예문 (랜덤)";
-            else if(mode === 'speed-random') document.getElementById('flash-mode-badge').innerText = "스피드 암기 (랜덤)";
-            else document.getElementById('flash-mode-badge').innerText = "즐겨찾기 복습";
-        } else {
-            currentTestList = list.sort((a, b) => {
-                const dayA = a.day || "";
-                const dayB = b.day || "";
-                if (dayA !== dayB) return dayA.localeCompare(dayB, undefined, {numeric: true});
-                const seqA = parseInt(a.seq) || 0;
-                const seqB = parseInt(b.seq) || 0;
-                return seqA - seqB;
-            });
-            if(mode === 'speed') document.getElementById('flash-mode-badge').innerText = "스피드 암기 (순서)";
-            else document.getElementById('flash-mode-badge').innerText = "상세 예문 (순서)";
-        }
+        currentTestList = list.sort((a, b) => (parseInt(a.seq) || 0) - (parseInt(b.seq) || 0));
+        document.getElementById('flash-mode-badge').innerText = (mode === 'speed') ? "1단계: 암기 학습" : "상세 예문 학습";
 
         currentIndex = 0;
         hideAllSections();
@@ -682,9 +703,7 @@
         document.getElementById('flash-progress').innerText = `${currentIndex + 1} / ${currentTestList.length}`;
         
         const metaDiv = document.getElementById('flash-meta-info');
-        const dayTxt = data.day ? data.day : "";
-        const seqTxt = data.seq ? `No.${data.seq}` : "";
-        metaDiv.innerHTML = `${dayTxt} ${seqTxt}`;
+        metaDiv.innerHTML = `${data.day || ""} ${data.seq ? 'No.'+data.seq : ''}`;
 
         updateStarBtnUI(data.isStarred);
         document.getElementById('flash-content-word-group').classList.remove('hidden');
@@ -694,8 +713,7 @@
         document.getElementById('flash-back').classList.add('hidden');
         document.getElementById('flash-back').innerText = data.mean;
         
-        const formattedExample = formatExample(data.ex, data.word);
-        document.getElementById('flash-ex-en').innerHTML = formattedExample;
+        document.getElementById('flash-ex-en').innerHTML = formatExample(data.ex, data.word);
         document.getElementById('flash-ex-ko').innerHTML = formatKoreanExample(data.exTrans || "해석 없음", data.mean);
         document.getElementById('flash-ex-ko').classList.add('hidden');
 
@@ -709,20 +727,44 @@
         speak(data.word, 'en', 1.0);
     }
 
-    function playAudioText(type, lang, event) {
+    function toggleAutoplay(event) {
         event.stopPropagation();
-        const section = document.getElementById('flashcard-section');
-        const text = type === 'front' ? section.getAttribute('data-word') : section.getAttribute('data-ex');
-        if(text) speak(text, lang, 1.0);
+        const btn = document.getElementById('autoplay-btn');
+        if (isAutoplay) {
+            stopAutoplay();
+        } else {
+            isAutoplay = true;
+            btn.classList.add('active');
+            btn.innerText = "❚❚ 정지";
+            runAutoplayStep();
+        }
     }
 
-    function prevFlashcard() {
-        if (currentIndex > 0) {
-            currentIndex--;
-            loadFlashcard();
-        } else {
-            alert("첫 번째 단어입니다.");
+    function stopAutoplay() {
+        isAutoplay = false;
+        clearTimeout(autoplayInterval);
+        const btn = document.getElementById('autoplay-btn');
+        if(btn) {
+            btn.classList.remove('active');
+            btn.innerText = "▶ 자동재생";
         }
+    }
+
+    function runAutoplayStep() {
+        if (!isAutoplay) return;
+        handleFlashClick();
+        autoplayInterval = setTimeout(() => {
+            if (!isAutoplay) return;
+            if (flashStep === 1 || flashStep === 3) {
+                handleNextButton();
+                autoplayInterval = setTimeout(runAutoplayStep, 2000);
+            }
+        }, 1800);
+    }
+
+    function exitFlashcard() {
+        stopAutoplay();
+        location.reload();
     }
 
     function handleFlashClick() {
@@ -736,7 +778,7 @@
                 const btn = document.getElementById('flash-action-btn');
                 btn.innerText = "다음 단어";
                 btn.classList.remove('hidden');
-                speak(data.mean, 'ko', 1.4); 
+                speak(data.mean, 'ko', 1.3); 
             }
         } else {
             if (flashStep === 0) {
@@ -746,7 +788,7 @@
                 const btn = document.getElementById('flash-action-btn');
                 btn.innerText = "다음";
                 btn.classList.remove('hidden');
-                speak(data.mean, 'ko', 1.4); 
+                speak(data.mean, 'ko', 1.3); 
             }
             else if (flashStep === 2) {
                 flashStep = 3;
@@ -755,7 +797,7 @@
                 const btn = document.getElementById('flash-action-btn');
                 btn.innerText = "다음 단어";
                 btn.classList.remove('hidden');
-                speak(data.exTrans, 'ko', 1.2); 
+                speak(data.exTrans, 'ko', 1.1); 
             }
         }
     }
@@ -780,54 +822,33 @@
         }
     }
 
+    function prevFlashcard() {
+        if (currentIndex > 0) { currentIndex--; loadFlashcard(); }
+    }
+
     function nextFlashcard() {
         currentIndex++;
         if (currentIndex < currentTestList.length) {
             loadFlashcard();
+            if (isAutoplay) runAutoplayStep();
         } else {
-            alert("학습 완료!");
-            closeSelection();
+            stopAutoplay();
+            alert("학습을 완료했습니다!");
+            location.reload();
         }
     }
 
-    function formatExample(sentence, word) {
-        if (!sentence) return "예문이 없습니다.";
-        let stems = [word];
-        if(word.length > 3) {
-            if(word.endsWith('y') || word.endsWith('e')) stems.push(word.slice(0, -1));
-        }
-        const pattern = `\\b(${stems.join('|')})[^\\s<>]*`;
-        const regex = new RegExp(pattern, 'gi');
-        return sentence.replace(regex, '<span class="highlight-word">$&</span>');
-    }
-
-    function formatKoreanExample(sentence, meanStr) {
-        let formatted = sentence;
-        const cleanMeanStr = meanStr.replace(/\([^\)]*\)/g, ''); 
-        const meanings = cleanMeanStr.split(/,|,\s|\//).map(m => m.trim());
-        let roots = [];
-        meanings.forEach(mean => {
-            if(!mean) return;
-            let root = mean.replace(/(하다|되다|시키다|다)$/g, '');
-            if(root.length < 1) root = mean; 
-            roots.push(root);
-        });
-        if (roots.length === 0) return formatted;
-        const safeRoots = roots.map(r => r.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
-        safeRoots.sort((a, b) => b.length - a.length); 
-        const pattern = `([^\\s<>]*(${safeRoots.join('|')})[^\\s<>]*)`;
-        const regex = new RegExp(pattern, 'gi');
-        return formatted.replace(regex, '<span class="highlight-word">$&</span>');
-    }
-
+    // 2단계 리콜 / 3단계 스펠 테스트
     function startTest(list, mode) {
         currentTestMode = mode;
+        sessionCorrectCount = 0;
+        sessionWrongWords = [];
         hideAllSections();
         document.getElementById('test-section').classList.remove('hidden');
         
         const badge = document.getElementById('test-type-badge');
-        if(mode === 'choice') badge.innerText = "객관식 맞추기";
-        else badge.innerText = "스펠링 작성";
+        if(mode === 'choice') badge.innerText = "2단계: 리콜 학습 (뜻 맞추기)";
+        else badge.innerText = "3단계: 스펠 학습 (스펠링 쓰기)";
         
         currentTestList = list.sort(() => Math.random() - 0.5);
         currentIndex = 0;
@@ -845,34 +866,15 @@
         let displayHtml = "";
         
         if (currentTestMode === 'spelling') {
-            const firstChar = data.word.charAt(0);
-            const underscores = "_".repeat(data.word.length - 1);
-            let maskedEx = "";
-            if(data.ex) {
-                let stems = [data.word];
-                if(data.word.length > 3 && (data.word.endsWith('y') || data.word.endsWith('e'))) {
-                    stems.push(data.word.slice(0, -1));
-                }
-                const pattern = `\\b(${stems.join('|')})[^\\s<>]*`;
-                const regex = new RegExp(pattern, 'gi');
-                maskedEx = data.ex.replace(regex, `<span class="spelling-hint-char">${firstChar}</span>${underscores}`);
-            } else {
-                maskedEx = `<span class="spelling-hint-char">${firstChar}</span>${underscores}`;
-            }
-            
             displayHtml = `
-                <div class="flash-example" style="border-bottom:none; margin-bottom:0; margin-top:0;">
-                    <div class="audio-btn-wrapper"><button class="audio-btn" onclick="speak('${data.ex.replace(/'/g, "\\'")}', 'en')">예문 듣기</button></div>
-                    ${maskedEx}
-                </div>
-                <div class="flash-example flash-ex-ko" style="margin-top:0; color:#333; font-weight:600;">
+                <div class="flash-example" style="margin-top:0; color:#222; font-weight:700; font-size:1.4rem;">
                     ${data.mean}
                 </div>`;
             
-            speak("단어를 완성하세요", 'ko');
+            speak(data.mean, 'ko');
 
             inputContainer.innerHTML = `
-                <input type="text" id="spelling-input" class="spelling-input" placeholder="정답 입력" autocomplete="off" autocapitalize="off" spellcheck="false">
+                <input type="text" id="spelling-input" class="spelling-input" placeholder="영어 스펠링 입력" autocomplete="off" autocapitalize="off" spellcheck="false">
                 <button onclick="checkAnswer(null, null, null)">정답 확인</button>
             `;
             document.getElementById('spelling-input').addEventListener("keyup", function(event) {
@@ -881,28 +883,19 @@
             setTimeout(() => document.getElementById('spelling-input').focus(), 100);
 
         } else {
-            if (data.ex) {
-                displayHtml = `
-                    <div class="flash-example" style="margin-top:0;">
-                        <div class="audio-btn-wrapper"><button class="audio-btn" onclick="speak('${data.ex.replace(/'/g, "\\'")}', 'en')">예문 듣기</button></div>
-                        ${formatExample(data.ex, data.word)}
-                    </div>`;
-            } else {
-                displayHtml = `
-                    <div style="font-size:2rem; font-weight:700; margin-bottom:8px; color:#222;">
-                        <div class="audio-btn-wrapper"><button class="audio-btn" onclick="speak('${data.word.replace(/'/g, "\\'")}', 'en')">단어 듣기</button></div>
-                        ${data.word}
-                    </div>`;
-            }
+            displayHtml = `
+                <div style="font-size:2rem; font-weight:700; margin-bottom:8px; color:#222;">
+                    <div class="audio-btn-wrapper"><button class="audio-btn" onclick="speak('${data.word.replace(/'/g, "\\'")}', 'en')">단어 듣기</button></div>
+                    ${data.word}
+                </div>`;
             
-            speak(data.ex || data.word, 'en', 1.0);
+            speak(data.word, 'en', 1.0);
 
             const allWords = getAllWordsFlat();
             let distractors = allWords.filter(w => w.word !== data.word).sort(() => Math.random() - 0.5).slice(0, 3);
-            while(distractors.length < 3) { distractors.push({mean: "오답 (저장된 단어 부족)"}); }
+            while(distractors.length < 3) { distractors.push({mean: "오답 (단어 부족)"}); }
             
-            let options = [...distractors, data];
-            options.sort(() => Math.random() - 0.5);
+            let options = [...distractors, data].sort(() => Math.random() - 0.5);
 
             options.forEach(opt => {
                 const btn = document.createElement('button');
@@ -926,8 +919,7 @@
             document.getElementById('spelling-input').disabled = true;
         } else {
             isCorrect = isCorrectChoice;
-            const btns = document.querySelectorAll('.mc-option');
-            btns.forEach(b => b.onclick = null);
+            document.querySelectorAll('.mc-option').forEach(b => b.onclick = null);
         }
 
         msgDiv.classList.remove('hidden');
@@ -936,18 +928,151 @@
             if(btn) btn.classList.add('selected-correct');
             msgDiv.innerText = "정답입니다!";
             msgDiv.className = "result-msg correct";
-            speak("정답", 'ko', 1.0);
+            sessionCorrectCount++;
+            speak("정답", 'ko', 1.2);
         } else {
             if(btn) btn.classList.add('selected-wrong');
             if (currentTestMode === 'choice') {
-                 const btns = document.querySelectorAll('.mc-option');
-                 btns.forEach(b => { if(b.innerText === currentData.mean) b.classList.add('selected-correct'); });
+                 document.querySelectorAll('.mc-option').forEach(b => {
+                     if(b.innerText === currentData.mean) b.classList.add('selected-correct');
+                 });
             }
-            msgDiv.innerHTML = `오답!<br>정답: <span style="font-weight:700;">${currentData.word}</span><br><span style="font-size:0.9rem; font-weight:normal; color:#555;">${currentData.mean}</span>`;
+            msgDiv.innerHTML = `오답!<br>정답: <span style="font-weight:700;">${currentData.word}</span> (${currentData.mean})`;
             msgDiv.className = "result-msg wrong";
+            sessionWrongWords.push(currentData);
             addToWrong(currentData);
         }
         document.getElementById('next-btn').classList.remove('hidden');
+    }
+
+    function nextQuestion() {
+        currentIndex++;
+        if (currentIndex < currentTestList.length) {
+            loadQuestion();
+        } else {
+            showReport();
+        }
+    }
+
+    // 결과 리포트 출력
+    function showReport() {
+        hideAllSections();
+        document.getElementById('report-section').classList.remove('hidden');
+        const total = currentTestList.length;
+        const score = Math.round((sessionCorrectCount / total) * 100);
+        
+        document.getElementById('report-summary').innerHTML = `
+            점수: <strong>${score}점</strong> (${sessionCorrectCount} / ${total})
+        `;
+
+        const wrongListDiv = document.getElementById('report-wrong-list');
+        wrongListDiv.innerHTML = '';
+        if (sessionWrongWords.length === 0) {
+            wrongListDiv.innerHTML = '<div style="text-align:center; color:#666; padding:10px;">틀린 단어가 없습니다. 대단해요!</div>';
+        } else {
+            sessionWrongWords.forEach(item => {
+                const div = document.createElement('div');
+                div.style.padding = '6px 0';
+                div.style.borderBottom = '1px solid #eee';
+                div.innerHTML = `<strong style="color:#222;">${item.word}</strong> - <span style="color:#666;">${item.mean}</span>`;
+                wrongListDiv.appendChild(div);
+            });
+        }
+    }
+
+    // 스피드 매칭 게임 (타임어택)
+    function startMatchingGame(list) {
+        hideAllSections();
+        document.getElementById('game-section').classList.remove('hidden');
+
+        // 최대 6쌍(12개 카드) 추출
+        const sampleSize = Math.min(6, list.length);
+        const gameWords = list.sort(() => Math.random() - 0.5).slice(0, sampleSize);
+        
+        totalPairs = gameWords.length;
+        matchedPairsCount = 0;
+        selectedGameCards = [];
+
+        document.getElementById('game-pairs').innerText = totalPairs;
+
+        // 카드 생성 (영어 카드 + 한국어 카드)
+        let cards = [];
+        gameWords.forEach(w => {
+            cards.push({ id: w.word, text: w.word, type: 'en' });
+            cards.push({ id: w.word, text: w.mean, type: 'ko' });
+        });
+        cards.sort(() => Math.random() - 0.5);
+
+        const grid = document.getElementById('game-grid-container');
+        grid.innerHTML = '';
+
+        cards.forEach((c, idx) => {
+            const cardEl = document.createElement('div');
+            cardEl.className = 'game-card';
+            cardEl.innerText = c.text;
+            cardEl.setAttribute('data-id', c.id);
+            cardEl.setAttribute('data-type', c.type);
+            cardEl.onclick = () => handleGameCardClick(cardEl);
+            grid.appendChild(cardEl);
+        });
+
+        // 타이머 시작
+        gameStartTime = Date.now();
+        clearInterval(gameTimerInterval);
+        gameTimerInterval = setInterval(() => {
+            const elapsed = ((Date.now() - gameStartTime) / 1000).toFixed(1);
+            document.getElementById('game-timer').innerText = elapsed;
+        }, 100);
+    }
+
+    function handleGameCardClick(cardEl) {
+        if (cardEl.classList.contains('selected') || cardEl.classList.contains('matched')) return;
+        if (selectedGameCards.length >= 2) return;
+
+        cardEl.classList.add('selected');
+        selectedGameCards.push(cardEl);
+
+        if (selectedGameCards.length === 2) {
+            const c1 = selectedGameCards[0];
+            const c2 = selectedGameCards[1];
+
+            const id1 = c1.getAttribute('data-id');
+            const id2 = c2.getAttribute('data-id');
+            const type1 = c1.getAttribute('data-type');
+            const type2 = c2.getAttribute('data-type');
+
+            if (id1 === id2 && type1 !== type2) {
+                // 매칭 성공
+                setTimeout(() => {
+                    c1.classList.add('matched');
+                    c2.classList.add('matched');
+                    selectedGameCards = [];
+                    matchedPairsCount++;
+                    document.getElementById('game-pairs').innerText = totalPairs - matchedPairsCount;
+
+                    if (matchedPairsCount === totalPairs) {
+                        clearInterval(gameTimerInterval);
+                        const finalTime = ((Date.now() - gameStartTime) / 1000).toFixed(1);
+                        alert(`축하합니다! ${finalTime}초 만에 완료했습니다!`);
+                    }
+                }, 200);
+            } else {
+                // 매칭 실패
+                setTimeout(() => {
+                    c1.classList.remove('selected');
+                    c2.classList.remove('selected');
+                    selectedGameCards = [];
+                }, 500);
+            }
+        }
+    }
+
+    // 기타 보조 기능들
+    function playAudioText(type, lang, event) {
+        event.stopPropagation();
+        const section = document.getElementById('flashcard-section');
+        const text = type === 'front' ? section.getAttribute('data-word') : section.getAttribute('data-ex');
+        if(text) speak(text, lang, 1.0);
     }
 
     function addToWrong(data) {
@@ -955,12 +1080,6 @@
             wrongAnswers.push(data);
             saveData();
         }
-    }
-
-    function nextQuestion() {
-        currentIndex++;
-        if (currentIndex < currentTestList.length) loadQuestion();
-        else { alert("테스트가 끝났습니다."); closeSelection(); }
     }
 
     function getAllWordsFlat() {
@@ -987,8 +1106,8 @@
 
     function updateStarBtnUI(isStarred) {
         const btn = document.getElementById('star-btn');
-        if (isStarred) { btn.innerText = "★ 즐겨찾기 해제"; btn.classList.add('active'); }
-        else { btn.innerText = "☆ 즐겨찾기 등록"; btn.classList.remove('active'); }
+        if (isStarred) { btn.innerText = "★ 해제"; btn.classList.add('active'); }
+        else { btn.innerText = "☆ 즐겨찾기"; btn.classList.remove('active'); }
     }
 
     function speak(text, lang, speed = 1.0) {
@@ -999,7 +1118,26 @@
         u.rate = speed; 
         synth.speak(u);
     }
-    
+
+    function formatExample(sentence, word) {
+        if (!sentence) return "예문이 없습니다.";
+        let stems = [word];
+        if(word.length > 3 && (word.endsWith('y') || word.endsWith('e'))) stems.push(word.slice(0, -1));
+        const regex = new RegExp(`\\b(${stems.join('|')})[^\\s<>]*`, 'gi');
+        return sentence.replace(regex, '<span class="highlight-word">$&</span>');
+    }
+
+    function formatKoreanExample(sentence, meanStr) {
+        let formatted = sentence;
+        const cleanMeanStr = meanStr.replace(/\([^\)]*\)/g, ''); 
+        const meanings = cleanMeanStr.split(/,|,\s|\//).map(m => m.trim());
+        let roots = meanings.map(m => m.replace(/(하다|되다|시키다|다)$/g, '')).filter(m => m.length > 0);
+        if (roots.length === 0) return formatted;
+        roots.sort((a, b) => b.length - a.length); 
+        const regex = new RegExp(`([^\\s<>]*(${roots.map(r => r.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')})[^\\s<>]*)`, 'gi');
+        return formatted.replace(regex, '<span class="highlight-word">$&</span>');
+    }
+
     function backupData() {
         const data = { sets: wordSets, wrong: wrongAnswers };
         const blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
@@ -1018,16 +1156,14 @@
         reader.onload = function(e) {
             try {
                 const data = JSON.parse(e.target.result);
-                if(data.sets) {
-                    if(confirm("현재 데이터를 백업 파일로 덮어씌웁니다. 진행할까요?")) {
-                        wordSets = data.sets;
-                        if(data.wrong) wrongAnswers = data.wrong;
-                        saveData();
-                        alert("복구 완료!");
-                        location.reload();
-                    }
+                if(data.sets && confirm("현재 데이터를 백업 파일로 덮어씌웁니다. 진행할까요?")) {
+                    wordSets = data.sets;
+                    if(data.wrong) wrongAnswers = data.wrong;
+                    saveData();
+                    alert("복구 완료!");
+                    location.reload();
                 }
-            } catch(err) { alert("올바른 파일이 아닙니다."); }
+            } catch(err) { alert("올바른 백업 파일이 아닙니다."); }
         };
         reader.readAsText(file);
     }
