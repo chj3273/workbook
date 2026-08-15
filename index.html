@@ -32,18 +32,27 @@
         
         .main-container, .card.full-height {
             width: 100%;
+            max-width: 520px;
             height: 100%;
-            max-width: 600px;
             background-color: #09090b;
             display: flex;
             flex-direction: column;
-            overflow: hidden;
+            overflow-x: hidden;
+            overflow-y: auto;
             border-left: 1px solid #18181b;
             border-right: 1px solid #18181b;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        }
+
+        @media (max-width: 520px) {
+            .main-container, .card.full-height {
+                border-left: none;
+                border-right: none;
+            }
         }
 
         .main-container {
-            padding: 16px;
+            padding: 16px 14px;
             gap: 12px;
             justify-content: space-between;
         }
@@ -66,21 +75,21 @@
             flex: 1;
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            padding: 16px;
+            gap: 8px;
+            padding: 14px;
             justify-content: center;
         }
 
         #main-menu-card button {
             flex: 1;
-            min-height: 48px;
-            font-size: 0.95rem;
+            min-height: 44px;
+            font-size: 0.9rem;
             font-weight: 600;
             border-radius: 8px;
             background-color: #18181b;
             color: #ffffff;
             border: 1px solid #27272a;
-            padding: 0 16px;
+            padding: 0 14px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -102,7 +111,7 @@
         }
         
         .card-header {
-            padding: 14px 16px;
+            padding: 12px 14px;
             background-color: #09090b;
             border-bottom: 1px solid #18181b;
             cursor: pointer;
@@ -113,7 +122,7 @@
         }
         .card-header h2 {
             margin: 0;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             font-weight: 600;
             color: #a1a1aa;
             letter-spacing: -0.3px;
@@ -125,15 +134,15 @@
         }
         
         .card-content {
-            padding: 16px;
+            padding: 14px;
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 8px;
         }
         .card.full-height .card-content {
             flex: 1;
             overflow: hidden;
-            padding: 16px;
+            padding: 14px;
         }
         .card-content.collapsed {
             display: none;
@@ -141,10 +150,10 @@
 
         textarea {
             width: 100%;
-            height: 80px;
-            padding: 12px;
+            height: 60px;
+            padding: 10px;
             border: 1px solid #27272a;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             resize: none;
             background-color: #18181b;
             border-radius: 8px;
@@ -158,11 +167,11 @@
 
         button { 
             width: 100%;
-            height: 44px; 
+            height: 42px; 
             background-color: #ffffff;
             color: #000000; 
             border: 1px solid #ffffff;
-            font-size: 0.9rem;
+            font-size: 0.88rem;
             font-weight: 600;
             cursor: pointer;
             touch-action: manipulation;
@@ -232,13 +241,13 @@
         .set-item {
             display: flex;
             align-items: center;
-            padding: 12px 10px;
+            padding: 10px 8px;
             border-bottom: 1px solid #27272a;
         }
         .set-item:last-child { border-bottom: none; }
         .set-item label {
             flex: 1;
-            font-size: 0.9rem;
+            font-size: 0.88rem;
             margin-left: 10px;
             cursor: pointer;
             color: #e4e4e7;
@@ -247,7 +256,7 @@
         .flashcard-box {
             position: relative;
             border: 1px solid #27272a;
-            padding: 20px;
+            padding: 16px;
             text-align: center;
             margin: 6px 0;
             background-color: #18181b;
@@ -267,8 +276,8 @@
         
         .flash-meta {
             position: absolute;
-            top: 14px;
-            left: 14px;
+            top: 12px;
+            left: 12px;
             text-align: left;
             color: #71717a;
             font-size: 0.75rem;
@@ -276,27 +285,27 @@
         }
 
         .flash-text-main {
-            font-size: 2rem;
+            font-size: 1.8rem;
             font-weight: 700;
             color: #ffffff;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             word-break: keep-all;
             line-height: 1.2;
             letter-spacing: -0.5px;
         }
         .flash-text-sub {
-            font-size: 1.15rem;
+            font-size: 1.1rem;
             color: #a1a1aa;
-            margin-top: 6px;
+            margin-top: 4px;
             font-weight: 500;
             word-break: keep-all;
         }
         
         .flash-example { 
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             color: #ffffff;
-            margin-top: 10px; 
-            padding: 12px;
+            margin-top: 8px; 
+            padding: 10px;
             border: 1px solid #27272a;
             width: 100%;
             word-break: keep-all; 
@@ -314,12 +323,12 @@
         .flash-guide {
             font-size: 0.75rem;
             color: #52525b;
-            margin-top: 12px;
+            margin-top: 10px;
         }
 
         .audio-btn-wrapper {
             text-align: center;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
         .audio-btn {
             background: #09090b;
@@ -328,7 +337,7 @@
             cursor: pointer; 
             font-size: 0.75rem;
             height: auto;
-            padding: 4px 12px;
+            padding: 4px 10px;
             font-weight: 600; 
             border-radius: 20px;
             display: inline-flex;
@@ -351,7 +360,7 @@
             cursor: pointer;
             color: #71717a;
             height: auto;
-            padding: 4px 10px;
+            padding: 4px 8px;
             width: auto;
             font-weight: 600;
             border-radius: 20px;
@@ -366,16 +375,16 @@
         .mc-option {
             background: #18181b;
             border: 1px solid #27272a;
-            padding: 0 14px;
-            margin-bottom: 8px;
-            font-size: 0.9rem;
+            padding: 0 12px;
+            margin-bottom: 6px;
+            font-size: 0.88rem;
             font-weight: 500;
             cursor: pointer;
             text-align: left;
             color: #e4e4e7; 
             width: 100%;
             border-radius: 8px;
-            height: 44px; 
+            height: 42px; 
             display: flex;
             align-items: center;
             justify-content: flex-start;
@@ -397,9 +406,9 @@
 
         .spelling-input {
             width: 100%;
-            height: 46px;
-            padding: 0 14px;
-            font-size: 1.05rem;
+            height: 44px;
+            padding: 0 12px;
+            font-size: 1rem;
             text-align: center;
             font-weight: 600;
             border: 1px solid #27272a;
@@ -416,7 +425,7 @@
         ul { padding-left: 0; list-style: none; margin: 0; }
         #manage-list li, #set-detail-list li { 
             border-bottom: 1px solid #18181b;
-            padding: 12px 0;
+            padding: 10px 0;
             display: flex; 
             justify-content: space-between;
             align-items: center;
@@ -427,11 +436,11 @@
             background-color: #18181b;
             color: #ffffff;
             border: 1px solid #27272a;
-            padding: 0 10px;
-            height: 32px;
+            padding: 0 8px;
+            height: 30px;
             font-size: 0.75rem;
             font-weight: 600;
-            margin-left: 6px;
+            margin-left: 4px;
             width: auto; 
             border-radius: 6px;
         }
@@ -452,8 +461,8 @@
         
         .word-tap-box {
             flex: 1;
-            min-height: 42px;
-            padding: 8px 12px;
+            min-height: 40px;
+            padding: 6px 10px;
             border-radius: 6px;
             border: 1px solid #27272a;
             background-color: #18181b;
@@ -465,8 +474,8 @@
             transition: all 0.15s ease;
         }
         .word-tap-box:active { background-color: #27272a; }
-        .word-tap-box.en { font-weight: 700; color: #ffffff; font-size: 0.9rem; }
-        .word-tap-box.ko { font-weight: 500; color: #a1a1aa; font-size: 0.85rem; }
+        .word-tap-box.en { font-weight: 700; color: #ffffff; font-size: 0.88rem; }
+        .word-tap-box.ko { font-weight: 500; color: #a1a1aa; font-size: 0.83rem; }
         
         .masked-text { 
             background-color: #27272a !important; 
@@ -477,7 +486,7 @@
 
         .badge {
             display: inline-block;
-            padding: 4px 12px;
+            padding: 4px 10px;
             background: #18181b;
             color: #a1a1aa;
             border: 1px solid #27272a;
@@ -487,14 +496,14 @@
             border-radius: 20px;
         }
         
-        .flex-row { display: flex; gap: 8px; width: 100%; }
+        .flex-row { display: flex; gap: 6px; width: 100%; }
         .flex-row button { flex: 1; }
 
         .filter-bar { display: flex; gap: 6px; margin-bottom: 8px; }
         .filter-btn {
             flex: 1;
-            height: 36px;
-            font-size: 0.8rem;
+            height: 34px;
+            font-size: 0.78rem;
             border: 1px solid #27272a;
             background: #18181b;
             color: #a1a1aa;
@@ -508,13 +517,14 @@
             border-color: #ffffff;
         }
         
+        /* 데이터 관리 섹션 수정 (스크롤 제거 및 2열 컴팩트 배치) */
         .data-manage-card {
             border: 1px solid #27272a;
             background: #09090b;
             border-radius: 12px;
         }
         .data-manage-card .card-header {
-            padding: 12px 16px;
+            padding: 12px 14px;
             background-color: transparent;
         }
         .data-manage-card .card-header h2 {
@@ -523,15 +533,20 @@
             font-weight: 600;
         }
         .data-manage-card .card-content {
-            padding: 14px;
-            gap: 8px;
-            max-height: 380px;
-            overflow-y: auto;
+            padding: 12px;
+            gap: 6px;
+            max-height: none;
+            overflow-y: visible;
         }
         .data-manage-card button {
-            height: 38px;
-            font-size: 0.82rem;
+            height: 36px;
+            font-size: 0.8rem;
             border-radius: 6px;
+        }
+        .btn-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px;
         }
     </style>
 </head>
@@ -556,20 +571,27 @@
                 <span class="toggle-icon">[열기]</span>
             </div>
             <div class="card-content collapsed">
-                <div style="font-size: 0.75rem; color: #71717a;">
+                <div style="font-size: 0.72rem; color: #71717a; line-height: 1.3;">
                     형식: Day/순번/단어/뜻/예문/해석<br>
                     예시: Day 01/1/apple/사과/I ate an apple./나는 사과를 먹었다.
                 </div>
                 <textarea id="bulk-input" placeholder="여기에 데이터를 붙여넣으세요..."></textarea>
                 <button onclick="addWordSetsAuto()">단어 등록하기</button>
                 
-                <div style="margin-top:2px; text-align: right; color: #71717a; font-size: 0.75rem;">저장된 단어장: <strong id="set-count" style="color:#ffffff;">0</strong>개</div>
+                <div style="margin:2px 0; text-align: right; color: #71717a; font-size: 0.72rem;">저장된 단어장: <strong id="set-count" style="color:#ffffff;">0</strong>개</div>
+                
                 <button class="btn-secondary" onclick="toggleManageList()">단어장 목록 편집 / 삭제</button>
-                <button class="btn-secondary" onclick="backupData()">데이터 백업 (파일 저장)</button>
-                <button class="btn-secondary" onclick="triggerRestore()">데이터 복구 (파일 불러오기)</button>
+                
+                <div class="btn-grid">
+                    <button class="btn-secondary" onclick="backupData()">데이터 백업</button>
+                    <button class="btn-secondary" onclick="triggerRestore()">데이터 복구</button>
+                </div>
                 <input type="file" id="restore-input" style="display: none;" accept=".json" onchange="restoreData(this)">
-                <button class="btn-danger margin-top-8" onclick="clearWrongAnswers()">오답 기록 초기화</button>
-                <button class="btn-danger" onclick="clearAllData()">전체 데이터 초기화</button>
+                
+                <div class="btn-grid">
+                    <button class="btn-danger" onclick="clearWrongAnswers()">오답 기록 초기화</button>
+                    <button class="btn-danger" onclick="clearAllData()">전체 초기화</button>
+                </div>
             </div>
         </div>
     </div>
