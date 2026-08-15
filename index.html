@@ -3,15 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>영단어장</title>
+    <title>VOCABULARY</title>
     <style>
         @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+        :root {
+            --bg-main: #09090b;
+            --bg-card: #121215;
+            --bg-card-hover: #18181b;
+            --bg-element: #27272a;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --border-color-strong: rgba(255, 255, 255, 0.2);
+            --text-primary: #fafafa;
+            --text-secondary: #a1a1aa;
+            --text-muted: #71717a;
+            --accent-white: #ffffff;
+            --accent-black: #000000;
+        }
 
         * { 
             box-sizing: border-box; 
             font-family: "Pretendard", -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
             -webkit-tap-highlight-color: transparent;
-            letter-spacing: -0.02em;
+            letter-spacing: -0.025em;
         }
         
         html, body {
@@ -21,87 +35,77 @@
             margin: 0;
             padding: 0;
             overflow: hidden;
-            background-color: #09090b;
+            background-color: var(--bg-main);
+            color: var(--text-primary);
         }
 
         body { 
             max-width: 480px;
             margin: 0 auto; 
-            padding: 12px; 
-            color: #09090b;
+            padding: 16px; 
             font-size: 14px; 
             line-height: 1.5;
             display: flex;
             flex-direction: column;
-            background-color: #f4f4f5;
+        }
+
+        /* 헤더 스트립 */
+        .app-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 4px 4px 16px 4px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 16px;
+            flex-shrink: 0;
+        }
+
+        .app-title {
+            font-size: 1.1rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--accent-white);
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .app-title::before {
+            content: "";
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            background-color: var(--accent-white);
+            border-radius: 50%;
+        }
+
+        .app-subtitle {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
         }
         
         .main-container {
             flex: 1;
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            overflow: hidden;
+            gap: 12px;
+            overflow-y: auto;
             height: 100%;
+            padding-bottom: 8px;
         }
 
         .card { 
-            background: #ffffff; 
-            border: 1px solid rgba(9, 9, 11, 0.08); 
+            background: var(--bg-card); 
+            border: 1px solid var(--border-color); 
             border-radius: 16px;
-            box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.04);
             overflow: hidden; 
             flex-shrink: 0;
-            transition: all 0.2s ease;
-        }
-
-        /* 메인 메뉴 그리드 디자인 */
-        #main-menu-card {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        #main-menu-card .card-content {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 8px;
-            padding: 12px;
-            height: 100%;
-            align-content: stretch;
-        }
-
-        /* 대표 단어장 버튼 강조 */
-        #main-menu-card button:first-child {
-            grid-column: span 2;
-            background-color: #09090b;
-            color: #ffffff;
-            border-color: #09090b;
-            font-size: 1rem;
-            box-shadow: 0 4px 12px rgba(9, 9, 11, 0.15);
-        }
-
-        #main-menu-card button:first-child:active {
-            background-color: #27272a;
-            border-color: #27272a;
-        }
-
-        #main-menu-card button {
-            width: 100%;
-            height: 100%;
-            min-height: 48px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            border-radius: 12px;
-            border: 1px solid #e4e4e7;
-            background-color: #ffffff;
-            color: #18181b;
-            transition: all 0.15s ease;
-        }
-        
-        #main-menu-card button:active {
-            background-color: #f4f4f5;
-            transform: scale(0.98);
+            transition: border-color 0.2s ease, transform 0.15s ease;
         }
 
         .card.full-height {
@@ -111,13 +115,85 @@
             flex-direction: column;
             margin-bottom: 0;
             overflow: hidden;
+            background: var(--bg-card);
+        }
+
+        /* 메인 대시보드 그리드 재설계 */
+        #main-menu-card {
+            background: transparent;
+            border: none;
+            box-shadow: none;
+        }
+
+        #main-menu-card .card-content {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            padding: 0;
+        }
+
+        /* 메인 액션 버튼 모노크롬 하이엔드 스타일링 */
+        #main-menu-card button {
+            width: 100%;
+            min-height: 58px;
+            padding: 14px 16px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            border-radius: 14px;
+            border: 1px solid var(--border-color);
+            background-color: var(--bg-card);
+            color: var(--text-primary);
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            position: relative;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        #main-menu-card button:hover {
+            border-color: var(--border-color-strong);
+            background-color: var(--bg-card-hover);
+        }
+
+        #main-menu-card button:active {
+            transform: scale(0.98);
+            background-color: var(--bg-element);
+        }
+
+        /* 대표 단어장 히어로 버튼 */
+        #main-menu-card button:first-child {
+            grid-column: span 2;
+            min-height: 72px;
+            background-color: var(--accent-white);
+            color: var(--accent-black);
+            border-color: var(--accent-white);
+            font-size: 1.05rem;
+            font-weight: 700;
+        }
+
+        #main-menu-card button:first-child:hover {
+            background-color: #e4e4e7;
+            border-color: #e4e4e7;
+        }
+
+        #main-menu-card button:first-child:active {
+            background-color: #d4d4d8;
+        }
+
+        /* 유틸리티 카드 스페셜 스타일 */
+        #main-menu-card button:nth-child(6),
+        #main-menu-card button:nth-child(7) {
+            background-color: rgba(255, 255, 255, 0.03);
+            border-style: dashed;
         }
 
         .card-header {
-            padding: 12px 16px; 
-            background-color: #fff; 
-            color: #09090b;
-            border-bottom: 1px solid #f4f4f5;
+            padding: 14px 16px; 
+            background-color: var(--bg-card); 
+            color: var(--text-primary);
+            border-bottom: 1px solid var(--border-color);
             cursor: pointer; 
             display: flex; 
             justify-content: space-between; 
@@ -125,240 +201,499 @@
             user-select: none; 
             flex-shrink: 0;
         }
-        .card-header h2 { margin: 0; font-size: 0.85rem; font-weight: 600; color: #71717a; }
-        .card-header .toggle-icon { font-size: 0.75rem; color: #a1a1aa; font-weight: 500; }
+        .card-header h2 { 
+            margin: 0; 
+            font-size: 0.8rem; 
+            font-weight: 700; 
+            color: var(--text-secondary); 
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+        .card-header .toggle-icon { 
+            font-size: 0.75rem; 
+            color: var(--text-muted); 
+            font-weight: 600; 
+            font-family: monospace;
+        }
         
-        .card-content { padding: 12px; display: flex; flex-direction: column; gap: 8px; height: 100%; overflow: hidden; }
+        .card-content { 
+            padding: 14px; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 10px; 
+            height: 100%; 
+            overflow: hidden; 
+        }
         .card.full-height .card-content { flex: 1; overflow: hidden; }
         .card-content.collapsed { display: none; }
 
         textarea {
-            width: 100%; height: 70px; padding: 10px; border: 1px solid #e4e4e7;
-            font-size: 0.8rem; resize: none; background-color: #fafafa;
-            border-radius: 10px; color: #09090b;
+            width: 100%; 
+            height: 80px; 
+            padding: 12px; 
+            border: 1px solid var(--border-color);
+            font-size: 0.8rem; 
+            resize: none; 
+            background-color: var(--bg-main);
+            border-radius: 12px; 
+            color: var(--text-primary);
             transition: border-color 0.15s ease;
         }
-        textarea:focus { outline: none; border-color: #09090b; background-color: #fff; }
+        textarea:focus { outline: none; border-color: var(--accent-white); }
 
         button { 
-            width: 100%; height: 42px; 
-            background-color: #fff; color: #09090b; 
-            border: 1px solid #e4e4e7; font-size: 0.85rem; font-weight: 600;
-            cursor: pointer; touch-action: manipulation;
-            border-radius: 10px; 
-            display: flex; align-items: center; justify-content: center;
+            width: 100%; 
+            height: 44px; 
+            background-color: var(--bg-element); 
+            color: var(--text-primary); 
+            border: 1px solid var(--border-color); 
+            font-size: 0.85rem; 
+            font-weight: 600;
+            cursor: pointer; 
+            touch-action: manipulation;
+            border-radius: 12px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
             transition: all 0.15s ease;
             flex-shrink: 0;
         }
-        button:active { background-color: #f4f4f5; transform: scale(0.98); }
+        button:hover {
+            border-color: var(--border-color-strong);
+            background-color: #3f3f46;
+        }
+        button:active { background-color: var(--border-color-strong); transform: scale(0.98); }
         
         .hidden { display: none !important; }
         .margin-top-auto { margin-top: auto; }
         
-        .result-msg { text-align: center; margin-top: 6px; font-size: 0.9rem; padding: 10px; border-radius: 10px; font-weight: 600; flex-shrink: 0; }
-        .correct { background-color: #09090b; color: #fff; }
-        .wrong { background-color: #f4f4f5; color: #18181b; border: 1px solid #e4e4e7; }
+        .result-msg { 
+            text-align: center; 
+            margin-top: 8px; 
+            font-size: 0.88rem; 
+            padding: 12px; 
+            border-radius: 12px; 
+            font-weight: 600; 
+            flex-shrink: 0; 
+        }
+        .correct { 
+            background-color: var(--accent-white); 
+            color: var(--accent-black); 
+        }
+        .wrong { 
+            background-color: var(--bg-element); 
+            color: var(--text-primary); 
+            border: 1px solid var(--border-color-strong); 
+        }
         
-        .set-selection-list { text-align: left; flex: 1; overflow-y: auto; border: 1px solid #f4f4f5; padding: 6px; border-radius: 10px; background: #fafafa; }
-        .set-item { display: flex; align-items: center; padding: 10px; border-bottom: 1px solid #f4f4f5; background: #fff; border-radius: 8px; margin-bottom: 4px; }
+        .set-selection-list { 
+            text-align: left; 
+            flex: 1; 
+            overflow-y: auto; 
+            border: 1px solid var(--border-color); 
+            padding: 8px; 
+            border-radius: 12px; 
+            background: var(--bg-main); 
+        }
+        .set-item { 
+            display: flex; 
+            align-items: center; 
+            padding: 12px; 
+            border-bottom: 1px solid var(--border-color); 
+            background: var(--bg-card); 
+            border-radius: 10px; 
+            margin-bottom: 6px; 
+            border: 1px solid var(--border-color);
+        }
         .set-item:last-child { margin-bottom: 0; }
-        .set-item label { flex: 1; font-size: 0.85rem; margin-left: 10px; cursor: pointer; color: #27272a; font-weight: 500; }
+        .set-item input[type="checkbox"] {
+            accent-color: var(--accent-white);
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+        .set-item label { 
+            flex: 1; 
+            font-size: 0.85rem; 
+            margin-left: 10px; 
+            cursor: pointer; 
+            color: var(--text-primary); 
+            font-weight: 500; 
+        }
 
+        /* 플래시카드 고급 재설계 */
         .flashcard-box {
-            position: relative; border: 1px solid #e4e4e7; padding: 16px;
-            text-align: center; margin: 4px 0; background-color: #fff; cursor: pointer;
+            position: relative; 
+            border: 1px solid var(--border-color-strong); 
+            padding: 24px 16px;
+            text-align: center; 
+            margin: 8px 0; 
+            background-color: var(--bg-card); 
+            cursor: pointer;
             flex: 1;
-            border-radius: 14px; 
-            display: flex; flex-direction: column;
-            justify-content: center; align-items: center;
+            border-radius: 18px; 
+            display: flex; 
+            flex-direction: column;
+            justify-content: center; 
+            align-items: center;
             overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            transition: border-color 0.2s ease;
+        }
+        .flashcard-box:active {
+            border-color: var(--accent-white);
         }
         
         .flash-meta {
-            position: absolute; top: 12px; left: 14px; text-align: left;
-            color: #a1a1aa; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;
+            position: absolute; 
+            top: 16px; 
+            left: 16px; 
+            text-align: left;
+            color: var(--text-muted); 
+            font-size: 0.72rem; 
+            font-weight: 700; 
+            text-transform: uppercase; 
+            letter-spacing: 0.08em;
         }
 
-        .flash-text-main { font-size: 1.8rem; font-weight: 700; color: #09090b; margin-bottom: 6px; word-break: keep-all; line-height: 1.2; letter-spacing: -0.03em; }
-        .flash-text-sub { font-size: 1.05rem; color: #3f3f46; margin-top: 6px; font-weight: 600; word-break: keep-all; }
+        .flash-text-main { 
+            font-size: 2rem; 
+            font-weight: 800; 
+            color: var(--accent-white); 
+            margin-bottom: 8px; 
+            word-break: keep-all; 
+            line-height: 1.15; 
+            letter-spacing: -0.03em; 
+        }
+        .flash-text-sub { 
+            font-size: 1.15rem; 
+            color: var(--text-secondary); 
+            margin-top: 8px; 
+            font-weight: 600; 
+            word-break: keep-all; 
+        }
         
         .flash-example { 
-            font-size: 0.85rem; color: #27272a; margin-top: 8px; 
-            padding: 10px 12px; border: 1px solid #f4f4f5; width: 100%; word-break: keep-all; 
-            border-radius: 8px; background: #fafafa; line-height: 1.4;
+            font-size: 0.88rem; 
+            color: var(--text-primary); 
+            margin-top: 10px; 
+            padding: 12px 14px; 
+            border: 1px solid var(--border-color); 
+            width: 100%; 
+            word-break: keep-all; 
+            border-radius: 10px; 
+            background: var(--bg-main); 
+            line-height: 1.45;
         }
-        .flash-ex-ko { background: #f4f4f5; border-color: #e4e4e7; color: #52525b; }
+        .flash-ex-ko { 
+            background: var(--bg-element); 
+            border-color: var(--border-color); 
+            color: var(--text-secondary); 
+        }
         
-        .flash-guide { font-size: 0.72rem; color: #a1a1aa; margin-top: 10px; font-weight: 500; }
-
-        .audio-btn-wrapper { text-align: center; margin-bottom: 6px; }
-        .audio-btn {
-            background: #f4f4f5; color: #52525b; border: none; cursor: pointer; 
-            font-size: 0.7rem; height: auto; padding: 4px 10px; font-weight: 600; 
-            border-radius: 20px; display: inline-flex; width: auto; transition: background 0.15s;
+        .flash-guide { 
+            font-size: 0.72rem; 
+            color: var(--text-muted); 
+            margin-top: 14px; 
+            font-weight: 600; 
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
         }
-        .audio-btn:active { background: #e4e4e7; }
+
+        .audio-btn-wrapper { text-align: center; margin-bottom: 8px; }
+        .audio-btn {
+            background: var(--bg-element); 
+            color: var(--text-secondary); 
+            border: 1px solid var(--border-color); 
+            cursor: pointer; 
+            font-size: 0.68rem; 
+            height: auto; 
+            padding: 5px 12px; 
+            font-weight: 700; 
+            border-radius: 20px; 
+            display: inline-flex; 
+            width: auto; 
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            transition: all 0.15s;
+        }
+        .audio-btn:hover { background: var(--border-color-strong); color: var(--accent-white); }
+        .audio-btn:active { background: var(--accent-white); color: var(--accent-black); }
         
         .top-ctrl-container {
-            position: absolute; top: 10px; right: 12px;
-            display: flex; gap: 4px; z-index: 10;
+            position: absolute; 
+            top: 14px; 
+            right: 14px;
+            display: flex; 
+            gap: 6px; 
+            z-index: 10;
         }
         .top-ctrl-btn {
-            font-size: 0.7rem; background: #fafafa; border: 1px solid #e4e4e7; cursor: pointer; color: #71717a;
-            height: auto; padding: 3px 8px; width: auto; font-weight: 600;
-            border-radius: 12px; white-space: nowrap; transition: all 0.15s ease;
-        }
-        .top-ctrl-btn.active { background: #09090b; color: #fff; border-color: #09090b; }
-
-        .mc-option {
-            background: #fff; border: 1px solid #e4e4e7; padding: 0 14px; margin-bottom: 6px;
-            font-size: 0.85rem; font-weight: 500; cursor: pointer; text-align: left; color: #09090b; 
-            width: 100%; border-radius: 10px; height: 42px; 
-            display: flex; align-items: center; justify-content: flex-start;
+            font-size: 0.68rem; 
+            background: var(--bg-element); 
+            border: 1px solid var(--border-color); 
+            cursor: pointer; 
+            color: var(--text-muted);
+            height: auto; 
+            padding: 4px 10px; 
+            width: auto; 
+            font-weight: 700;
+            border-radius: 12px; 
+            white-space: nowrap; 
+            letter-spacing: 0.03em;
             transition: all 0.15s ease;
         }
-        .mc-option.selected-correct { border: 2px solid #09090b; font-weight: 700; background-color: #fafafa; }
-        .mc-option.selected-wrong { background-color: #f4f4f5; color: #a1a1aa; text-decoration: line-through; border-color: #e4e4e7; }
+        .top-ctrl-btn.active { 
+            background: var(--accent-white); 
+            color: var(--accent-black); 
+            border-color: var(--accent-white); 
+        }
+
+        .mc-option {
+            background: var(--bg-card); 
+            border: 1px solid var(--border-color); 
+            padding: 0 16px; 
+            margin-bottom: 8px;
+            font-size: 0.88rem; 
+            font-weight: 500; 
+            cursor: pointer; 
+            text-align: left; 
+            color: var(--text-primary); 
+            width: 100%; 
+            border-radius: 12px; 
+            height: 46px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: flex-start;
+            transition: all 0.15s ease;
+        }
+        .mc-option:hover {
+            border-color: var(--border-color-strong);
+            background-color: var(--bg-card-hover);
+        }
+        .mc-option.selected-correct { 
+            border: 2px solid var(--accent-white); 
+            font-weight: 700; 
+            background-color: var(--accent-white); 
+            color: var(--accent-black);
+        }
+        .mc-option.selected-wrong { 
+            background-color: var(--bg-main); 
+            color: var(--text-muted); 
+            text-decoration: line-through; 
+            border-color: var(--border-color); 
+        }
 
         .spelling-input {
-            width: 100%; height: 42px; padding: 0 12px; font-size: 0.95rem; text-align: center; font-weight: 600;
-            border: 1px solid #d4d4d8; margin-bottom: 6px; background: #fff; color: #09090b;
-            border-radius: 10px; transition: border-color 0.15s;
+            width: 100%; 
+            height: 46px; 
+            padding: 0 14px; 
+            font-size: 1rem; 
+            text-align: center; 
+            font-weight: 700;
+            border: 1px solid var(--border-color-strong); 
+            margin-bottom: 8px; 
+            background: var(--bg-main); 
+            color: var(--accent-white);
+            border-radius: 12px; 
+            transition: border-color 0.15s;
         }
-        .spelling-input:focus { outline: none; border-color: #09090b; }
+        .spelling-input:focus { outline: none; border-color: var(--accent-white); }
 
         ul { padding-left: 0; list-style: none; margin: 0; }
         #manage-list li, #set-detail-list li { 
-            border-bottom: 1px solid #f4f4f5; padding: 8px 4px; display: flex; 
-            justify-content: space-between; align-items: center; background: #fff;
+            border-bottom: 1px solid var(--border-color); 
+            padding: 10px 4px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            background: var(--bg-card);
         }
         
         .item-action-btn {
-            background-color: #f4f4f5; color: #52525b; border: 1px solid #e4e4e7; padding: 0 8px;
-            height: 28px; font-size: 0.72rem; font-weight: 600; margin-left: 4px; width: auto; 
-            border-radius: 6px;
+            background-color: var(--bg-element); 
+            color: var(--text-secondary); 
+            border: 1px solid var(--border-color); 
+            padding: 0 10px;
+            height: 30px; 
+            font-size: 0.72rem; 
+            font-weight: 600; 
+            margin-left: 6px; 
+            width: auto; 
+            border-radius: 8px;
+        }
+        .item-action-btn:hover {
+            border-color: var(--border-color-strong);
+            color: var(--accent-white);
         }
         
         .scroll-list { flex: 1; overflow-y: auto; padding: 2px; }
         #word-list-container { flex: 1; overflow-y: auto; padding: 4px; }
         
         .word-list-item {
-            border-bottom: 1px solid #f4f4f5;
-            padding: 3px 0;
+            border-bottom: 1px solid var(--border-color);
+            padding: 4px 0;
             display: flex;
             align-items: stretch;
             gap: 6px;
-            background: #fff;
+            background: transparent;
         }
         .word-list-item:last-child { border-bottom: none; }
         
         .word-tap-box {
             flex: 1;
-            min-height: 38px;
-            padding: 6px 10px;
-            border-radius: 6px;
-            border: 1px solid #f4f4f5;
-            background-color: #fafafa;
+            min-height: 42px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background-color: var(--bg-main);
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: flex-start;
             user-select: none;
-            transition: background-color 0.1s;
+            transition: background-color 0.1s, border-color 0.1s;
         }
-        .word-tap-box:active { background-color: #e4e4e7; }
-        .word-tap-box.en { font-weight: 700; color: #09090b; font-size: 0.85rem; }
-        .word-tap-box.ko { font-weight: 500; color: #3f3f46; font-size: 0.8rem; }
+        .word-tap-box:active { background-color: var(--bg-element); }
+        .word-tap-box.en { font-weight: 700; color: var(--accent-white); font-size: 0.88rem; }
+        .word-tap-box.ko { font-weight: 500; color: var(--text-secondary); font-size: 0.82rem; }
         
         .masked-text { 
-            background-color: #e4e4e7 !important; 
+            background-color: var(--bg-element) !important; 
             color: transparent !important; 
-            border-color: #d4d4d8 !important;
-            border-radius: 6px;
+            border-color: var(--border-color) !important;
+            border-radius: 8px;
         }
 
         .badge { 
-            display: inline-block; padding: 3px 10px; background: #09090b; color: #ffffff; 
-            font-weight: 600; font-size: 0.68rem; margin-bottom: 4px; border-radius: 20px; 
-            letter-spacing: 0.02em;
+            display: inline-block; 
+            padding: 4px 12px; 
+            background: var(--accent-white); 
+            color: var(--accent-black); 
+            font-weight: 800; 
+            font-size: 0.65rem; 
+            margin-bottom: 8px; 
+            border-radius: 20px; 
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
         }
         
-        .flex-row { display: flex; gap: 6px; width: 100%; }
+        .flex-row { display: flex; gap: 8px; width: 100%; }
         .flex-row button { flex: 1; }
 
-        .filter-bar { display: flex; gap: 4px; margin-bottom: 4px; flex-shrink: 0; }
-        .filter-btn { flex: 1; height: 32px; font-size: 0.75rem; border: 1px solid #e4e4e7; background: #fff; border-radius: 6px; cursor: pointer; font-weight: 600; color: #71717a; }
-        .filter-btn.active { background: #09090b; color: #fff; border-color: #09090b; }
+        .filter-bar { display: flex; gap: 6px; margin-bottom: 6px; flex-shrink: 0; }
+        .filter-btn { 
+            flex: 1; 
+            height: 36px; 
+            font-size: 0.75rem; 
+            border: 1px solid var(--border-color); 
+            background: var(--bg-card); 
+            border-radius: 8px; 
+            cursor: pointer; 
+            font-weight: 600; 
+            color: var(--text-muted); 
+        }
+        .filter-btn.active { 
+            background: var(--accent-white); 
+            color: var(--accent-black); 
+            border-color: var(--accent-white); 
+        }
         
         /* 데이터 관리 섹션 스타일 */
         .data-manage-card {
-            border: 1px solid rgba(9, 9, 11, 0.08);
-            background: #ffffff;
+            border: 1px solid var(--border-color);
+            background: var(--bg-card);
             border-radius: 16px;
             flex-shrink: 0;
         }
         .data-manage-card .card-content {
-            padding: 12px;
-            gap: 6px;
-            max-height: 280px;
+            padding: 14px;
+            gap: 8px;
+            max-height: 320px;
             overflow-y: auto;
         }
         .data-manage-card button {
-            height: 34px;
+            height: 36px;
             font-size: 0.75rem;
-            background: #fafafa;
-            border-color: #e4e4e7;
-            color: #3f3f46;
-            border-radius: 8px;
+            background: var(--bg-main);
+            border-color: var(--border-color);
+            color: var(--text-secondary);
+            border-radius: 10px;
         }
-        .data-manage-card button:active {
-            background: #f4f4f5;
+        .data-manage-card button:hover {
+            color: var(--text-primary);
+            border-color: var(--border-color-strong);
         }
     </style>
 </head>
 <body>
 
+    <div class="app-header">
+        <h1 class="app-title">VOCABULARY</h1>
+        <span class="app-subtitle">SYSTEM v3.0</span>
+    </div>
+
     <div class="main-container" id="main-menu-container">
         <div class="card" id="main-menu-card">
             <div class="card-content">
-                <button onclick="openSetSelection('view-list')">단어장</button>
-                <button onclick="openSetSelection('step1-memorize')">단어 학습</button>
-                <button onclick="openSetSelection('flash-deep')">예문 학습</button>
-                <button onclick="openSetSelection('step2-recall')">객관식 테스트</button>
-                <button onclick="openSetSelection('step3-spell')">스펠링 테스트</button>
-                <button onclick="openSetSelection('flash-star')">즐겨찾기 단어 복습</button>
-                <button onclick="openSetSelection('wrong-drill-choice')">틀린 단어 다시 풀기</button>
+                <button onclick="openSetSelection('step1-memorize')">
+                    <span style="font-size:0.7rem; opacity:0.6; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:2px;">Main Study</span>
+                    <span>단어 학습</span>
+                </button>
+                <button onclick="openSetSelection('flash-deep')">
+                    <span style="font-size:0.65rem; color:var(--text-muted); text-transform:uppercase; margin-bottom:2px;">Context</span>
+                    <span>예문 학습</span>
+                </button>
+                <button onclick="openSetSelection('view-list')">
+                    <span style="font-size:0.65rem; color:var(--text-muted); text-transform:uppercase; margin-bottom:2px;">Overview</span>
+                    <span>단어장 목록</span>
+                </button>
+                <button onclick="openSetSelection('step2-recall')">
+                    <span style="font-size:0.65rem; color:var(--text-muted); text-transform:uppercase; margin-bottom:2px;">Test 01</span>
+                    <span>객관식 테스트</span>
+                </button>
+                <button onclick="openSetSelection('step3-spell')">
+                    <span style="font-size:0.65rem; color:var(--text-muted); text-transform:uppercase; margin-bottom:2px;">Test 02</span>
+                    <span>스펠링 테스트</span>
+                </button>
+                <button onclick="openSetSelection('flash-star')">
+                    <span style="font-size:0.65rem; color:var(--text-muted); text-transform:uppercase; margin-bottom:2px;">Bookmark</span>
+                    <span>즐겨찾기 단어 복습</span>
+                </button>
+                <button onclick="openSetSelection('wrong-drill-choice')">
+                    <span style="font-size:0.65rem; color:var(--text-muted); text-transform:uppercase; margin-bottom:2px;">Review</span>
+                    <span>틀린 단어 다시 풀기</span>
+                </button>
             </div>
         </div>
 
         <div class="card data-manage-card" id="input-section">
             <div class="card-header collapsed" onclick="toggleSection(this)">
                 <h2>데이터 관리 및 설정</h2>
-                <span class="toggle-icon">[열기]</span>
+                <span class="toggle-icon">[+]</span>
             </div>
             <div class="card-content collapsed">
-                <div style="font-size: 0.7rem; color: #71717a; line-height: 1.4;">
+                <div style="font-size: 0.72rem; color: var(--text-muted); line-height: 1.4; background: var(--bg-main); padding: 8px 10px; border-radius: 8px; border: 1px solid var(--border-color);">
                     형식: Day/순번/단어/뜻/예문/해석<br>
                     예시: Day 01/1/apple/사과/I ate an apple./나는 사과를 먹었다.
                 </div>
                 <textarea id="bulk-input" placeholder="여기에 데이터를 붙여넣으세요..."></textarea>
                 <button onclick="addWordSetsAuto()">단어 등록하기</button>
                 
-                <div style="margin-top:2px; text-align: right; color: #71717a; font-size: 0.7rem;">저장된 단어장: <strong id="set-count" style="color:#09090b;">0</strong>개</div>
+                <div style="margin-top:4px; text-align: right; color: var(--text-muted); font-size: 0.72rem;">저장된 단어장: <strong id="set-count" style="color:var(--accent-white);">0</strong>개</div>
                 <button onclick="toggleManageList()">단어장 목록 편집 / 삭제</button>
-                <button onclick="clearWrongAnswers()">틀린 단어(오답 노) 초기화</button>
+                <button onclick="clearWrongAnswers()">틀린 단어(오답 노트) 초기화</button>
                 <button onclick="backupData()">데이터 백업 (파일 저장)</button>
                 <button onclick="triggerRestore()">데이터 복구 (파일 불러오기)</button>
                 <input type="file" id="restore-input" style="display: none;" accept=".json" onchange="restoreData(this)">
-                <button style="margin-top:4px;" onclick="clearAllData()">전체 데이터 초기화</button>
+                <button style="margin-top:4px; border-color: rgba(255,255,255,0.2);" onclick="clearAllData()">전체 데이터 초기화</button>
             </div>
         </div>
     </div>
 
     <div class="card full-height hidden" id="manage-section">
         <div class="card-content">
-            <h2 style="margin:0 0 4px 0; font-size:0.85rem; color:#52525b;">목록 편집</h2>
+            <h2 style="margin:0 0 6px 0; font-size:0.8rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.05em;">목록 편집</h2>
             <div class="scroll-list"><ul id="manage-list"></ul></div>
             <button class="margin-top-auto" onclick="toggleManageList()">닫기</button>
         </div>
@@ -366,7 +701,7 @@
 
     <div class="card full-height hidden" id="set-detail-section">
         <div class="card-content">
-            <h2 id="detail-set-title" style="margin:0 0 4px 0; font-size:0.85rem; color:#52525b;">상세 편집</h2>
+            <h2 id="detail-set-title" style="margin:0 0 6px 0; font-size:0.8rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.05em;">상세 편집</h2>
             <div class="scroll-list"><ul id="set-detail-list"></ul></div>
             <button class="margin-top-auto" onclick="closeSetDetail()">뒤로 가기</button>
         </div>
@@ -374,26 +709,26 @@
 
     <div class="card full-height hidden" id="selection-section">
         <div class="card-content">
-            <h2 style="margin:0 0 4px 0; font-size:0.85rem; color:#52525b;">학습할 단어장 선택</h2>
-            <div class="flex-row" style="margin-bottom: 2px;">
+            <h2 style="margin:0 0 6px 0; font-size:0.8rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.05em;">학습할 단어장 선택</h2>
+            <div class="flex-row" style="margin-bottom: 4px;">
                 <button onclick="selectAllSets(true)">전체 선택</button>
                 <button onclick="selectAllSets(false)">선택 해제</button>
             </div>
             <div class="set-selection-list" id="set-selection-container"></div>
-            <button style="margin-top:4px;" onclick="confirmSelection()">시작하기</button>
+            <button style="margin-top:6px; background-color: var(--accent-white); color: var(--accent-black);" onclick="confirmSelection()">시작하기</button>
             <button style="margin-top:2px;" onclick="closeSelection()">취소</button>
         </div>
     </div>
 
     <div class="card full-height hidden" id="word-list-section">
         <div class="card-content">
-            <h2 style="margin:0 0 4px 0; font-size:0.85rem; color:#52525b;">단어 목록</h2>
+            <h2 style="margin:0 0 6px 0; font-size:0.8rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.05em;">단어 목록</h2>
             <div class="filter-bar">
                 <button class="filter-btn active" id="filter-all" onclick="setWordListFilter('all')">전체 보기</button>
                 <button class="filter-btn" id="filter-en" onclick="setWordListFilter('hide-en')">단어 가리기</button>
                 <button class="filter-btn" id="filter-ko" onclick="setWordListFilter('hide-ko')">뜻 가리기</button>
             </div>
-            <div id="word-list-container" style="border: 1px solid #e4e4e7; border-radius: 8px;"></div>
+            <div id="word-list-container" style="border: 1px solid var(--border-color); border-radius: 12px;"></div>
             <button class="margin-top-auto" onclick="returnToMain()">메인으로 돌아가기</button>
         </div>
     </div>
@@ -401,62 +736,62 @@
     <div class="card full-height hidden" id="flashcard-section">
         <div class="card-content">
             <div style="text-align:center;"><span id="flash-mode-badge" class="badge">모드</span></div>
-            <div id="flash-progress" style="text-align:center; font-size: 0.75rem; color: #71717a;">1 / 10</div>
+            <div id="flash-progress" style="text-align:center; font-size: 0.75rem; color: var(--text-muted); font-weight:600; font-family:monospace;">1 / 10</div>
             
             <div class="flashcard-box" onclick="handleFlashClick()">
                 <div id="flash-meta-info" class="flash-meta"></div>
                 
                 <div class="top-ctrl-container">
-                    <button id="autoplay-btn" class="top-ctrl-btn" onclick="toggleAutoplay(event)">자동재생</button>
-                    <button id="star-btn" class="top-ctrl-btn" onclick="toggleStar(event)">즐겨찾기</button>
+                    <button id="autoplay-btn" class="top-ctrl-btn" onclick="toggleAutoplay(event)">AUTO</button>
+                    <button id="star-btn" class="top-ctrl-btn" onclick="toggleStar(event)">STAR</button>
                 </div>
                 
                 <div id="flash-content-word-group" style="width:100%;">
-                    <div class="audio-btn-wrapper"><button class="audio-btn" onclick="playAudioText('front', 'en', event)">발음 듣기</button></div>
+                    <div class="audio-btn-wrapper"><button class="audio-btn" onclick="playAudioText('front', 'en', event)">PRONOUNCE</button></div>
                     <div id="flash-front" class="flash-text-main">Word</div>
                     <div id="flash-back" class="flash-text-sub hidden">Meaning</div>
                 </div>
 
                 <div id="flash-content-ex-group" class="hidden" style="width:100%;">
-                    <div class="audio-btn-wrapper"><button class="audio-btn" onclick="playAudioText('ex-en', 'en', event)">예문 듣기</button></div>
+                    <div class="audio-btn-wrapper"><button class="audio-btn" onclick="playAudioText('ex-en', 'en', event)">EXAMPLE LISTEN</button></div>
                     <div id="flash-ex-en" class="flash-example">Example</div>
                     <div id="flash-ex-ko" class="flash-example flash-ex-ko hidden">Translation</div>
                 </div>
 
-                <div id="flash-guide" class="flash-guide">화면을 터치하세요</div>
+                <div id="flash-guide" class="flash-guide">TAP TO CONTINUE</div>
             </div>
             
             <div class="flex-row">
                 <button onclick="prevFlashcard()">이전</button>
-                <button onclick="handleNextButton()" id="flash-action-btn" class="hidden">다음</button>
+                <button onclick="handleNextButton()" id="flash-action-btn" class="hidden" style="background-color: var(--accent-white); color: var(--accent-black);">다음</button>
             </div>
             
-            <button style="margin-top:2px;" onclick="exitFlashcard()">종료하기</button>
+            <button style="margin-top:4px;" onclick="exitFlashcard()">종료하기</button>
         </div>
     </div>
 
     <div class="card full-height hidden" id="test-section">
         <div class="card-content">
             <div style="text-align:center;"><span id="test-type-badge" class="badge">테스트</span></div>
-            <div id="question-title" style="text-align:center; font-size: 0.75rem; color: #71717a;">문제</div>
+            <div id="question-title" style="text-align:center; font-size: 0.75rem; color: var(--text-muted); font-weight:600; font-family:monospace;">문제</div>
             
-            <div style="text-align: center; margin: 2px 0; flex:1; display:flex; flex-direction:column; justify-content:center;">
+            <div style="text-align: center; margin: 4px 0; flex:1; display:flex; flex-direction:column; justify-content:center;">
                 <div id="question-display" style="width:100%;"></div>
             </div>
 
             <div id="test-input-container"></div>
             <div id="result-message" class="result-msg hidden"></div>
             
-            <button onclick="nextQuestion()" id="next-btn" class="hidden" style="margin-top:4px;">다음 문제</button>
+            <button onclick="nextQuestion()" id="next-btn" class="hidden" style="margin-top:6px; background-color: var(--accent-white); color: var(--accent-black);">다음 문제</button>
             <button class="margin-top-auto" onclick="returnToMain()">종료하기</button>
         </div>
     </div>
 
     <div class="card full-height hidden" id="report-section">
         <div class="card-content" style="text-align:center;">
-            <h2 style="margin: 4px 0 2px 0; font-size: 0.95rem;">학습 완료!</h2>
-            <div id="report-summary" style="font-size:0.9rem; font-weight:600; margin-bottom:6px;"></div>
-            <div class="scroll-list" id="report-wrong-list" style="text-align:left; border: 1px solid #e4e4e7; border-radius: 8px; padding: 6px; margin-bottom: 4px;"></div>
+            <h2 style="margin: 8px 0 4px 0; font-size: 1.1rem; font-weight: 800;">학습 완료</h2>
+            <div id="report-summary" style="font-size:0.95rem; font-weight:600; margin-bottom:10px; color:var(--text-secondary);"></div>
+            <div class="scroll-list" id="report-wrong-list" style="text-align:left; border: 1px solid var(--border-color); border-radius: 12px; padding: 8px; margin-bottom: 6px; background:var(--bg-main);"></div>
             <button class="margin-top-auto" onclick="returnToMain()">메인으로 돌아가기</button>
         </div>
     </div>
@@ -550,11 +885,11 @@
         const icon = headerElement.querySelector('.toggle-icon');
         if (content.classList.contains('collapsed')) {
             content.classList.remove('collapsed');
-            icon.innerText = '[접기]';
-            headerElement.style.borderBottom = '1px solid #f4f4f5';
+            icon.innerText = '[-]';
+            headerElement.style.borderBottom = '1px solid var(--border-color)';
         } else {
             content.classList.add('collapsed');
-            icon.innerText = '[열기]';
+            icon.innerText = '[+]';
             headerElement.style.borderBottom = 'none';
         }
     }
@@ -637,14 +972,14 @@
     function renderManageList() {
         const ul = document.getElementById('manage-list');
         ul.innerHTML = '';
-        if (wordSets.length === 0) { ul.innerHTML = '<li style="color:#71717a; justify-content:center;">저장된 단어장이 없습니다.</li>'; return; }
+        if (wordSets.length === 0) { ul.innerHTML = '<li style="color:var(--text-muted); justify-content:center;">저장된 단어장이 없습니다.</li>'; return; }
         
         wordSets.forEach(set => {
             const li = document.createElement('li');
             const infoDiv = document.createElement('div');
             infoDiv.style.flex = "1";
             infoDiv.style.cursor = "pointer";
-            infoDiv.innerHTML = `<strong style="color:#09090b;">${set.title}</strong> <span style="font-size:0.75em; color:#71717a;">(${set.words.length} 단어)</span>`;
+            infoDiv.innerHTML = `<strong style="color:var(--accent-white);">${set.title}</strong> <span style="font-size:0.75em; color:var(--text-muted);">(${set.words.length} 단어)</span>`;
             infoDiv.onclick = function() { openSetDetail(set.id); };
 
             const delBtn = document.createElement('button');
@@ -678,14 +1013,14 @@
     function renderSetDetailList(set) {
         const ul = document.getElementById('set-detail-list');
         ul.innerHTML = '';
-        if(set.words.length === 0) { ul.innerHTML = '<li style="color:#71717a; justify-content:center;">단어가 없습니다.</li>'; return; }
+        if(set.words.length === 0) { ul.innerHTML = '<li style="color:var(--text-muted); justify-content:center;">단어가 없습니다.</li>'; return; }
 
         set.words.forEach((item, index) => {
             const li = document.createElement('li');
             li.innerHTML = `
                 <div style="flex:1; padding-right:8px;">
-                    <div style="font-weight:700; font-size:0.85rem; color:#09090b;">${item.word}</div>
-                    <div style="color:#52525b; font-size:0.75rem;">${item.mean}</div>
+                    <div style="font-weight:700; font-size:0.85rem; color:var(--accent-white);">${item.word}</div>
+                    <div style="color:var(--text-secondary); font-size:0.75rem;">${item.mean}</div>
                 </div>
                 <div>
                     <button class="item-action-btn" onclick="editWordInSet(${index})">수정</button>
@@ -821,7 +1156,7 @@
         });
 
         if (!hasVisibleSet && action === 'flash-star') {
-            container.innerHTML = '<div style="padding:15px; text-align:center; color:#71717a;">즐겨찾기 단어가 없습니다.</div>';
+            container.innerHTML = '<div style="padding:20px; text-align:center; color:var(--text-muted);">즐겨찾기 단어가 없습니다.</div>';
         }
 
         hideAllSections();
@@ -942,7 +1277,7 @@
         document.getElementById('flash-ex-ko').innerText = data.exTrans || "해석 없음";
         document.getElementById('flash-ex-ko').classList.add('hidden');
 
-        document.getElementById('flash-guide').innerText = "화면을 터치하세요";
+        document.getElementById('flash-guide').innerText = "TAP TO CONTINUE";
         document.getElementById('flash-guide').classList.remove('hidden');
         document.getElementById('flash-action-btn').classList.add('hidden');
         
@@ -966,7 +1301,7 @@
         } else {
             isAutoplay = true;
             btn.classList.add('active');
-            btn.innerText = "정지";
+            btn.innerText = "STOP";
             const data = currentTestList[currentIndex];
             if (!data) return;
             
@@ -998,7 +1333,7 @@
         const btn = document.getElementById('autoplay-btn');
         if(btn) {
             btn.classList.remove('active');
-            btn.innerText = "자동재생";
+            btn.innerText = "AUTO";
         }
     }
 
@@ -1069,7 +1404,7 @@
                 document.getElementById('flash-content-word-group').classList.add('hidden');
                 document.getElementById('flash-content-ex-group').classList.remove('hidden');
                 document.getElementById('flash-action-btn').classList.add('hidden');
-                document.getElementById('flash-guide').innerText = "터치하여 해석 확인";
+                document.getElementById('flash-guide').innerText = "TAP FOR TRANSLATION";
                 document.getElementById('flash-guide').classList.remove('hidden');
                 speak(data.ex || "예문 없음", 'en', 1.0, () => {
                     if (isAutoplay) {
@@ -1122,13 +1457,13 @@
         inputContainer.innerHTML = '';
         document.getElementById('result-message').className = "result-msg hidden";
         document.getElementById('next-btn').classList.add('hidden');
-        document.getElementById('question-title').innerText = `문제 ${currentIndex + 1} / ${currentTestList.length}`;
+        document.getElementById('question-title').innerText = `QUESTION ${currentIndex + 1} / ${currentTestList.length}`;
 
         let displayHtml = "";
         
         if (currentTestMode === 'spelling') {
             displayHtml = `
-                <div class="flash-example" style="margin-top:0; color:#09090b; font-weight:700; font-size:1.1rem;">
+                <div class="flash-example" style="margin-top:0; color:var(--accent-white); font-weight:700; font-size:1.15rem; background:var(--bg-card);">
                     ${data.mean}
                 </div>`;
             
@@ -1136,7 +1471,7 @@
 
             inputContainer.innerHTML = `
                 <input type="text" id="spelling-input" class="spelling-input" placeholder="영어 스펠링 입력" autocomplete="off" autocapitalize="off" spellcheck="false">
-                <button onclick="checkAnswer(null, null, null)">정답 확인</button>
+                <button style="background-color: var(--accent-white); color: var(--accent-black);" onclick="checkAnswer(null, null, null)">정답 확인</button>
             `;
             document.getElementById('spelling-input').addEventListener("keyup", function(event) {
                 if (event.key === "Enter") checkAnswer(null, null, null);
@@ -1145,8 +1480,8 @@
 
         } else {
             displayHtml = `
-                <div style="font-size:1.5rem; font-weight:700; margin-bottom:4px; color:#09090b;">
-                    <div class="audio-btn-wrapper"><button class="audio-btn" onclick="speak('${data.word.replace(/'/g, "\\'")}', 'en')">단어 듣기</button></div>
+                <div style="font-size:1.6rem; font-weight:800; margin-bottom:6px; color:var(--accent-white);">
+                    <div class="audio-btn-wrapper"><button class="audio-btn" onclick="speak('${data.word.replace(/'/g, "\\'")}', 'en')">LISTEN</button></div>
                     ${data.word}
                 </div>`;
             
@@ -1221,19 +1556,19 @@
         const score = Math.round((sessionCorrectCount / total) * 100);
         
         document.getElementById('report-summary').innerHTML = `
-            점수: <strong>${score}점</strong> (${sessionCorrectCount} / ${total})
+            점수: <strong style="color:var(--accent-white);">${score}점</strong> (${sessionCorrectCount} / ${total})
         `;
 
         const wrongListDiv = document.getElementById('report-wrong-list');
         wrongListDiv.innerHTML = '';
         if (sessionWrongWords.length === 0) {
-            wrongListDiv.innerHTML = '<div style="text-align:center; color:#71717a; padding:8px;">틀린 단어가 없습니다!</div>';
+            wrongListDiv.innerHTML = '<div style="text-align:center; color:var(--text-muted); padding:10px;">틀린 단어가 없습니다!</div>';
         } else {
             sessionWrongWords.forEach(item => {
                 const div = document.createElement('div');
-                div.style.padding = '4px 0';
-                div.style.borderBottom = '1px solid #f4f4f5';
-                div.innerHTML = `<strong style="color:#09090b;">${item.word}</strong> - <span style="color:#52525b;">${item.mean}</span>`;
+                div.style.padding = '6px 0';
+                div.style.borderBottom = '1px solid var(--border-color)';
+                div.innerHTML = `<strong style="color:var(--accent-white);">${item.word}</strong> - <span style="color:var(--text-secondary);">${item.mean}</span>`;
                 wrongListDiv.appendChild(div);
             });
         }
@@ -1272,10 +1607,10 @@
         const btn = document.getElementById('star-btn');
         if (!btn) return;
         if (isStarred) {
-            btn.innerText = "즐겨찾기 ON";
+            btn.innerText = "STAR ON";
             btn.classList.add('active');
         } else {
-            btn.innerText = "즐겨찾기 OFF";
+            btn.innerText = "STAR OFF";
             btn.classList.remove('active');
         }
     }
