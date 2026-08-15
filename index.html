@@ -5,28 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>영단어장</title>
     <style>
-        * {
-            box-sizing: border-box;
-            font-family: "Pretendard", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Segoe UI", sans-serif;
-            margin: 0;
-            padding: 0;
-            -webkit-tap-highlight-color: transparent;
-        }
+        * { box-sizing: border-box; font-family: "Apple SD Gothic Neo", "Pretendard", "Malgun Gothic", sans-serif; }
         
         html, body {
             width: 100%;
             height: 100%;
+            margin: 0;
+            padding: 0;
             overflow: hidden;
             background-color: #f4f4f5;
-            color: #09090b;
-            font-size: 14px;
-            line-height: 1.4;
         }
 
         body { 
-            max-width: 600px;
+            max-width: 500px;
             margin: 0 auto; 
-            padding: 12px; 
+            padding: 16px 12px; 
+            color: #18181b;
+            font-size: 14px; 
+            line-height: 1.4;
             display: flex;
             flex-direction: column;
             height: 100vh;
@@ -36,409 +32,213 @@
             flex: 1;
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            overflow: hidden;
+            gap: 12px;
+            overflow-y: auto;
+            padding-bottom: 8px;
         }
 
         .card { 
             background: #ffffff; 
             border: 1px solid #e4e4e7; 
-            border-radius: 12px;
+            border-radius: 14px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
             overflow: hidden; 
             flex-shrink: 0;
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
         }
 
+        /* 메인 메뉴 그리드 디자인 */
         #main-menu-card {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
+            flex: initial;
         }
 
         #main-menu-card .card-content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            padding: 12px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            padding: 14px;
+        }
+
+        #main-menu-card button:first-child {
+            grid-column: span 2;
+            background-color: #18181b;
+            color: #ffffff;
+            border-color: #18181b;
+            height: 52px;
+        }
+
+        #main-menu-card button:first-child:active {
+            background-color: #3f3f46;
+            border-color: #3f3f46;
         }
 
         #main-menu-card button {
-            flex: 1;
-            min-height: 44px;
+            width: 100%;
+            height: 48px;
             font-size: 0.95rem;
             font-weight: 600;
-            border-radius: 8px;
-            background-color: #ffffff;
-            color: #09090b;
+            border-radius: 10px;
+            letter-spacing: -0.3px;
             border: 1px solid #e4e4e7;
-            padding: 0 14px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            letter-spacing: -0.2px;
-            transition: background-color 0.15s, border-color 0.15s;
-        }
-        #main-menu-card button::after {
-            content: "→";
-            font-size: 0.85rem;
-            color: #a1a1aa;
-        }
-        #main-menu-card button:active {
-            background-color: #f4f4f5;
-            border-color: #d4d4d8;
+            background-color: #ffffff;
+            color: #18181b;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+            transition: all 0.15s ease;
         }
         
+        #main-menu-card button:active {
+            background-color: #f4f4f5;
+            border-color: #a1a1aa;
+        }
+
         .card.full-height {
             flex: 1;
             display: flex;
             flex-direction: column;
+            margin-bottom: 0;
             overflow: hidden;
         }
 
         .card-header {
-            padding: 12px 14px;
-            background-color: #ffffff;
+            padding: 12px 14px; 
+            background-color: #fff; 
+            color: #18181b;
             border-bottom: 1px solid #f4f4f5;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
+            cursor: pointer; 
+            display: flex; 
+            justify-content: space-between; 
             align-items: center;
-            user-select: none;
+            user-select: none; 
         }
-        .card-header h2 {
-            margin: 0;
-            font-size: 0.9rem;
-            font-weight: 700;
-            color: #09090b;
-            letter-spacing: -0.3px;
-        }
-        .card-header .toggle-icon {
-            font-size: 0.75rem;
-            color: #71717a;
-            font-weight: 600;
-        }
+        .card-header h2 { margin: 0; font-size: 0.9rem; font-weight: 600; color: #52525b; }
+        .card-header .toggle-icon { font-size: 0.8rem; color: #71717a; font-weight: 600; }
         
-        .card-content {
-            padding: 12px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        .card.full-height .card-content {
-            flex: 1;
-            overflow: hidden;
-        }
-        .card-content.collapsed {
-            display: none;
-        }
+        .card-content { padding: 12px; display: flex; flex-direction: column; gap: 6px; }
+        .card.full-height .card-content { flex: 1; overflow: hidden; }
+        .card-content.collapsed { display: none; }
 
         textarea {
-            width: 100%;
-            height: 70px;
-            padding: 10px;
-            border: 1px solid #e4e4e7;
-            font-size: 0.85rem;
-            resize: none;
-            background-color: #fafafa;
-            border-radius: 8px;
-            color: #09090b;
+            width: 100%; height: 70px; padding: 10px; border: 1px solid #e4e4e7;
+            font-size: 0.85rem; resize: none; background-color: #fafafa;
+            border-radius: 8px; color: #18181b;
         }
-        textarea:focus {
-            outline: none;
-            border-color: #09090b;
-            background-color: #ffffff;
-        }
+        textarea:focus { outline: none; border-color: #18181b; background-color: #fff; }
 
         button { 
-            width: 100%;
-            height: 42px; 
-            background-color: #09090b;
-            color: #ffffff; 
-            border: 1px solid #09090b;
-            font-size: 0.9rem;
-            font-weight: 600;
-            cursor: pointer;
-            touch-action: manipulation;
+            width: 100%; height: 40px; 
+            background-color: #fff; color: #18181b; 
+            border: 1px solid #e4e4e7; font-size: 0.88rem; font-weight: 600;
+            cursor: pointer; touch-action: manipulation;
             border-radius: 8px; 
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background-color 0.15s, border-color 0.15s;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.15s ease;
             flex-shrink: 0;
         }
-        button:active {
-            background-color: #27272a;
-            border-color: #27272a;
-        }
-        button.btn-secondary {
-            background-color: #ffffff;
-            color: #09090b;
-            border: 1px solid #e4e4e7;
-        }
-        button.btn-secondary:active {
-            background-color: #f4f4f5;
-            border-color: #d4d4d8;
-        }
+        button:active { background-color: #f4f4f5; border-color: #a1a1aa; }
         
         .hidden { display: none !important; }
-        .margin-top-8 { margin-top: 8px; }
+        .margin-top-15 { margin-top: 6px; }
         
-        .result-msg {
-            text-align: center;
-            margin-top: 8px;
-            font-size: 0.9rem;
-            padding: 10px;
-            border: 1px solid #09090b;
-            font-weight: 600;
-            border-radius: 8px;
-        }
-        .correct {
-            background-color: #09090b;
-            color: #ffffff;
-            border-color: #09090b;
-        }
-        .wrong {
-            background-color: #f4f4f5;
-            color: #18181b;
-            border-color: #e4e4e7;
-        }
+        .result-msg { text-align: center; margin-top: 6px; font-size: 0.95rem; padding: 8px; border: 1px solid #ccc; font-weight: 600; border-radius: 6px; }
+        .correct { background-color: #fff; color: #222; border-color: #222; }
+        .wrong { background-color: #f2f2f2; color: #444; border-color: #bbb; }
         
-        .set-selection-list {
-            text-align: left;
-            flex: 1;
-            overflow-y: auto;
-            border: 1px solid #e4e4e7;
-            padding: 4px;
-            border-radius: 8px;
-            background: #ffffff;
-        }
-        .set-item {
-            display: flex;
-            align-items: center;
-            padding: 10px 8px;
-            border-bottom: 1px solid #f4f4f5;
-        }
+        .set-selection-list { text-align: left; flex: 1; overflow-y: auto; border: 1px solid #eee; padding: 4px; border-radius: 6px; background: #fff; }
+        .set-item { display: flex; align-items: center; padding: 8px 4px; border-bottom: 1px solid #f5f5f5; }
         .set-item:last-child { border-bottom: none; }
-        .set-item label {
-            flex: 1;
-            font-size: 0.9rem;
-            margin-left: 10px;
-            cursor: pointer;
-            color: #18181b;
-        }
+        .set-item label { flex: 1; font-size: 0.9rem; margin-left: 8px; cursor: pointer; color: #333; }
 
         .flashcard-box {
-            position: relative;
-            border: 1px solid #e4e4e7;
-            padding: 16px;
-            text-align: center;
-            margin: 4px 0;
-            background-color: #fafafa;
-            cursor: pointer;
+            position: relative; border: 1px solid #dcdcdc; padding: 12px;
+            text-align: center; margin: 4px 0; background-color: #fff; cursor: pointer;
             flex: 1;
             border-radius: 10px; 
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
             overflow: hidden;
-            transition: background-color 0.15s;
-        }
-        .flashcard-box:active {
-            background-color: #f4f4f5;
         }
         
         .flash-meta {
-            position: absolute;
-            top: 12px;
-            left: 12px;
-            text-align: left;
-            color: #71717a;
-            font-size: 0.75rem;
-            font-weight: 600;
+            position: absolute; top: 8px; left: 10px; text-align: left;
+            color: #666; font-size: 0.75rem; font-weight: 600;
         }
 
-        .flash-text-main {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #09090b;
-            margin-bottom: 6px;
-            word-break: keep-all;
-            line-height: 1.2;
-            letter-spacing: -0.5px;
-        }
-        .flash-text-sub {
-            font-size: 1.1rem;
-            color: #27272a;
-            margin-top: 6px;
-            font-weight: 600;
-            word-break: keep-all;
-        }
+        .flash-text-main { font-size: 1.8rem; font-weight: 700; color: #222; margin-bottom: 4px; word-break: keep-all; line-height: 1.2; }
+        .flash-text-sub { font-size: 1.1rem; color: #444; margin-top: 4px; font-weight: 600; word-break: keep-all; }
         
         .flash-example { 
-            font-size: 0.9rem;
-            color: #09090b;
-            margin-top: 8px; 
-            padding: 10px;
-            border: 1px solid #e4e4e7;
-            width: 100%;
-            word-break: keep-all; 
-            border-radius: 8px;
-            background: #ffffff;
-            text-align: left;
+            font-size: 0.9rem; color: #333; margin-top: 6px; 
+            padding: 6px; border: 1px solid #eee; width: 100%; word-break: keep-all; 
+            border-radius: 6px; background: #fff;
         }
-        .flash-ex-ko {
-            background: #f4f4f5;
-            border-color: #e4e4e7;
-            color: #52525b;
-        }
+        .flash-ex-ko { background: #f5f5f7; border-color: #e5e5e5; }
         
-        .flash-guide {
-            font-size: 0.75rem;
-            color: #a1a1aa;
-            margin-top: 10px;
-        }
+        .flash-guide { font-size: 0.75rem; color: #888; margin-top: 8px; }
 
-        .audio-btn-wrapper {
-            text-align: center;
-            margin-bottom: 6px;
-        }
+        .audio-btn-wrapper { text-align: center; margin-bottom: 2px; }
         .audio-btn {
-            background: #ffffff;
-            color: #09090b;
-            border: 1px solid #d4d4d8;
-            cursor: pointer; 
-            font-size: 0.75rem;
-            height: auto;
-            padding: 3px 10px;
-            font-weight: 600; 
-            border-radius: 20px;
-            display: inline-flex;
-            width: auto;
+            background: #fff; color: #444; border: 1px solid #ccc; cursor: pointer; 
+            font-size: 0.7rem; height: auto; padding: 2px 8px; font-weight: 600; 
+            border-radius: 15px; display: inline-flex; width: auto;
         }
-        .audio-btn:active { background: #f4f4f5; }
+        .audio-btn:active { background: #eee; }
         
         .top-ctrl-container {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            display: flex;
-            gap: 4px;
-            z-index: 10;
+            position: absolute; top: 6px; right: 8px;
+            display: flex; gap: 4px; z-index: 10;
         }
         .top-ctrl-btn {
-            font-size: 0.7rem;
-            background: #ffffff;
-            border: 1px solid #d4d4d8;
-            cursor: pointer;
-            color: #52525b;
-            height: auto;
-            padding: 4px 10px;
-            width: auto;
-            font-weight: 600;
-            border-radius: 20px;
-            white-space: nowrap;
+            font-size: 0.7rem; background: #fff; border: 1px solid #ccc; cursor: pointer; color: #666;
+            height: auto; padding: 3px 8px; width: auto; font-weight: 600;
+            border-radius: 15px; white-space: nowrap;
         }
-        .top-ctrl-btn.active {
-            background: #09090b;
-            color: #ffffff;
-            border-color: #09090b;
-        }
+        .top-ctrl-btn.active { background: #222; color: #fff; border-color: #222; }
 
         .mc-option {
-            background: #ffffff;
-            border: 1px solid #e4e4e7;
-            padding: 0 12px;
-            margin-bottom: 6px;
-            font-size: 0.9rem;
-            font-weight: 500;
-            cursor: pointer;
-            text-align: left;
-            color: #09090b; 
-            width: 100%;
-            border-radius: 8px;
-            height: 42px; 
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            transition: background-color 0.15s;
+            background: #fff; border: 1px solid #d0d0d0; padding: 0 10px; margin-bottom: 4px;
+            font-size: 0.9rem; font-weight: 500; cursor: pointer; text-align: left; color: #222; 
+            width: 100%; border-radius: 6px; height: 42px; 
+            display: flex; align-items: center; justify-content: flex-start;
         }
-        .mc-option:active { background-color: #f4f4f5; }
-        .mc-option.selected-correct {
-            border: 2px solid #09090b;
-            font-weight: 700;
-            background-color: #ffffff;
-            color: #09090b;
-        }
-        .mc-option.selected-wrong {
-            background-color: #f4f4f5;
-            color: #a1a1aa;
-            text-decoration: line-through;
-            border-color: #e4e4e7;
-        }
+        .mc-option.selected-correct { border: 2px solid #222; font-weight: 700; background-color: #fcfcfc; }
+        .mc-option.selected-wrong { background-color: #f2f2f2; color: #888; text-decoration: line-through; border-color: #ddd; }
 
         .spelling-input {
-            width: 100%;
-            height: 44px;
-            padding: 0 12px;
-            font-size: 1.05rem;
-            text-align: center;
-            font-weight: 600;
-            border: 1px solid #d4d4d8;
-            margin-bottom: 6px;
-            background: #ffffff;
-            color: #09090b;
-            border-radius: 8px;
-        }
-        .spelling-input:focus {
-            outline: none;
-            border-color: #09090b;
+            width: 100%; height: 42px; padding: 0 10px; font-size: 1rem; text-align: center; font-weight: 600;
+            border: 1px solid #aaa; margin-bottom: 6px; background: #fff; color: #222;
+            border-radius: 6px;
         }
 
         ul { padding-left: 0; list-style: none; margin: 0; }
         #manage-list li, #set-detail-list li { 
-            border-bottom: 1px solid #f4f4f5;
-            padding: 10px 0;
-            display: flex; 
-            justify-content: space-between;
-            align-items: center;
-            background: #ffffff;
+            border-bottom: 1px solid #eee; padding: 8px 0; display: flex; 
+            justify-content: space-between; align-items: center; background: #fff;
         }
         
         .item-action-btn {
-            background-color: #ffffff;
-            color: #09090b;
-            border: 1px solid #d4d4d8;
-            padding: 0 8px;
-            height: 30px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            margin-left: 4px;
-            width: auto; 
-            border-radius: 6px;
+            background-color: #fff; color: #444; border: 1px solid #ccc; padding: 0 6px;
+            height: 28px; font-size: 0.75rem; font-weight: 600; margin-left: 4px; width: auto; 
+            border-radius: 4px;
         }
-        .item-action-btn:active { background-color: #f4f4f5; }
         
         .scroll-list { flex: 1; overflow-y: auto; padding: 2px; }
         #word-list-container { flex: 1; overflow-y: auto; padding: 4px; }
         
         .word-list-item {
-            border-bottom: 1px solid #f4f4f5;
-            padding: 4px 0;
+            border-bottom: 1px solid #eee;
+            padding: 3px 0;
             display: flex;
             align-items: stretch;
-            gap: 6px;
-            background: #ffffff;
+            gap: 4px;
+            background: #fff;
         }
         .word-list-item:last-child { border-bottom: none; }
         
         .word-tap-box {
             flex: 1;
             min-height: 40px;
-            padding: 8px 10px;
-            border-radius: 6px;
-            border: 1px solid #e4e4e7;
+            padding: 6px 8px;
+            border-radius: 5px;
+            border: 1px solid #e2e4e8;
             background-color: #fafafa;
             cursor: pointer;
             display: flex;
@@ -447,73 +247,48 @@
             user-select: none;
             transition: background-color 0.15s, border-color 0.15s;
         }
-        .word-tap-box:active { background-color: #f4f4f5; }
-        .word-tap-box.en { font-weight: 700; color: #09090b; font-size: 0.9rem; }
-        .word-tap-box.ko { font-weight: 500; color: #3f3f46; font-size: 0.85rem; }
+        .word-tap-box:active { background-color: #eee; }
+        .word-tap-box.en { font-weight: 700; color: #222; font-size: 0.9rem; }
+        .word-tap-box.ko { font-weight: 500; color: #444; font-size: 0.85rem; }
         
         .masked-text { 
-            background-color: #e4e4e7 !important; 
+            background-color: #e2e4e8 !important; 
             color: transparent !important; 
-            border-color: #d4d4d8 !important;
-            border-radius: 6px;
+            border-color: #d1d5db !important;
+            border-radius: 5px;
         }
 
-        .badge {
-            display: inline-block;
-            padding: 3px 10px;
-            background: #09090b;
-            color: #ffffff;
-            font-weight: 600;
-            font-size: 0.7rem;
-            margin-bottom: 4px;
-            border-radius: 20px;
-        }
+        .badge { display: inline-block; padding: 2px 8px; background: #fff; border: 1px solid #222; color: #222; font-weight: 600; font-size: 0.7rem; margin-bottom: 2px; border-radius: 15px; }
         
-        .flex-row { display: flex; gap: 6px; width: 100%; }
+        .flex-row { display: flex; gap: 4px; width: 100%; }
         .flex-row button { flex: 1; }
 
-        .filter-bar { display: flex; gap: 4px; margin-bottom: 6px; }
-        .filter-btn {
-            flex: 1;
-            height: 34px;
-            font-size: 0.8rem;
-            border: 1px solid #e4e4e7;
-            background: #ffffff;
-            color: #09090b;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-        }
-        .filter-btn.active {
-            background: #09090b;
-            color: #ffffff;
-            border-color: #09090b;
-        }
+        .filter-bar { display: flex; gap: 4px; margin-bottom: 4px; }
+        .filter-btn { flex: 1; height: 32px; font-size: 0.8rem; border: 1px solid #ccc; background: #fff; border-radius: 5px; cursor: pointer; font-weight: 600; }
+        .filter-btn.active { background: #222; color: #fff; border-color: #222; }
         
+        /* 데이터 관리 섹션 스타일 */
         .data-manage-card {
             border: 1px solid #e4e4e7;
             background: #ffffff;
-            border-radius: 12px;
-        }
-        .data-manage-card .card-header {
-            padding: 10px 14px;
-            background-color: transparent;
-        }
-        .data-manage-card .card-header h2 {
-            font-size: 0.85rem;
-            color: #52525b;
-            font-weight: 600;
+            border-radius: 14px;
         }
         .data-manage-card .card-content {
             padding: 12px;
-            gap: 6px;
+            gap: 8px;
             max-height: 380px;
             overflow-y: auto;
         }
         .data-manage-card button {
             height: 36px;
             font-size: 0.82rem;
+            background: #fafafa;
+            border-color: #e4e4e7;
+            color: #3f3f46;
             border-radius: 6px;
+        }
+        .data-manage-card button:active {
+            background: #f4f4f5;
         }
     </style>
 </head>
@@ -538,19 +313,19 @@
                 <span class="toggle-icon">[열기]</span>
             </div>
             <div class="card-content collapsed">
-                <div style="font-size: 0.75rem; color: #71717a;">
+                <div style="font-size: 0.75rem; color: #71717a; line-height: 1.4;">
                     형식: Day/순번/단어/뜻/예문/해석<br>
                     예시: Day 01/1/apple/사과/I ate an apple./나는 사과를 먹었다.
                 </div>
                 <textarea id="bulk-input" placeholder="여기에 데이터를 붙여넣으세요..."></textarea>
                 <button onclick="addWordSetsAuto()">단어 등록하기</button>
                 
-                <div style="margin-top:2px; text-align: right; color: #71717a; font-size: 0.75rem;">저장된 단어장: <strong id="set-count">0</strong>개</div>
-                <button class="btn-secondary" onclick="toggleManageList()">단어장 목록 편집 / 삭제</button>
-                <button class="btn-secondary" onclick="backupData()">데이터 백업 (파일 저장)</button>
-                <button class="btn-secondary" onclick="triggerRestore()">데이터 복구 (파일 불러오기)</button>
+                <div style="margin-top:2px; text-align: right; color: #71717a; font-size: 0.75rem;">저장된 단어장: <strong id="set-count" style="color:#18181b;">0</strong>개</div>
+                <button onclick="toggleManageList()">단어장 목록 편집 / 삭제</button>
+                <button onclick="backupData()">데이터 백업 (파일 저장)</button>
+                <button onclick="triggerRestore()">데이터 복구 (파일 불러오기)</button>
                 <input type="file" id="restore-input" style="display: none;" accept=".json" onchange="restoreData(this)">
-                <button class="btn-secondary margin-top-8" onclick="clearAllData()">전체 데이터 초기화</button>
+                <button class="margin-top-15" onclick="clearAllData()">전체 데이터 초기화</button>
             </div>
         </div>
     </div>
@@ -559,7 +334,7 @@
         <div class="card-content">
             <h2 style="margin:0 0 6px 0; font-size:0.95rem;">목록 편집</h2>
             <div class="scroll-list"><ul id="manage-list"></ul></div>
-            <button class="btn-secondary margin-top-8" onclick="toggleManageList()">닫기</button>
+            <button class="margin-top-15" onclick="toggleManageList()">닫기</button>
         </div>
     </div>
 
@@ -567,7 +342,7 @@
         <div class="card-content">
             <h2 id="detail-set-title" style="margin:0 0 6px 0; font-size:0.95rem;">상세 편집</h2>
             <div class="scroll-list"><ul id="set-detail-list"></ul></div>
-            <button class="btn-secondary margin-top-8" onclick="closeSetDetail()">뒤로 가기</button>
+            <button class="margin-top-15" onclick="closeSetDetail()">뒤로 가기</button>
         </div>
     </div>
 
@@ -575,12 +350,12 @@
         <div class="card-content">
             <h2 style="margin:0 0 6px 0; font-size:0.95rem;">학습할 단어장 선택</h2>
             <div class="flex-row" style="margin-bottom: 4px;">
-                <button class="btn-secondary" onclick="selectAllSets(true)">전체 선택</button>
-                <button class="btn-secondary" onclick="selectAllSets(false)">선택 해제</button>
+                <button onclick="selectAllSets(true)">전체 선택</button>
+                <button onclick="selectAllSets(false)">선택 해제</button>
             </div>
             <div class="set-selection-list" id="set-selection-container"></div>
-            <button class="margin-top-8" onclick="confirmSelection()">시작하기</button>
-            <button class="btn-secondary margin-top-8" onclick="closeSelection()">취소</button>
+            <button class="margin-top-15" onclick="confirmSelection()">시작하기</button>
+            <button class="margin-top-15" onclick="closeSelection()">취소</button>
         </div>
     </div>
 
@@ -592,15 +367,15 @@
                 <button class="filter-btn" id="filter-en" onclick="setWordListFilter('hide-en')">단어 가리기</button>
                 <button class="filter-btn" id="filter-ko" onclick="setWordListFilter('hide-ko')">뜻 가리기</button>
             </div>
-            <div id="word-list-container" style="border: 1px solid #e4e4e7; border-radius: 8px;"></div>
-            <button class="btn-secondary margin-top-8" onclick="returnToMain()">메인으로 돌아가기</button>
+            <div id="word-list-container" style="border: 1px solid #eee; border-radius: 6px;"></div>
+            <button class="margin-top-15" onclick="returnToMain()">메인으로 돌아가기</button>
         </div>
     </div>
 
     <div class="card full-height hidden" id="flashcard-section">
         <div class="card-content">
             <div style="text-align:center;"><span id="flash-mode-badge" class="badge">모드</span></div>
-            <div id="flash-progress" style="text-align:center; font-size: 0.8rem; color: #71717a;">1 / 10</div>
+            <div id="flash-progress" style="text-align:center; font-size: 0.8rem; color: #555;">1 / 10</div>
             
             <div class="flashcard-box" onclick="handleFlashClick()">
                 <div id="flash-meta-info" class="flash-meta"></div>
@@ -626,18 +401,18 @@
             </div>
             
             <div class="flex-row">
-                <button class="btn-secondary" onclick="prevFlashcard()">이전</button>
+                <button onclick="prevFlashcard()">이전</button>
                 <button onclick="handleNextButton()" id="flash-action-btn" class="hidden">다음</button>
             </div>
             
-            <button class="btn-secondary margin-top-8" onclick="exitFlashcard()">종료하기</button>
+            <button class="margin-top-15" onclick="exitFlashcard()">종료하기</button>
         </div>
     </div>
 
     <div class="card full-height hidden" id="test-section">
         <div class="card-content">
             <div style="text-align:center;"><span id="test-type-badge" class="badge">테스트</span></div>
-            <div id="question-title" style="text-align:center; font-size: 0.8rem; color: #71717a;">문제</div>
+            <div id="question-title" style="text-align:center; font-size: 0.8rem; color: #555;">문제</div>
             
             <div style="text-align: center; margin: 4px 0; flex:1; display:flex; flex-direction:column; justify-content:center;">
                 <div id="question-display" style="width:100%;"></div>
@@ -646,8 +421,8 @@
             <div id="test-input-container"></div>
             <div id="result-message" class="result-msg hidden"></div>
             
-            <button onclick="nextQuestion()" id="next-btn" class="hidden margin-top-8">다음 문제</button>
-            <button class="btn-secondary margin-top-8" onclick="returnToMain()">종료하기</button>
+            <button onclick="nextQuestion()" id="next-btn" class="hidden margin-top-15">다음 문제</button>
+            <button class="margin-top-15" onclick="returnToMain()">종료하기</button>
         </div>
     </div>
 
@@ -655,7 +430,7 @@
         <div class="card-content" style="text-align:center;">
             <h2 style="margin: 6px 0 4px 0; font-size: 1rem;">학습 완료!</h2>
             <div id="report-summary" style="font-size:0.95rem; font-weight:600; margin-bottom:8px;"></div>
-            <div class="scroll-list" id="report-wrong-list" style="text-align:left; border: 1px solid #e4e4e7; border-radius: 8px; padding: 6px; margin-bottom: 4px;"></div>
+            <div class="scroll-list" id="report-wrong-list" style="text-align:left; border: 1px solid #eee; border-radius: 6px; padding: 4px 6px; margin-bottom: 4px;"></div>
             <button onclick="returnToMain()">메인으로 돌아가기</button>
         </div>
     </div>
@@ -750,7 +525,7 @@
         if (content.classList.contains('collapsed')) {
             content.classList.remove('collapsed');
             icon.innerText = '[접기]';
-            headerElement.style.borderBottom = '1px solid #f4f4f5';
+            headerElement.style.borderBottom = '1px solid #eee';
         } else {
             content.classList.add('collapsed');
             icon.innerText = '[열기]';
@@ -836,14 +611,14 @@
     function renderManageList() {
         const ul = document.getElementById('manage-list');
         ul.innerHTML = '';
-        if (wordSets.length === 0) { ul.innerHTML = '<li style="color:#71717a; justify-content:center;">저장된 단어장이 없습니다.</li>'; return; }
+        if (wordSets.length === 0) { ul.innerHTML = '<li style="color:#888; justify-content:center;">저장된 단어장이 없습니다.</li>'; return; }
         
         wordSets.forEach(set => {
             const li = document.createElement('li');
             const infoDiv = document.createElement('div');
             infoDiv.style.flex = "1";
             infoDiv.style.cursor = "pointer";
-            infoDiv.innerHTML = `<strong style="color:#09090b;">${set.title}</strong> <span style="font-size:0.8em; color:#71717a;">(${set.words.length} 단어)</span>`;
+            infoDiv.innerHTML = `<strong style="color:#222;">${set.title}</strong> <span style="font-size:0.8em; color:#888;">(${set.words.length} 단어)</span>`;
             infoDiv.onclick = function() { openSetDetail(set.id); };
 
             const delBtn = document.createElement('button');
@@ -877,14 +652,14 @@
     function renderSetDetailList(set) {
         const ul = document.getElementById('set-detail-list');
         ul.innerHTML = '';
-        if(set.words.length === 0) { ul.innerHTML = '<li style="color:#71717a; justify-content:center;">단어가 없습니다.</li>'; return; }
+        if(set.words.length === 0) { ul.innerHTML = '<li style="color:#888; justify-content:center;">단어가 없습니다.</li>'; return; }
 
         set.words.forEach((item, index) => {
             const li = document.createElement('li');
             li.innerHTML = `
                 <div style="flex:1; padding-right:8px;">
-                    <div style="font-weight:700; font-size:0.9rem; color:#09090b;">${item.word}</div>
-                    <div style="color:#52525b; font-size:0.75rem;">${item.mean}</div>
+                    <div style="font-weight:700; font-size:0.9rem; color:#222;">${item.word}</div>
+                    <div style="color:#666; font-size:0.75rem;">${item.mean}</div>
                 </div>
                 <div>
                     <button class="item-action-btn" onclick="editWordInSet(${index})">수정</button>
@@ -1008,7 +783,7 @@
         });
 
         if (!hasVisibleSet && action === 'flash-star') {
-            container.innerHTML = '<div style="padding:15px; text-align:center; color:#71717a;">즐겨찾기 단어가 없습니다.</div>';
+            container.innerHTML = '<div style="padding:15px; text-align:center; color:#888;">즐겨찾기 단어가 없습니다.</div>';
         }
 
         hideAllSections();
@@ -1315,7 +1090,7 @@
         
         if (currentTestMode === 'spelling') {
             displayHtml = `
-                <div class="flash-example" style="margin-top:0; color:#09090b; font-weight:700; font-size:1.2rem; text-align:center;">
+                <div class="flash-example" style="margin-top:0; color:#222; font-weight:700; font-size:1.2rem;">
                     ${data.mean}
                 </div>`;
             
@@ -1332,7 +1107,7 @@
 
         } else {
             displayHtml = `
-                <div style="font-size:1.6rem; font-weight:700; margin-bottom:4px; color:#09090b;">
+                <div style="font-size:1.6rem; font-weight:700; margin-bottom:4px; color:#222;">
                     <div class="audio-btn-wrapper"><button class="audio-btn" onclick="speak('${data.word.replace(/'/g, "\\'")}', 'en')">단어 듣기</button></div>
                     ${data.word}
                 </div>`;
@@ -1415,13 +1190,13 @@
         const wrongListDiv = document.getElementById('report-wrong-list');
         wrongListDiv.innerHTML = '';
         if (sessionWrongWords.length === 0) {
-            wrongListDiv.innerHTML = '<div style="text-align:center; color:#71717a; padding:8px;">틀린 단어가 없습니다!</div>';
+            wrongListDiv.innerHTML = '<div style="text-align:center; color:#666; padding:8px;">틀린 단어가 없습니다!</div>';
         } else {
             sessionWrongWords.forEach(item => {
                 const div = document.createElement('div');
-                div.style.padding = '6px 0';
-                div.style.borderBottom = '1px solid #f4f4f5';
-                div.innerHTML = `<strong style="color:#09090b;">${item.word}</strong> - <span style="color:#52525b;">${item.mean}</span>`;
+                div.style.padding = '4px 0';
+                div.style.borderBottom = '1px solid #eee';
+                div.innerHTML = `<strong style="color:#222;">${item.word}</strong> - <span style="color:#666;">${item.mean}</span>`;
                 wrongListDiv.appendChild(div);
             });
         }
