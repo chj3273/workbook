@@ -28,7 +28,6 @@
             height: 100vh;
         }
         
-        
         .main-container {
             flex: 1;
             display: flex;
@@ -46,7 +45,6 @@
             overflow: hidden; 
             flex-shrink: 0;
         }
-        
         
         .card.full-height {
             flex: 1;
@@ -77,7 +75,7 @@
         textarea:focus { outline: none; border-color: #444; }
 
         button { 
-            width: 100%; height: 40px; 
+            width: 100%; height: 42px; 
             background-color: #fff; color: #222; 
             border: 1px solid #d0d0d0; font-size: 0.95rem; font-weight: 600;
             cursor: pointer; touch-action: manipulation;
@@ -100,7 +98,6 @@
         .set-item:last-child { border-bottom: none; }
         .set-item label { flex: 1; font-size: 0.95rem; margin-left: 8px; cursor: pointer; color: #333; }
 
-        /* 플래시카드 영역: 하단 빈 여백을 없애고 세로 공간을 꽉 채우도록 수정 */
         .flashcard-box {
             position: relative; border: 1px solid #dcdcdc; padding: 16px;
             text-align: center; margin: 6px 0; background-color: #fff; cursor: pointer;
@@ -220,48 +217,31 @@
         .filter-bar { display: flex; gap: 6px; margin-bottom: 6px; }
         .filter-btn { flex: 1; height: 34px; font-size: 0.8rem; border: 1px solid #ccc; background: #fff; border-radius: 6px; cursor: pointer; font-weight: 600; }
         .filter-btn.active { background: #222; color: #fff; border-color: #222; }
+        
+        .data-manage-card {
+            border: 1px dashed #bbb;
+            background: #fdfdfd;
+        }
     </style>
 </head>
 <body>
 
     <div class="main-container" id="main-menu-container">
-        <div class="card" id="step-learning-section">
-            <div class="card-header" onclick="toggleSection(this)">
-                <h2>단어 학습</h2>
-                <span class="toggle-icon">[접기]</span>
-            </div>
+        <div class="card">
             <div class="card-content">
-                <button onclick="openSetSelection('step1-memorize')">암기 학습</button>
-                <button onclick="openSetSelection('step2-recall')">리콜 학습</button>
-                <button onclick="openSetSelection('step3-spell')">스펠 학습</button>
-            </div>
-        </div>
-
-        <div class="card" id="test-menu-section">
-            <div class="card-header" onclick="toggleSection(this)">
-                <h2>추가 학습</h2>
-                <span class="toggle-icon">[접기]</span>
-            </div>
-            <div class="card-content">
-                <button onclick="openSetSelection('flash-deep')">상세 예문 학습</button>
+                <button onclick="openSetSelection('view-list')">단어장</button>
+                <button onclick="openSetSelection('step1-memorize')">단어 학습</button>
+                <button onclick="openSetSelection('flash-deep')">예문 학습</button>
+                <button onclick="openSetSelection('step2-recall')">객관식 테스트</button>
+                <button onclick="openSetSelection('step3-spell')">스펠링 테스트</button>
                 <button onclick="openSetSelection('flash-star')">즐겨찾기 단어 복습</button>
-                <button onclick="openSetSelection('wrong-drill-choice')">틀린 오답 단어 다시 풀기</button>
+                <button onclick="openSetSelection('wrong-drill-choice')">틀린 단어 다시 풀기</button>
             </div>
         </div>
 
-        <div class="card" id="view-menu-section">
-            <div class="card-header" onclick="toggleSection(this)">
-                <h2>단어장</h2>
-                <span class="toggle-icon">[접기]</span>
-            </div>
-            <div class="card-content">
-                <button onclick="openSetSelection('view-list')">단어 목록 열람하기</button>
-            </div>
-        </div>
-
-        <div class="card" id="input-section">
+        <div class="card data-manage-card" id="input-section">
             <div class="card-header collapsed" onclick="toggleSection(this)">
-                <h2>데이터 관리</h2>
+                <h2 style="font-size:0.95rem; color:#555;">⚙️ 데이터 관리 및 설정</h2>
                 <span class="toggle-icon">[열기]</span>
             </div>
             <div class="card-content collapsed">
@@ -282,7 +262,6 @@
         </div>
     </div>
 
-    <!-- 전체 화면 카드 영역들 -->
     <div class="card full-height hidden" id="manage-section">
         <div class="card-content">
             <h2 style="margin:0 0 6px 0; font-size:1rem;">목록 편집</h2>
@@ -788,7 +767,7 @@
         hideAllSections();
         currentRawList = list;
         document.getElementById('word-list-section').classList.remove('hidden');
-        renderWordListItems('all');
+        setWordListFilter('all');
     }
 
     function setWordListFilter(filter) {
@@ -829,7 +808,7 @@
     function startFlashcard(list, mode) {
         flashMode = mode;
         currentTestList = list.sort((a, b) => (parseInt(a.seq) || 0) - (parseInt(b.seq) || 0));
-        document.getElementById('flash-mode-badge').innerText = (mode === 'speed') ? "암기 학습" : "상세 예문 학습";
+        document.getElementById('flash-mode-badge').innerText = (mode === 'speed') ? "단어 학습" : "예문 학습";
 
         currentIndex = 0;
         hideAllSections();
@@ -1023,8 +1002,8 @@
         document.getElementById('test-section').classList.remove('hidden');
         
         const badge = document.getElementById('test-type-badge');
-        if(mode === 'choice') badge.innerText = "리콜 학습";
-        else badge.innerText = "스펠 학습";
+        if(mode === 'choice') badge.innerText = "객관식 테스트";
+        else badge.innerText = "스펠링 테스트";
         
         currentTestList = list.sort(() => Math.random() - 0.5);
         currentIndex = 0;
