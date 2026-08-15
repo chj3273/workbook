@@ -13,16 +13,16 @@
             margin: 0;
             padding: 0;
             overflow: hidden;
-            background-color: #f7f8f9;
+            background-color: #f4f4f5;
         }
 
         body { 
-            max-width: 640px;
+            max-width: 500px;
             margin: 0 auto; 
-            padding: 10px; 
-            color: #222;
+            padding: 16px 12px; 
+            color: #18181b;
             font-size: 14px; 
-            line-height: 1.3;
+            line-height: 1.4;
             display: flex;
             flex-direction: column;
             height: 100vh;
@@ -32,46 +32,65 @@
             flex: 1;
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            overflow: hidden;
-            padding-bottom: 0;
+            gap: 12px;
+            overflow-y: auto;
+            padding-bottom: 8px;
         }
 
         .card { 
-            background: #fff; 
-            padding: 0; 
-            border: 1px solid #dcdcdc; 
-            border-radius: 8px;
+            background: #ffffff; 
+            border: 1px solid #e4e4e7; 
+            border-radius: 14px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
             overflow: hidden; 
             flex-shrink: 0;
         }
 
-        /* 메인 메뉴 영역 공간 채우기 설정 */
+        /* 메인 메뉴 그리드 디자인 */
         #main-menu-card {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
+            flex: initial;
         }
 
         #main-menu-card .card-content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            padding: 12px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            padding: 14px;
+        }
+
+        /* 대표 단어장 버튼 강조 */
+        #main-menu-card button:first-child {
+            grid-column: span 2;
+            background-color: #18181b;
+            color: #ffffff;
+            border-color: #18181b;
+            height: 52px;
+        }
+
+        #main-menu-card button:first-child:active {
+            background-color: #3f3f46;
+            border-color: #3f3f46;
         }
 
         #main-menu-card button {
-            flex: 1;
-            height: auto;
-            min-height: 48px;
-            font-size: 1.05rem;
-            font-weight: 700;
-            border-radius: 8px;
+            width: 100%;
+            height: 48px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border-radius: 10px;
             letter-spacing: -0.3px;
+            border: 1px solid #e4e4e7;
+            background-color: #ffffff;
+            color: #18181b;
             box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+            transition: all 0.15s ease;
         }
         
+        #main-menu-card button:active {
+            background-color: #f4f4f5;
+            border-color: #a1a1aa;
+        }
+
         .card.full-height {
             flex: 1;
             display: flex;
@@ -81,36 +100,41 @@
         }
 
         .card-header {
-            padding: 10px 12px; background-color: #fff; color: #222;
-            border-bottom: 1px solid #eee;
-            cursor: pointer; display: flex; justify-content: space-between; align-items: center;
+            padding: 12px 14px; 
+            background-color: #fff; 
+            color: #18181b;
+            border-bottom: 1px solid #f4f4f5;
+            cursor: pointer; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
             user-select: none; 
         }
-        .card-header h2 { margin: 0; font-size: 0.95rem; font-weight: 700; }
-        .card-header .toggle-icon { font-size: 0.8rem; color: #777; font-weight: 600; }
+        .card-header h2 { margin: 0; font-size: 0.9rem; font-weight: 600; color: #52525b; }
+        .card-header .toggle-icon { font-size: 0.8rem; color: #71717a; font-weight: 600; }
         
-        .card-content { padding: 8px; display: flex; flex-direction: column; gap: 5px; }
+        .card-content { padding: 12px; display: flex; flex-direction: column; gap: 6px; }
         .card.full-height .card-content { flex: 1; overflow: hidden; }
         .card-content.collapsed { display: none; }
 
         textarea {
-            width: 100%; height: 60px; padding: 8px; border: 1px solid #dcdcdc;
-            font-size: 0.85rem; resize: none; background-color: #fff;
-            border-radius: 6px; color: #222;
+            width: 100%; height: 70px; padding: 10px; border: 1px solid #e4e4e7;
+            font-size: 0.85rem; resize: none; background-color: #fafafa;
+            border-radius: 8px; color: #18181b;
         }
-        textarea:focus { outline: none; border-color: #444; }
+        textarea:focus { outline: none; border-color: #18181b; background-color: #fff; }
 
         button { 
-            width: 100%; height: 38px; 
-            background-color: #fff; color: #222; 
-            border: 1px solid #d0d0d0; font-size: 0.9rem; font-weight: 600;
+            width: 100%; height: 40px; 
+            background-color: #fff; color: #18181b; 
+            border: 1px solid #e4e4e7; font-size: 0.88rem; font-weight: 600;
             cursor: pointer; touch-action: manipulation;
-            border-radius: 6px; 
+            border-radius: 8px; 
             display: flex; align-items: center; justify-content: center;
-            transition: all 0.2s;
+            transition: all 0.15s ease;
             flex-shrink: 0;
         }
-        button:active { background-color: #f0f0f0; border-color: #888; }
+        button:active { background-color: #f4f4f5; border-color: #a1a1aa; }
         
         .hidden { display: none !important; }
         .margin-top-15 { margin-top: 6px; }
@@ -246,32 +270,26 @@
         
         /* 데이터 관리 섹션 스타일 */
         .data-manage-card {
-            border: 1px solid #e0e0e0;
-            background: #fafafa;
-            border-radius: 6px;
-        }
-        .data-manage-card .card-header {
-            padding: 8px 10px;
-            background-color: transparent;
-        }
-        .data-manage-card .card-header h2 {
-            font-size: 0.85rem;
-            color: #555;
-            font-weight: 600;
+            border: 1px solid #e4e4e7;
+            background: #ffffff;
+            border-radius: 14px;
         }
         .data-manage-card .card-content {
-            padding: 8px 10px;
-            gap: 6px;
+            padding: 12px;
+            gap: 8px;
             max-height: 380px;
             overflow-y: auto;
         }
         .data-manage-card button {
-            height: 34px;
+            height: 36px;
             font-size: 0.82rem;
-            background: #fff;
-            border-color: #d5d5d5;
-            color: #333;
-            border-radius: 5px;
+            background: #fafafa;
+            border-color: #e4e4e7;
+            color: #3f3f46;
+            border-radius: 6px;
+        }
+        .data-manage-card button:active {
+            background: #f4f4f5;
         }
     </style>
 </head>
@@ -296,14 +314,14 @@
                 <span class="toggle-icon">[열기]</span>
             </div>
             <div class="card-content collapsed">
-                <div style="font-size: 0.75rem; color: #666;">
+                <div style="font-size: 0.75rem; color: #71717a; line-height: 1.4;">
                     형식: Day/순번/단어/뜻/예문/해석<br>
                     예시: Day 01/1/apple/사과/I ate an apple./나는 사과를 먹었다.
                 </div>
                 <textarea id="bulk-input" placeholder="여기에 데이터를 붙여넣으세요..."></textarea>
                 <button onclick="addWordSetsAuto()">단어 등록하기</button>
                 
-                <div style="margin-top:2px; text-align: right; color: #666; font-size: 0.75rem;">저장된 단어장: <strong id="set-count">0</strong>개</div>
+                <div style="margin-top:2px; text-align: right; color: #71717a; font-size: 0.75rem;">저장된 단어장: <strong id="set-count" style="color:#18181b;">0</strong>개</div>
                 <button onclick="toggleManageList()">단어장 목록 편집 / 삭제</button>
                 <button onclick="backupData()">데이터 백업 (파일 저장)</button>
                 <button onclick="triggerRestore()">데이터 복구 (파일 불러오기)</button>
