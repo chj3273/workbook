@@ -9,45 +9,46 @@
         body { 
             margin: 0 auto; 
             max-width: 640px;
-            padding: 20px 16px; 
+            padding: 12px; 
             background-color: #f7f8f9;
             color: #222;
-            font-size: 16px; line-height: 1.5;
+            font-size: 15px; line-height: 1.4;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            overflow-x: hidden;
         }
         
         .card { 
             background: #fff; padding: 0; 
-            border: 1px solid #dcdcdc; margin-bottom: 16px; 
-            border-radius: 12px;
+            border: 1px solid #dcdcdc; margin-bottom: 10px; 
+            border-radius: 10px;
             overflow: hidden; 
         }
         .card:last-child { margin-bottom: 0; }
         .card-header {
-            padding: 14px 16px; background-color: #fff; color: #222;
+            padding: 12px 14px; background-color: #fff; color: #222;
             border-bottom: 1px solid #eee;
             cursor: pointer; display: flex; justify-content: space-between; align-items: center;
             user-select: none; 
         }
-        .card-header h2 { margin: 0; font-size: 1.1rem; font-weight: 700; }
+        .card-header h2 { margin: 0; font-size: 1.05rem; font-weight: 700; }
         .card-header .toggle-icon { font-size: 0.85rem; color: #666; font-weight: 600; }
         
-        .card-content { padding: 16px; display: flex; flex-direction: column; gap: 10px; }
+        .card-content { padding: 12px; display: flex; flex-direction: column; gap: 8px; }
         .card-content.collapsed { display: none; }
 
         textarea {
-            width: 100%; height: 90px; padding: 10px; border: 1px solid #dcdcdc;
-            font-size: 0.95rem; resize: none; background-color: #fff;
+            width: 100%; height: 80px; padding: 8px 10px; border: 1px solid #dcdcdc;
+            font-size: 0.9rem; resize: none; background-color: #fff;
             border-radius: 8px; color: #222;
         }
         textarea:focus { outline: none; border-color: #444; }
 
         button { 
-            width: 100%; height: 46px; 
+            width: 100%; height: 42px; 
             background-color: #fff; color: #222; 
-            border: 1px solid #d0d0d0; font-size: 1rem; font-weight: 600;
+            border: 1px solid #d0d0d0; font-size: 0.95rem; font-weight: 600;
             cursor: pointer; touch-action: manipulation;
             border-radius: 8px; 
             display: flex; align-items: center; justify-content: center;
@@ -58,105 +59,105 @@
         .hidden { display: none !important; }
         .margin-top-15 { margin-top: 8px; }
         
-        .result-msg { text-align: center; margin-top: 8px; font-size: 1.05rem; padding: 10px; border: 1px solid #ccc; font-weight: 600; border-radius: 8px; }
+        .result-msg { text-align: center; margin-top: 8px; font-size: 1rem; padding: 8px; border: 1px solid #ccc; font-weight: 600; border-radius: 8px; }
         .correct { background-color: #fff; color: #222; border-color: #222; }
         .wrong { background-color: #f2f2f2; color: #444; border-color: #bbb; }
         
-        .set-selection-list { text-align: left; max-height: 50vh; overflow-y: auto; border: 1px solid #eee; padding: 8px; border-radius: 8px; background: #fff; }
-        .set-item { display: flex; align-items: center; padding: 12px 8px; border-bottom: 1px solid #f5f5f5; }
+        .set-selection-list { text-align: left; max-height: 40vh; overflow-y: auto; border: 1px solid #eee; padding: 6px; border-radius: 8px; background: #fff; }
+        .set-item { display: flex; align-items: center; padding: 10px 6px; border-bottom: 1px solid #f5f5f5; }
         .set-item:last-child { border-bottom: none; }
-        .set-item label { flex: 1; font-size: 1rem; margin-left: 10px; cursor: pointer; color: #333; }
+        .set-item label { flex: 1; font-size: 0.95rem; margin-left: 8px; cursor: pointer; color: #333; }
 
         .flashcard-box {
-            position: relative; border: 1px solid #dcdcdc; padding: 20px 16px;
-            text-align: center; margin: 8px 0; background-color: #fff; cursor: pointer;
-            height: 52vh; min-height: 340px; max-height: 460px;
-            border-radius: 12px; 
+            position: relative; border: 1px solid #dcdcdc; padding: 14px 12px;
+            text-align: center; margin: 6px 0; background-color: #fff; cursor: pointer;
+            height: 40vh; min-height: 260px; max-height: 360px;
+            border-radius: 10px; 
             display: flex; flex-direction: column;
             justify-content: center; align-items: center;
         }
         
         .flash-meta {
-            position: absolute; top: 14px; left: 16px; text-align: left;
-            color: #666; font-size: 0.85rem; font-weight: 600;
+            position: absolute; top: 10px; left: 12px; text-align: left;
+            color: #666; font-size: 0.8rem; font-weight: 600;
         }
 
-        .flash-text-main { font-size: 2.3rem; font-weight: 700; color: #222; margin-bottom: 8px; word-break: keep-all; line-height: 1.2; }
-        .flash-text-sub { font-size: 1.35rem; color: #444; margin-top: 8px; font-weight: 600; word-break: keep-all; }
+        .flash-text-main { font-size: 2rem; font-weight: 700; color: #222; margin-bottom: 6px; word-break: keep-all; line-height: 1.2; }
+        .flash-text-sub { font-size: 1.2rem; color: #444; margin-top: 6px; font-weight: 600; word-break: keep-all; }
         
         .flash-example { 
-            font-size: 1.05rem; color: #333; margin-top: 10px; 
-            padding: 12px; border: 1px solid #eee; width: 100%; word-break: keep-all; 
+            font-size: 0.95rem; color: #333; margin-top: 8px; 
+            padding: 8px; border: 1px solid #eee; width: 100%; word-break: keep-all; 
             border-radius: 8px; background: #fff;
         }
         .flash-ex-ko { background: #f5f5f7; border-color: #e5e5e5; }
         
-        .flash-guide { font-size: 0.85rem; color: #888; margin-top: 16px; }
+        .flash-guide { font-size: 0.8rem; color: #888; margin-top: 10px; }
 
-        .audio-btn-wrapper { text-align: center; margin-bottom: 6px; }
+        .audio-btn-wrapper { text-align: center; margin-bottom: 4px; }
         .audio-btn {
             background: #fff; color: #444; border: 1px solid #ccc; cursor: pointer; 
-            font-size: 0.8rem; height: auto; padding: 4px 12px; font-weight: 600; 
+            font-size: 0.75rem; height: auto; padding: 3px 10px; font-weight: 600; 
             border-radius: 20px; display: inline-flex; width: auto;
         }
         .audio-btn:active { background: #eee; }
         
         .top-ctrl-container {
-            position: absolute; top: 12px; right: 16px;
-            display: flex; gap: 6px; z-index: 10;
+            position: absolute; top: 8px; right: 12px;
+            display: flex; gap: 4px; z-index: 10;
         }
         .top-ctrl-btn {
-            font-size: 0.8rem; background: #fff; border: 1px solid #ccc; cursor: pointer; color: #666;
-            height: auto; padding: 5px 12px; width: auto; font-weight: 600;
+            font-size: 0.75rem; background: #fff; border: 1px solid #ccc; cursor: pointer; color: #666;
+            height: auto; padding: 4px 10px; width: auto; font-weight: 600;
             border-radius: 20px; white-space: nowrap;
         }
         .top-ctrl-btn.active { background: #222; color: #fff; border-color: #222; }
 
         .mc-option {
-            background: #fff; border: 1px solid #d0d0d0; padding: 0 15px; margin-bottom: 6px;
-            font-size: 1rem; font-weight: 500; cursor: pointer; text-align: left; color: #222; 
-            width: 100%; border-radius: 8px; height: 46px; 
+            background: #fff; border: 1px solid #d0d0d0; padding: 0 12px; margin-bottom: 6px;
+            font-size: 0.95rem; font-weight: 500; cursor: pointer; text-align: left; color: #222; 
+            width: 100%; border-radius: 8px; height: 42px; 
             display: flex; align-items: center; justify-content: flex-start;
         }
         .mc-option.selected-correct { border: 2px solid #222; font-weight: 700; background-color: #fcfcfc; }
         .mc-option.selected-wrong { background-color: #f2f2f2; color: #888; text-decoration: line-through; border-color: #ddd; }
 
         .spelling-input {
-            width: 100%; height: 46px; padding: 0 15px; font-size: 1.2rem; text-align: center; font-weight: 600;
+            width: 100%; height: 42px; padding: 0 12px; font-size: 1.1rem; text-align: center; font-weight: 600;
             border: 1px solid #aaa; margin-bottom: 8px; background: #fff; color: #222;
             border-radius: 8px;
         }
 
         ul { padding-left: 0; list-style: none; margin: 0; }
         #manage-list li, #set-detail-list li { 
-            border-bottom: 1px solid #eee; padding: 12px 0; display: flex; 
+            border-bottom: 1px solid #eee; padding: 10px 0; display: flex; 
             justify-content: space-between; align-items: center; background: #fff;
         }
         
         .item-action-btn {
-            background-color: #fff; color: #444; border: 1px solid #ccc; padding: 0 10px;
-            height: 30px; font-size: 0.8rem; font-weight: 600; margin-left: 5px; width: auto; 
+            background-color: #fff; color: #444; border: 1px solid #ccc; padding: 0 8px;
+            height: 28px; font-size: 0.75rem; font-weight: 600; margin-left: 4px; width: auto; 
             border-radius: 6px;
         }
         
-        .scroll-list { max-height: 62vh; overflow-y: auto; padding: 4px; }
-        #word-list-container { max-height: 65vh; padding: 8px; }
+        .scroll-list { max-height: 50vh; overflow-y: auto; padding: 2px; }
+        #word-list-container { max-height: 55vh; padding: 6px; }
         
         .word-list-item {
             border-bottom: 1px solid #eee;
-            padding: 6px 0;
+            padding: 4px 0;
             display: flex;
             align-items: stretch;
-            gap: 8px;
+            gap: 6px;
             background: #fff;
         }
         .word-list-item:last-child { border-bottom: none; }
         
         .word-tap-box {
             flex: 1;
-            min-height: 54px;
-            padding: 12px 14px;
-            border-radius: 8px;
+            min-height: 46px;
+            padding: 8px 10px;
+            border-radius: 6px;
             border: 1px solid #e2e4e8;
             background-color: #fafafa;
             cursor: pointer;
@@ -167,23 +168,23 @@
             transition: background-color 0.15s, border-color 0.15s;
         }
         .word-tap-box:active { background-color: #eee; }
-        .word-tap-box.en { font-weight: 700; color: #222; font-size: 1.05rem; }
-        .word-tap-box.ko { font-weight: 500; color: #444; font-size: 1rem; }
+        .word-tap-box.en { font-weight: 700; color: #222; font-size: 0.95rem; }
+        .word-tap-box.ko { font-weight: 500; color: #444; font-size: 0.9rem; }
         
         .masked-text { 
             background-color: #e2e4e8 !important; 
             color: transparent !important; 
             border-color: #d1d5db !important;
-            border-radius: 8px;
+            border-radius: 6px;
         }
 
-        .badge { display: inline-block; padding: 4px 12px; background: #fff; border: 1px solid #222; color: #222; font-weight: 600; font-size: 0.8rem; margin-bottom: 8px; border-radius: 20px; }
+        .badge { display: inline-block; padding: 3px 10px; background: #fff; border: 1px solid #222; color: #222; font-weight: 600; font-size: 0.75rem; margin-bottom: 6px; border-radius: 20px; }
         
-        .flex-row { display: flex; gap: 8px; width: 100%; }
+        .flex-row { display: flex; gap: 6px; width: 100%; }
         .flex-row button { flex: 1; }
 
-        .filter-bar { display: flex; gap: 6px; margin-bottom: 10px; }
-        .filter-btn { flex: 1; height: 38px; font-size: 0.85rem; border: 1px solid #ccc; background: #fff; border-radius: 6px; cursor: pointer; font-weight: 600; }
+        .filter-bar { display: flex; gap: 6px; margin-bottom: 8px; }
+        .filter-btn { flex: 1; height: 34px; font-size: 0.8rem; border: 1px solid #ccc; background: #fff; border-radius: 6px; cursor: pointer; font-weight: 600; }
         .filter-btn.active { background: #222; color: #fff; border-color: #222; }
     </style>
 </head>
@@ -229,14 +230,14 @@
             <span class="toggle-icon">[열기]</span>
         </div>
         <div class="card-content collapsed">
-            <div style="font-size: 0.85rem; color: #555;">
+            <div style="font-size: 0.8rem; color: #555;">
                 형식: Day/순번/단어/뜻/예문/해석<br>
                 예시: Day 01/1/apple/사과/I ate an apple./나는 사과를 먹었다.
             </div>
             <textarea id="bulk-input" placeholder="여기에 데이터를 붙여넣으세요..."></textarea>
             <button onclick="addWordSetsAuto()">단어 등록하기</button>
             
-            <div style="margin-top:6px; text-align: right; color: #555; font-size: 0.9rem;">저장된 단어장: <strong id="set-count">0</strong>개</div>
+            <div style="margin-top:4px; text-align: right; color: #555; font-size: 0.85rem;">저장된 단어장: <strong id="set-count">0</strong>개</div>
             <button onclick="toggleManageList()">단어장 목록 편집 / 삭제</button>
             <button onclick="backupData()">데이터 백업 (파일 저장)</button>
             <button onclick="triggerRestore()">데이터 복구 (파일 불러오기)</button>
@@ -247,7 +248,7 @@
 
     <div class="card hidden" id="manage-section">
         <div class="card-content">
-            <h2 style="margin:0 0 8px 0; font-size:1.1rem;">목록 편집</h2>
+            <h2 style="margin:0 0 6px 0; font-size:1rem;">목록 편집</h2>
             <div class="scroll-list"><ul id="manage-list"></ul></div>
             <button class="margin-top-15" onclick="toggleManageList()">닫기</button>
         </div>
@@ -255,7 +256,7 @@
 
     <div class="card hidden" id="set-detail-section">
         <div class="card-content">
-            <h2 id="detail-set-title" style="margin:0 0 8px 0; font-size:1.1rem;">상세 편집</h2>
+            <h2 id="detail-set-title" style="margin:0 0 6px 0; font-size:1rem;">상세 편집</h2>
             <div class="scroll-list"><ul id="set-detail-list"></ul></div>
             <button class="margin-top-15" onclick="closeSetDetail()">뒤로 가기</button>
         </div>
@@ -263,8 +264,8 @@
 
     <div class="card hidden" id="selection-section">
         <div class="card-content">
-            <h2 style="margin:0 0 8px 0; font-size:1.1rem;">학습할 단어장 선택</h2>
-            <div class="flex-row" style="margin-bottom: 8px;">
+            <h2 style="margin:0 0 6px 0; font-size:1rem;">학습할 단어장 선택</h2>
+            <div class="flex-row" style="margin-bottom: 6px;">
                 <button onclick="selectAllSets(true)">전체 선택</button>
                 <button onclick="selectAllSets(false)">선택 해제</button>
             </div>
@@ -276,7 +277,7 @@
 
     <div class="card hidden" id="word-list-section">
         <div class="card-content">
-            <h2 style="margin:0 0 6px 0; font-size:1.1rem;">단어 목록</h2>
+            <h2 style="margin:0 0 6px 0; font-size:1rem;">단어 목록</h2>
             <div class="filter-bar">
                 <button class="filter-btn active" id="filter-all" onclick="setWordListFilter('all')">전체 보기</button>
                 <button class="filter-btn" id="filter-en" onclick="setWordListFilter('hide-en')">단어 가리기</button>
@@ -290,7 +291,7 @@
     <div class="card hidden" id="flashcard-section">
         <div class="card-content">
             <div style="text-align:center;"><span id="flash-mode-badge" class="badge">모드</span></div>
-            <div id="flash-progress" style="text-align:center; font-size: 0.95rem; color: #555;">1 / 10</div>
+            <div id="flash-progress" style="text-align:center; font-size: 0.85rem; color: #555;">1 / 10</div>
             
             <div class="flashcard-box" onclick="handleFlashClick()">
                 <div id="flash-meta-info" class="flash-meta"></div>
@@ -327,9 +328,9 @@
     <div class="card hidden" id="test-section">
         <div class="card-content">
             <div style="text-align:center;"><span id="test-type-badge" class="badge">테스트</span></div>
-            <div id="question-title" style="text-align:center; font-size: 0.95rem; color: #555;">문제</div>
+            <div id="question-title" style="text-align:center; font-size: 0.85rem; color: #555;">문제</div>
             
-            <div style="text-align: center; margin: 6px 0;">
+            <div style="text-align: center; margin: 4px 0;">
                 <div id="question-display" style="width:100%;"></div>
             </div>
 
@@ -343,9 +344,9 @@
 
     <div class="card hidden" id="report-section">
         <div class="card-content" style="text-align:center;">
-            <h2 style="margin: 8px 0 4px 0;">학습 완료!</h2>
-            <div id="report-summary" style="font-size:1.1rem; font-weight:600; margin-bottom:12px;"></div>
-            <div class="scroll-list" id="report-wrong-list" style="text-align:left; border: 1px solid #eee; border-radius: 8px; padding: 4px 8px; margin-bottom: 8px;"></div>
+            <h2 style="margin: 6px 0 4px 0;">학습 완료!</h2>
+            <div id="report-summary" style="font-size:1rem; font-weight:600; margin-bottom:10px;"></div>
+            <div class="scroll-list" id="report-wrong-list" style="text-align:left; border: 1px solid #eee; border-radius: 8px; padding: 4px 8px; margin-bottom: 6px;"></div>
             <button onclick="returnToMain()">메인으로 돌아가기</button>
         </div>
     </div>
@@ -576,8 +577,8 @@
             const li = document.createElement('li');
             li.innerHTML = `
                 <div style="flex:1; padding-right:10px;">
-                    <div style="font-weight:700; font-size:1rem; color:#222;">${item.word}</div>
-                    <div style="color:#666; font-size:0.85rem;">${item.mean}</div>
+                    <div style="font-weight:700; font-size:0.95rem; color:#222;">${item.word}</div>
+                    <div style="color:#666; font-size:0.8rem;">${item.mean}</div>
                 </div>
                 <div>
                     <button class="item-action-btn" onclick="editWordInSet(${index})">수정</button>
@@ -1007,7 +1008,7 @@
         
         if (currentTestMode === 'spelling') {
             displayHtml = `
-                <div class="flash-example" style="margin-top:0; color:#222; font-weight:700; font-size:1.4rem;">
+                <div class="flash-example" style="margin-top:0; color:#222; font-weight:700; font-size:1.3rem;">
                     ${data.mean}
                 </div>`;
             
@@ -1024,7 +1025,7 @@
 
         } else {
             displayHtml = `
-                <div style="font-size:2rem; font-weight:700; margin-bottom:8px; color:#222;">
+                <div style="font-size:1.8rem; font-weight:700; margin-bottom:6px; color:#222;">
                     <div class="audio-btn-wrapper"><button class="audio-btn" onclick="speak('${data.word.replace(/'/g, "\\'")}', 'en')">단어 듣기</button></div>
                     ${data.word}
                 </div>`;
@@ -1111,7 +1112,7 @@
         } else {
             sessionWrongWords.forEach(item => {
                 const div = document.createElement('div');
-                div.style.padding = '8px 0';
+                div.style.padding = '6px 0';
                 div.style.borderBottom = '1px solid #eee';
                 div.innerHTML = `<strong style="color:#222;">${item.word}</strong> - <span style="color:#666;">${item.mean}</span>`;
                 wrongListDiv.appendChild(div);
