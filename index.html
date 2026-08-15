@@ -101,16 +101,17 @@
         }
         .audio-btn:active { background: #eee; }
         
-        .top-ctrl-btn {
-            position: absolute; top: 12px; font-size: 0.8rem;
-            background: #fff; border: 1px solid #ccc; cursor: pointer; color: #666;
-            height: auto; padding: 5px 12px; width: auto; z-index: 10; font-weight: 600;
-            border-radius: 20px;
+        /* 상단 버튼 컨테이너 및 컨트롤 버튼 (버튼 겹침 수정) */
+        .top-ctrl-container {
+            position: absolute; top: 12px; right: 16px;
+            display: flex; gap: 6px; z-index: 10;
         }
-        .star-toggle-btn { right: 16px; }
-        .star-toggle-btn.active { background: #222; color: #fff; border-color: #222; }
-        .autoplay-btn { right: 100px; }
-        .autoplay-btn.active { background: #222; color: #fff; border-color: #222; }
+        .top-ctrl-btn {
+            font-size: 0.8rem; background: #fff; border: 1px solid #ccc; cursor: pointer; color: #666;
+            height: auto; padding: 5px 12px; width: auto; font-weight: 600;
+            border-radius: 20px; white-space: nowrap;
+        }
+        .top-ctrl-btn.active { background: #222; color: #fff; border-color: #222; }
 
         .mc-option {
             background: #fff; border: 1px solid #d0d0d0; padding: 0 15px; margin-bottom: 6px;
@@ -309,8 +310,11 @@
             
             <div class="flashcard-box" onclick="handleFlashClick()">
                 <div id="flash-meta-info" class="flash-meta"></div>
-                <button id="autoplay-btn" class="top-ctrl-btn autoplay-btn" onclick="toggleAutoplay(event)">자동재생</button>
-                <button id="star-btn" class="top-ctrl-btn star-toggle-btn" onclick="toggleStar(event)">즐겨찾기</button>
+                
+                <div class="top-ctrl-container">
+                    <button id="autoplay-btn" class="top-ctrl-btn" onclick="toggleAutoplay(event)">자동재생</button>
+                    <button id="star-btn" class="top-ctrl-btn" onclick="toggleStar(event)">즐겨찾기</button>
+                </div>
                 
                 <div id="flash-content-word-group" style="width:100%;">
                     <div class="audio-btn-wrapper"><button class="audio-btn" onclick="playAudioText('front', 'en', event)">발음 듣기</button></div>
@@ -740,6 +744,12 @@
         renderWordListItems(filter);
     }
 
+    // 단어 클릭 시 발음 출력 및 가림막 토글 처리 함수
+    function handleWordListItemClick(el, text, lang) {
+        el.classList.toggle('masked-text');
+        speak(text, lang);
+    }
+
     function renderWordListItems(filter) {
         const listDiv = document.getElementById('word-list-container');
         listDiv.innerHTML = '';
@@ -751,9 +761,12 @@
             let enClass = filter === 'hide-en' ? 'masked-text' : '';
             let koClass = filter === 'hide-ko' ? 'masked-text' : '';
 
+            const safeWord = item.word.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+            const safeMean = item.mean.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+
             div.innerHTML = `
-                <div class="word-tap-box en ${enClass}" onclick="this.classList.toggle('masked-text')">${item.word}</div>
-                <div class="word-tap-box ko ${koClass}" onclick="this.classList.toggle('masked-text')">${item.mean}</div>
+                <div class="word-tap-box en ${enClass}" onclick="handleWordListItemClick(this, '${safeWord}', 'en')">${item.word}</div>
+                <div class="word-tap-box ko ${koClass}" onclick="handleWordListItemClick(this, '${safeMean}', 'ko')">${item.mean}</div>
             `;
             listDiv.appendChild(div);
         });
