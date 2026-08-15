@@ -101,7 +101,6 @@
         }
         .audio-btn:active { background: #eee; }
         
-        /* 상단 버튼 컨테이너 및 컨트롤 버튼 (버튼 겹침 수정) */
         .top-ctrl-container {
             position: absolute; top: 12px; right: 16px;
             display: flex; gap: 6px; z-index: 10;
@@ -205,19 +204,19 @@
 
     <div class="card" id="step-learning-section">
         <div class="card-header" onclick="toggleSection(this)">
-            <h2>단어 학습</h2>
+            <h2>3단계 단어 학습</h2>
             <span class="toggle-icon">[접기]</span>
         </div>
         <div class="card-content">
-            <button onclick="openSetSelection('step1-memorize')">암기 학습</button>
-            <button onclick="openSetSelection('step2-recall')">리콜 학습</button>
-            <button onclick="openSetSelection('step3-spell')">스펠 학습</button>
+            <button onclick="openSetSelection('step1-memorize')">1단계 암기 학습</button>
+            <button onclick="openSetSelection('step2-recall')">2단계 리콜 학습</button>
+            <button onclick="openSetSelection('step3-spell')">3단계 스펠 학습</button>
         </div>
     </div>
 
     <div class="card" id="test-menu-section">
         <div class="card-header" onclick="toggleSection(this)">
-            <h2>실전 학습</h2>
+            <h2>실전 연습</h2>
             <span class="toggle-icon">[접기]</span>
         </div>
         <div class="card-content">
