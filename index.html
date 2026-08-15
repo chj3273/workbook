@@ -549,11 +549,16 @@
                     저장된 단어장: <strong id="set-count">0</strong>개 | 오답 기록: <strong id="wrong-count">0</strong>개
                 </div>
                 <button class="btn-secondary" onclick="toggleManageList()">단어장 편집</button>
-                <button class="btn-secondary" onclick="backupData()">데이터 백업</button>
-                <button class="btn-secondary" onclick="triggerRestore()">데이터 복구</button>
+                <div class="flex-row">
+                    <button class="btn-secondary" onclick="backupData()">데이터 백업</button>
+                    <button class="btn-secondary" onclick="triggerRestore()">데이터 복구</button>
+                </div>
                 <input type="file" id="restore-input" style="display: none;" accept=".json" onchange="restoreData(this)">
-                <button class="btn-secondary margin-top-8" onclick="clearWrongAnswers()">오답 기록 초기화</button>
-                <button class="btn-secondary margin-top-8" onclick="clearAllData()">전체 데이터 초기화</button>
+                
+                <div class="flex-row">
+                    <button class="btn-secondary" onclick="clearWrongAnswers()">오답 기록 초기화</button>
+                    <button class="btn-secondary" onclick="clearAllData()">전체 데이터 초기화</button>
+                </div>
             </div>
         </div>
     </div>
