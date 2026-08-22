@@ -61,6 +61,7 @@
             flex-direction: column;
             gap: 8px;
             padding: 12px;
+            overflow-y: auto;
         }
 
         #main-menu-card button {
@@ -535,8 +536,10 @@
                 <button onclick="openSetSelection('view-list')">단어장</button>
                 <button onclick="openSetSelection('step1-memorize')">단어 학습</button>
                 <button onclick="openSetSelection('flash-deep')">예문 학습</button>
-                <button onclick="openSetSelection('step2-recall')">객관식 테스트</button>
-                <button onclick="openSetSelection('step3-spell')">스펠링 테스트</button>
+                <button onclick="openSetSelection('step2-recall-ko')">객관식 테스트 (뜻 맞추기)</button>
+                <button onclick="openSetSelection('step2-recall-en')">객관식 테스트 (영어 맞추기)</button>
+                <button onclick="openSetSelection('step3-spell-ko')">주관식 테스트 (뜻 쓰기)</button>
+                <button onclick="openSetSelection('step3-spell-en')">주관식 테스트 (스펠링 쓰기)</button>
                 <button onclick="openSetSelection('flash-star')">즐겨찾기 단어 복습</button>
                 <button onclick="openSetSelection('wrong-drill-choice')">틀린 단어 다시 풀기</button>
             </div>
@@ -1047,7 +1050,7 @@
         
         if (action === 'wrong-drill-choice') {
             if (wrongAnswers.length === 0) { alert("저장된 오답 기록이 없습니다."); return; }
-            startTest(wrongAnswers, 'choice');
+            startTest(wrongAnswers, 'wrong-drill-choice');
             return;
         }
         
@@ -1101,8 +1104,8 @@
         if (combinedWords.length === 0) { alert("선택된 단어장에 단어가 없습니다."); return; }
         
         if (pendingAction === 'step1-memorize') startFlashcard(combinedWords, 'speed');
-        else if (pendingAction === 'step2-recall') startTest(combinedWords, 'choice');
-        else if (pendingAction === 'step3-spell') startTest(combinedWords, 'spelling');
+        else if (pendingAction.startsWith('step2-recall')) startTest(combinedWords, pendingAction);
+        else if (pendingAction.startsWith('step3-spell')) startTest(combinedWords, pendingAction);
         else if (pendingAction === 'flash-deep') startFlashcard(combinedWords, 'deep');
         else if (pendingAction === 'flash-star') {
             const starred = combinedWords.filter(w => w.isStarred);
@@ -1360,8 +1363,9 @@
         document.getElementById('test-section').classList.remove('hidden');
         
         const badge = document.getElementById('test-type-badge');
-        if(mode === 'choice') badge.innerText = "객관식 테스트";
-        else badge.innerText = "스펠링 테스트";
+        if (mode.includes('recall')) badge.innerText = "객관식 테스트";
+        else if (mode.includes('spell')) badge.innerText = "주관식 테스트";
+        else if (mode === 'wrong-drill-choice') badge.innerText = "틀린 단어 다시 풀기";
         
         currentTestList = list.sort(() => Math.random() - 0.5);
         currentIndex = 0;
@@ -1378,16 +1382,21 @@
 
         let displayHtml = "";
         
-        if (currentTestMode === 'spelling') {
+        if (currentTestMode.includes('spell')) {
+            let questionText = currentTestMode === 'step3-spell-en' ? data.mean : data.word;
+            let placeholderText = currentTestMode === 'step3-spell-en' ? "영어 스펠링 입력" : "한글 뜻 입력";
+            let lang = currentTestMode === 'step3-spell-en' ? 'ko' : 'en';
+
             displayHtml = `
                 <div class="flash-example" style="margin-top:0; color:#27272a; font-weight:700; font-size:1.2rem; text-align:center;">
-                    ${data.mean}
+                    ${currentTestMode === 'step3-spell-ko' ? `<div class="audio-btn-wrapper"><button class="audio-btn" onclick="speak('${questionText.replace(/'/g, "\\'")}', 'en')">단어 듣기</button></div><br>` : ''}
+                    ${questionText}
                 </div>`;
             
-            speak(data.mean, 'ko');
+            speak(questionText, lang);
 
             inputContainer.innerHTML = `
-                <input type="text" id="spelling-input" class="spelling-input" placeholder="영어 스펠링 입력" autocomplete="off" autocapitalize="off" spellcheck="false">
+                <input type="text" id="spelling-input" class="spelling-input" placeholder="${placeholderText}" autocomplete="off" autocapitalize="off" spellcheck="false">
                 <button onclick="checkAnswer(null, null, null)">정답 확인</button>
             `;
             document.getElementById('spelling-input').addEventListener("keyup", function(event) {
@@ -1396,25 +1405,35 @@
             setTimeout(() => document.getElementById('spelling-input').focus(), 100);
 
         } else {
+            // 객관식: 영어 고르기(step2-recall-en)면 뜻을 보여줌. 그 외(step2-recall-ko, 틀린단어 다시풀기)는 영어를 보여줌.
+            let isFindEnglish = currentTestMode === 'step2-recall-en';
+            let questionText = isFindEnglish ? data.mean : data.word;
+            let answerText = isFindEnglish ? data.word : data.mean;
+            let lang = isFindEnglish ? 'ko' : 'en';
+
             displayHtml = `
-                <div style="font-size:1.6rem; font-weight:700; margin-bottom:4px; color:#27272a;">
-                    <div class="audio-btn-wrapper"><button class="audio-btn" onclick="speak('${data.word.replace(/'/g, "\\'")}', 'en')">단어 듣기</button></div>
-                    ${data.word}
+                <div style="font-size:1.6rem; font-weight:700; margin-bottom:4px; color:#27272a; text-align:center;">
+                    ${!isFindEnglish ? `<div class="audio-btn-wrapper"><button class="audio-btn" onclick="speak('${questionText.replace(/'/g, "\\'")}', 'en')">단어 듣기</button></div><br>` : ''}
+                    ${questionText}
                 </div>`;
             
-            speak(data.word, 'en', 1.0);
+            speak(questionText, lang, 1.0);
 
             const allWords = getAllWordsFlat();
             let distractors = allWords.filter(w => w.word !== data.word).sort(() => Math.random() - 0.5).slice(0, 3);
-            while(distractors.length < 3) { distractors.push({mean: "오답 (단어 부족)"}); }
             
-            let options = [...distractors, data].sort(() => Math.random() - 0.5);
+            let optionsList = distractors.map(d => isFindEnglish ? d.word : d.mean);
+            while (optionsList.length < 3) { 
+                optionsList.push(isFindEnglish ? "wrong_word" : "오답 (단어 부족)"); 
+            }
+            
+            let options = [...optionsList, answerText].sort(() => Math.random() - 0.5);
 
             options.forEach(opt => {
                 const btn = document.createElement('button');
                 btn.className = 'mc-option';
-                btn.innerText = opt.mean;
-                btn.onclick = () => checkAnswer(btn, opt.mean === data.mean, data);
+                btn.innerText = opt;
+                btn.onclick = () => checkAnswer(btn, opt === answerText, data);
                 inputContainer.appendChild(btn);
             });
         }
@@ -1428,9 +1447,11 @@
         const msgDiv = document.getElementById('result-message');
         let isCorrect = false;
 
-        if (currentTestMode === 'spelling') {
-            const inputVal = document.getElementById('spelling-input').value.trim().toLowerCase();
-            if (inputVal === currentData.word.toLowerCase()) isCorrect = true;
+        if (currentTestMode.includes('spell')) {
+            const inputVal = document.getElementById('spelling-input').value.trim().toLowerCase().replace(/\s+/g, '');
+            const correctAnswer = (currentTestMode === 'step3-spell-en' ? currentData.word : currentData.mean).toLowerCase().replace(/\s+/g, '');
+            
+            if (inputVal === correctAnswer) isCorrect = true;
             document.getElementById('spelling-input').disabled = true;
         } else {
             isCorrect = isCorrectChoice;
@@ -1445,17 +1466,42 @@
             msgDiv.className = "result-msg correct";
             sessionCorrectCount++;
             playSoundEffect('correct');
+            
+            // 틀린 단어 다시 풀기에서 맞췄을 경우 오답 리스트에서 삭제
+            if (currentTestMode === 'wrong-drill-choice') {
+                wrongAnswers = wrongAnswers.filter(w => w.word !== currentData.word);
+                saveData(); // 삭제 후 저장 (오답 기록 갱신)
+            }
         } else {
             if(btn) btn.classList.add('selected-wrong');
-            if (currentTestMode === 'choice') {
-                 document.querySelectorAll('.mc-option').forEach(b => {
-                     if(b.innerText === currentData.mean) b.classList.add('selected-correct');
-                 });
+            
+            let correctText = '';
+            if (currentTestMode.includes('spell')) {
+                correctText = currentTestMode === 'step3-spell-en' ? currentData.word : currentData.mean;
+            } else {
+                let isFindEnglish = currentTestMode === 'step2-recall-en';
+                correctText = isFindEnglish ? currentData.word : currentData.mean;
+                // 정답 버튼 표시
+                document.querySelectorAll('.mc-option').forEach(b => {
+                     if(b.innerText === correctText) b.classList.add('selected-correct');
+                });
             }
-            msgDiv.innerHTML = `오답!<br>정답: <span style="font-weight:700;">${currentData.word}</span> (${currentData.mean})`;
+            
+            msgDiv.innerHTML = `오답!<br>정답: <span style="font-weight:700;">${correctText}</span>`;
+            // 보충 설명 추가 (반대편 뜻/영어 표시)
+            if (currentTestMode === 'step3-spell-en' || currentTestMode === 'step2-recall-en') {
+                msgDiv.innerHTML += ` (${currentData.mean})`;
+            } else {
+                msgDiv.innerHTML += ` (${currentData.word})`;
+            }
+
             msgDiv.className = "result-msg wrong";
             sessionWrongWords.push(currentData);
-            addToWrong(currentData);
+            
+            // 틀린 단어 모드가 아닐 때만 새로 오답 기록에 추가
+            if (currentTestMode !== 'wrong-drill-choice') {
+                addToWrong(currentData);
+            }
             playSoundEffect('wrong');
         }
         document.getElementById('next-btn').classList.remove('hidden');
